@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>*nom du Tournoi*</title>
+    <title>*Nom du Tournoi*</title>
     <style>
+        a {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
         body {
             font-family: Arial, Helvetica, sans-serif;
             margin: 0px;
@@ -72,6 +78,7 @@
             background-color: #27ae60;
             width: 600px;
             height: 80px;
+            margin: 0 auto;
         }
 
         .role-icon {
@@ -91,6 +98,7 @@
         .icon-organizer {
             font-size: 1.5em;
         }
+        
     </style>
 </head>
 <body>
@@ -104,15 +112,17 @@
                 </div>
                 CAPITAINE
             </div>
-            <div class="role-card arbitre">
-                <div class="role-icon">
-                    &#9878;
+            <a href="page2.html" target="_blank">
+                <div class="role-card arbitre">
+                    <div class="role-icon">
+                        &#9878;
+                    </div>
+                    ARBITRE
                 </div>
-                ARBITRE
-            </div>
+            </a>
             <div class="role-card joueur-spectateur">
                 <div class="role-icon">
-                    &#128100;&#8205;&#9888;
+                    &#128100;
                 </div>
                 JOUEUR<br>SPECTATEUR
             </div>
@@ -129,3 +139,5 @@
     </div>
 </body>
 </html>
+
+
