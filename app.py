@@ -12,7 +12,8 @@ def page_html():
 def traitement():
     print("Formulaire reçu !")
     nom_utilisateur = request.form.get("nom")
-    inscription_login(s=nom_utilisateur)
+    mot_de_passe=request.form.get("mdp")
+    inscription_login(s=nom_utilisateur, p=mot_de_passe)
     return f"<h2>Bonjour, {nom_utilisateur} !</h2>"
 
 if __name__ == '__main__':
