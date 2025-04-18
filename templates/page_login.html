@@ -64,10 +64,18 @@
             transition: background-color 0.3s ease;
         }
 
+        button2 {
+            color : rgb(0, 0, 0);
+            border :none;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
         button:hover {
             background-color: #4cae4c;
             text-decoration: underline;
         }
+
 
         .separator {
             margin: 20px 0;
@@ -78,17 +86,19 @@
 <body>
     <div class="container">
         <h2>Connexion</h2>
-        <form>
+        <form method="POST">
             <div class="form-group">
                 <div class="icon-input">
                     <span class="icon">&#128100;</span>
-                    <input type="text" placeholder="Nom d'utilisateur">
+                    <label for="id_conn">identifiant :</label>
+                    <input type="text" id="id_conn" name="id_conn" required><br>
                 </div>
             </div>
             <div class="form-group">
                 <div class="icon-input">
                     <span class="icon">&#128272;</span>
-                    <input type="password" placeholder="Mot de passe">
+                    <label for="mot_dp">mot de passe :</label>
+                    <input type="text" id="mot_dp" name="mot_dp" required><br>
                 </div>
             </div>
             <button type="submit">Se connecter</button>
@@ -96,7 +106,9 @@
             <hr class="separator">
 
             <div>
-                <button type="submit">inscription</button>
+                <a href="page_incrip.html">
+                    <button2 type="submit">inscription</button2>
+                </a>
             </div>
         </form>
     </div>

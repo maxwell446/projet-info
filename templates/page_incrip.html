@@ -66,6 +66,7 @@
 
         button:hover {
             background-color: #4cae4c;
+            text-decoration: underline;
         }
 
         .separator {
@@ -76,17 +77,19 @@
 </head>
 <div class="container">
     <h2>Inscription</h2>
-    <form>
+    <form method="POST">
         <div class="form-group">
             <div class="icon-input">
                 <span class="icon">&#128100;</span>
-                <input type="text" placeholder="Nom d'utilisateur">
+                <label for="identifiant">identifiant :</label>
+                <input type="text" id="identifiant" name="identifiant" required><br>
             </div>
         </div>
         <div class="form-group">
             <div class="icon-input">
                 <span class="icon">&#128272;</span>
-                <input type="password" placeholder="Mot de passe">
+                <label for="mdp">mot_de_passe :</label>
+                <input type="text" id="mdp" name="mdp" required><br>
             </div>
         </div>
         <button type="submit">S'inscrire</button>
@@ -94,3 +97,5 @@
 </div>
 </body>
 </html>
+
+
