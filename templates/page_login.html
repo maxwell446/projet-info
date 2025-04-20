@@ -1,7 +1,21 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion / Inscription</title>
+    <style>        
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
         .title {
             background-color: #040417;
             color: #ffffff;
@@ -11,27 +25,7 @@
             font-size: 2.5em;
             font-weight: bold;
             text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <div class="TOUT">
-        <div class="container">
-            <div class="title">*Nom du tournoi*</div>
-</body>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion / Inscription</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f4f4f4;
-            margin: 0;
+            width: 100%;
         }
 
         .container {
@@ -97,39 +91,42 @@
 
 
         .separator {
-            margin: 20px 0;
+            margin: 20px;
             color: #777;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Connexion</h2>
-        <form method="GET" action="page_apres_connexion.html">
-            <div class="form-group">
-                <div class="icon-input">
-                    <span class="icon">&#128100;</span>
-                    <label for="id_conn">identifiant :</label>
-                    <input type="text" id="id_conn" name="id_conn" required><br>
+    <div class="title">*Nom du tournoi*</div>
+    <div class="TOUT">
+        <div class="container">
+            <h2>Connexion</h2>
+            <form method="GET" action="page_apres_connexion.html">
+                <div class="form-group">
+                    <div class="icon-input">
+                        <span class="icon">&#128100;</span>
+                        <label for="id_conn">identifiant :</label>
+                        <input type="text" id="id_conn" name="id_conn" required><br>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="icon-input">
-                    <span class="icon">&#128272;</span>
-                    <label for="mot_dp">mot de passe :</label>
-                    <input type="text" id="mot_dp" name="mot_dp" required><br>
+                <div class="form-group">
+                    <div class="icon-input">
+                        <span class="icon">&#128272;</span>
+                        <label for="mot_dp">mot de passe :</label>
+                        <input type="text" id="mot_dp" name="mot_dp" required><br>
+                    </div>
                 </div>
-            </div>
-            <button type="submit">Se connecter</button>
+                <button type="submit">Se connecter</button>
 
-            <hr class="separator">
+                <hr class="separator">
 
-            <div>
-                <a href="page_incrip.html">
-                    <button2 type="submit">inscription</button2>
-                </a>
-            </div>
-        </form>
+                <div>
+                    <a href="page_incrip.html">
+                        <button2 type="submit">inscription</button2>
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 </html>
