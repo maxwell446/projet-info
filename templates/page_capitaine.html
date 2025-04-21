@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Page Capitaines</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            height: 100%;
+            background-color: #f4f0ed;
+        }
+        .title {
+            background-color: #040417;
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            font-weight: bold;
+            text-align: center;
+        }
+        .container {
+            background-color: #f2eded;
+            height: 100vh; 
+            width: 100vw;  
+            padding: 0px;
+            border-radius: 150px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+    </style>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div class="container">
+        <div class="title">*Nom du tournoi*</div>
+        <div class="input-container">
+            <label for="capitaine-name">Nom du Capitaine :</label>
+            <input type="text" id="capitaine-name" placeholder="Entrez le nom du capitaine" />
+        </div>
+
+        <!-- Espace pour rentrer les prénoms des joueurs -->
+        <div class="input-container">
+            <label for="player1">Prénom du Joueur 1 :</label>
+            <input type="text" id="player1" placeholder="Entrez le prénom du joueur 1"/>
+        </div>
+    </div>
+</body>
+</html>
