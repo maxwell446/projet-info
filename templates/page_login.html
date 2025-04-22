@@ -94,6 +94,12 @@
             margin: 20px;
             color: #777;
         }
+
+        .merde {
+            color: #b90000;
+        }
+
+
     </style>
 </head>
 <body>
@@ -101,7 +107,7 @@
     <div class="TOUT">
         <div class="container">
             <h2>Connexion</h2>
-            <form method="GET" action="page_capitaine.html">
+            <form method="POST" action="/connexion">
                 <div class="form-group">
                     <div class="icon-input">
                         <span class="icon">&#128100;</span>
@@ -116,6 +122,11 @@
                         <input type="text" id="mot_dp" name="mot_dp" required><br>
                     </div>
                 </div>
+
+                <div class="merde">
+                    {{param}}
+                </div>
+                    
                 <button type="submit">Se connecter</button>
 
                 <hr class="separator">
@@ -125,6 +136,7 @@
                         <button2 type="submit">inscription</button2>
                     </a>
                 </div>
+
             </form>
         </div>
     </div>

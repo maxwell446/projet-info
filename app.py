@@ -27,16 +27,17 @@ def inscription():
         identifiant = request.form['identifiant']
         mdp = request.form['mdp']
         inscription_login(identifiant, mdp)
-    return render_template('page_incrip.html')
+    return render_template('page_login.html')
 
 @app.route('/connexion', methods=['GET', 'POST'])
 def connexion():
     if request.method == 'POST':
         identifiant = request.form['id_conn']
         mdp = request.form['mot_dp']
-        if connexion1(identifiant, mdp) == True :
-            return render_template('page1.html')
-    return render_template('page_login.html')
+        if connexion1(identifiant, mdp) == True:
+            return render_template('page_capitaine.html')
+    erreur="Login ou passwd incorrect"
+    return render_template('page_login.html',param = erreur)
 
 if __name__ == '__main__':
 
