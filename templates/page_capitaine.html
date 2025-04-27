@@ -80,12 +80,14 @@
             top: 1%;
         }
 
+        .button-container {
+        display: flex;
+        justify-content: flex-end;
+        padding: 20px;
+        }
+
         .modifier-btn {
             font-family: 'Times New Roman', Times, serif, Helvetica, sans-serif;
-            position: relative;
-            display: flex;
-            flex-direction: column; 
-            margin-left: 20%;
             padding: 10px 20px;
             background: #ff0000;
             color: #ffffff;
@@ -93,13 +95,16 @@
             border-radius: 4px;
             font-size: 1.6em;
             cursor: pointer;
-            z-index: 10; 
+            position: absolute; /* important */
+            right: 35%; /* pas collé au bord droit, 15% de l'écran */
+            bottom: 20%; /* pas collé tout en bas, 20% du bas de l'écran */
+            transform: translate(50%, 50%);
         }
+
     </style>
     <meta charset="UTF-8">
 </head>
 <body>
-    <button class="modifier-btn">Modifier</button>
     <div class="container">
         <div class="title">*Nom du tournoi*</div>
         
@@ -137,6 +142,9 @@
                 <input type="text" id="nom_player5" placeholder="Entrez le nom du joueur 5"/>
             </div>
         </div>
+        
+        <button class="modifier-btn">Modifier</button>
+        
     </div>
 </body>
 </html>
