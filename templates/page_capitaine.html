@@ -68,10 +68,37 @@
             border-radius: 5px;
             font-size: 1.2em;
         }
+        
+        .equipe {
+            margin-left: 20%;
+            display: flex;            /* active Flexbox */
+            flex-direction: column; 
+        }
+
+        .equipe input {
+            position: relative;
+            top: 1%;
+        }
+
+        .modifier-btn {
+            font-family: 'Times New Roman', Times, serif, Helvetica, sans-serif;
+            position: fixed;
+            top: 75%;
+            left: 65%;
+            padding: 10px 20px;
+            background: #040417;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.6em;
+            cursor: pointer;
+            z-index: 10; 
+        }
     </style>
     <meta charset="UTF-8">
 </head>
 <body>
+    <button class="modifier-btn">Modifier</button>
     <div class="container">
         <div class="title">*Nom du tournoi*</div>
         
@@ -83,6 +110,12 @@
             <div class="colonne">
                 <label for="nom_capitaine">Nom du Capitaine :</label>
                 <input type="text" id="nom_capitaine" placeholder="Entrez le nom du capitaine" />
+            </div>
+            <div class="colonne">
+                <div class="equipe">
+                    <label for="nom_equipe">Nom de l'équipe :</label>
+                    <input type="text" id="nom_equipe" placeholder="Entrez le nom de l'équipe" />
+                </div>
             </div>
         </div>
         <div class="players">
