@@ -73,11 +73,15 @@
             margin: 20px 0;
             color: #777;
         }
+
+        .merde {
+            color: #ff0000;
+        }
     </style>
 </head>
 <div class="container">
     <h2>Inscription</h2>
-    <form method="POST" action = "/inscription">
+    <form method="POST" action = "/inscription.arbitre">
         <div class="form-group">
             <div class="icon-input">
                 <span class="icon">&#128100;</span>
@@ -92,6 +96,11 @@
                 <input type="text" id="mdp" name="mdp" required><br>
             </div>
         </div>
+
+        <div class="merde">
+            {{para}}
+        </div>
+
         <button type="submit">S'inscrire</button>
     </form>
 </div>

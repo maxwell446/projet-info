@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
-from python_2eme.inscription import inscription_login
-from python_2eme.connexion import connexion1
+from python_2eme.inscription import inscription_login_orga, inscription_login_capitaine, inscription_login_arbitre
+from python_2eme.connexion import connexion_orga, connexion_arbitre, connexion_capitaine
 
 app = Flask(__name__)
 
@@ -9,36 +9,95 @@ app = Flask(__name__)
 def page_html():
     return render_template("page_principale.html")
 
-@app.route('/page_login.html')
-def page_login():
-    return render_template('page_login.html')
+@app.route('/page_login_arbitre.html')
+def page_login_arbitre():
+    return render_template('page_login_arbitre.html')
 
-@app.route('/page_incrip.html')
-def page_incrip():
-    return render_template('page_incrip.html')
+@app.route('/page_login_capitaine.html')
+def page_login_capitaine():
+    return render_template('page_login_capitaine.html')
 
-@app.route('/page3.html')
+@app.route('/page_login_orga.html')
+def page_login_orga():
+    return render_template('page_login_orga.html')
+
+@app.route('/page_incrip_arbitre.html')
+def page_incrip_arbitre():
+    return render_template('page_incrip_arbitre.html')
+
+@app.route('/page_incrip_capitaine.html')
+def page_incrip_capitaine():
+    return render_template('page_incrip_capitaine.html')
+
+@app.route('/page_incrip_orga.html')
+def page_incrip_orga():
+    return render_template('page_incrip_orga.html')
+
+@app.route('/page_spectateur.html')
 def page3():
-    return render_template('page3.html')
+    return render_template('page_spectateur.html')
 
-@app.route('/inscription', methods=['GET', 'POST'])
-def inscription():
+
+
+
+@app.route('/inscription.orga', methods=['POST'])
+def inscription_orga():
     if request.method == 'POST':
         identifiant = request.form['identifiant']
         mdp = request.form['mdp']
-        inscription_login(identifiant, mdp)
-    return render_template('page_login.html')
+        inscription_login_orga(identifiant, mdp)
+    erreur="Login ou passwd deja pris"
+    return render_template('page_login_orga.html', para=erreur)
 
-@app.route('/connexion', methods=['GET', 'POST'])
+@app.route('/inscription.arbitre', methods=['POST'])
+def inscription_arbitre():
+    if request.method == 'POST':
+        identifiant = request.form['identifiant']
+        mdp = request.form['mdp']
+        inscription_login_arbitre(identifiant, mdp)
+    erreur="Login ou passwd deja pris"
+    return render_template('page_login_arbitre.html', para=erreur)
+
+@app.route('/inscription.capitaine', methods=['POST'])
+def inscription_capitaine():
+    if request.method == 'POST':
+        identifiant = request.form['identifiant']
+        mdp = request.form['mdp']
+        inscription_login_capitaine(identifiant, mdp)
+    erreur="Login ou passwd deja pris"
+    return render_template('page_login_capitaine.html', para=erreur)
+
+
+@app.route('/connexion.orga', methods=['POST'])
+def connexion_orga():
+    if request.method == 'POST':
+        identifiant = request.form['id_conn']
+        mdp = request.form['mot_dp']
+        if connexion_orga(identifiant, mdp) == True:
+            return render_template('page_orga.html')
+    erreur="Login ou passwd incorrect"
+    return render_template('page_login_orga.html',param = erreur)
+
+@app.route('/connexion.arbitre', methods=['POST'])
 def connexion():
     if request.method == 'POST':
         identifiant = request.form['id_conn']
         mdp = request.form['mot_dp']
-        if connexion1(identifiant, mdp) == True:
+        if connexion_arbitre(identifiant, mdp) == True:
+            return render_template('page_arbitre.html')
+    erreur="Login ou passwd incorrect"
+    return render_template('page_login_arbitre.html',param = erreur)
+"""
+@app.route('/connexion.capitaine', methods=['POST'])
+def connexion():
+    if request.method == 'POST':
+        identifiant = request.form['id_conn']
+        mdp = request.form['mot_dp']
+        if connexion_capitaine(identifiant, mdp) == True:
             return render_template('page_capitaine.html')
     erreur="Login ou passwd incorrect"
-    return render_template('page_login.html',param = erreur)
+    return render_template('page_login_capitaine.html',param = erreur)
+"""
 
 if __name__ == '__main__':
-
     app.run(debug=True, use_reloader=False)
