@@ -9,6 +9,7 @@
             height: 100%;
             background-color: #f4f0ed;
         }
+
         .title {
             background-color: #040417;
             color: #ffffff;
@@ -19,6 +20,7 @@
             font-weight: bold;
             text-align: center;
         }
+
         .container {
             background-color: #f2eded;
             height: 100vh; 
@@ -27,45 +29,122 @@
             box-shadow: 0 0 1% rgba(0, 0, 0, 0.1);
             position: relative;
         }
-
-        .input-container {
-        margin-bottom: 3%;
-        margin-left: 2%;
-        font-family: Arial, sans-serif;
+        
+        .captain {
+            display: flex;
+            margin-top: 5%;
+            margin-bottom: 4%;
+            margin-left: 3%;
         }
 
-        /* Style pour le texte du label */
-        label {
-            display: block;
-            margin-bottom: 1%;
+        .captain label {
             font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .players {
+            display: flex;
+            justify-content: flex-start;
+            margin-left: 3%;
+        }
+
+        .colonne {
+            flex: 0 0 25%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .colonne label {
+            font-weight: bold;
+            font-size: 1.4em;
+            margin-bottom: 4%;
+        }
+
+        .colonne input[type="text"] {
+            width: 85%;           
+            padding: 1.2%;
+            margin-bottom: 2%;    
+            border: 1px solid #ccc;
+            border-radius: 5px;
             font-size: 1.2em;
         }
-
-        /* Style pour le champ de texte */
-        input[type="text"] {
-            width: 20%;
-            padding: 0.5%;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 1em;
+        
+        .equipe {
+            margin-left: 20%;
+            display: flex;            /* active Flexbox */
+            flex-direction: column; 
         }
+
+        .equipe input {
+            position: relative;
+            top: 1%;
+        }
+
+        .button-container {
+        display: flex;
+        justify-content: flex-end;
+        padding: 20px;
+        }
+
+        .modifier-btn {
+            font-family: 'Times New Roman', Times, serif, Helvetica, sans-serif;
+            padding: 10px 20px;
+            background: #ff0000;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.6em;
+            cursor: pointer;
+            position: absolute; /* important */
+            right: 35%; /* pas collé au bord droit, 15% de l'écran */
+            bottom: 20%; /* pas collé tout en bas, 20% du bas de l'écran */
+            transform: translate(50%, 50%);
+        }
+
     </style>
     <meta charset="UTF-8">
 </head>
 <body>
     <div class="container">
         <div class="title">*Nom du tournoi*</div>
-        <div class="input-container">
-            <label for="capitaine-name">Nom du Capitaine :</label>
-            <input type="text" id="capitaine-name" placeholder="Entrez le nom du capitaine" />
+        
+        <div class="captain">
+            <div class="colonne">
+                <label for="prenom_capitaine">Prénom du Capitaine :</label>
+                <input type="text" id="prenom_capitaine" placeholder="Entrez le prénom du capitaine" />
+            </div>
+            <div class="colonne">
+                <label for="nom_capitaine">Nom du Capitaine :</label>
+                <input type="text" id="nom_capitaine" placeholder="Entrez le nom du capitaine" />
+            </div>
+            <div class="colonne">
+                <div class="equipe">
+                    <label for="nom_equipe">Nom de l'équipe :</label>
+                    <input type="text" id="nom_equipe" placeholder="Entrez le nom de l'équipe" />
+                </div>
+            </div>
         </div>
-
-        <!-- Espace pour rentrer les prénoms des joueurs -->
-        <div class="input-container">
-            <label for="player1">Prénom du Joueur 1 :</label>
-            <input type="text" id="player1" placeholder="Entrez le prénom du joueur 1"/>
+        <div class="players">
+            <div class="colonne">
+                <label for="prenom_player">Prénom des joueurs :</label>
+                <input type="text" id="prenom_player1" placeholder="Entrez le prénom du joueur 1"/>
+                <input type="text" id="prenom_player2" placeholder="Entrez le prénom du joueur 2"/>
+                <input type="text" id="prenom_player3" placeholder="Entrez le prénom du joueur 3"/>
+                <input type="text" id="prenom_player4" placeholder="Entrez le prénom du joueur 4"/>
+                <input type="text" id="prenom_player5" placeholder="Entrez le prénom du joueur 5"/>
+            </div>
+            <div class="colonne">
+                <label for="nom_player">Nom des joueurs :</label>
+                <input type="text" id="nom_player1" placeholder="Entrez le nom du joueur 1"/>
+                <input type="text" id="nom_player2" placeholder="Entrez le nom du joueur 2"/>
+                <input type="text" id="nom_player3" placeholder="Entrez le nom du joueur 3"/>
+                <input type="text" id="nom_player4" placeholder="Entrez le nom du joueur 4"/>
+                <input type="text" id="nom_player5" placeholder="Entrez le nom du joueur 5"/>
+            </div>
         </div>
+        
+        <button class="modifier-btn">Modifier</button>
+        
     </div>
 </body>
 </html>
