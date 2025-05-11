@@ -13,9 +13,9 @@ def id_existe_pas(k):
             return False
         else:
             return True
-    except sqlite3.Error as e:
-        print(f"Erreur SQLite : {e}")
-        return False
+#    except sqlite3.Error as e:
+#        print(f"Erreur SQLite : {e}")
+#        return False
     finally:
         if conn:
             conn.close()
