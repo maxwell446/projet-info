@@ -69,7 +69,7 @@ def inscription_capitaine():
 
 
 @app.route('/connexion.orga', methods=['POST'])
-def connexion_orga():
+def connexion_organisateur():
     if request.method == 'POST':
         identifiant = request.form['id_conn']
         mdp = request.form['mot_dp']
@@ -79,7 +79,7 @@ def connexion_orga():
     return render_template('page_login_orga.html',param = erreur)
 
 @app.route('/connexion.arbitre', methods=['POST'])
-def connexion():
+def connexion_arbitre2():
     if request.method == 'POST':
         identifiant = request.form['id_conn']
         mdp = request.form['mot_dp']
@@ -87,9 +87,9 @@ def connexion():
             return render_template('page_arbitre.html')
     erreur="Login ou passwd incorrect"
     return render_template('page_login_arbitre.html',param = erreur)
-"""
+""""""
 @app.route('/connexion.capitaine', methods=['POST'])
-def connexion():
+def connexion_capitaine2():
     if request.method == 'POST':
         identifiant = request.form['id_conn']
         mdp = request.form['mot_dp']
@@ -97,7 +97,7 @@ def connexion():
             return render_template('page_capitaine.html')
     erreur="Login ou passwd incorrect"
     return render_template('page_login_capitaine.html',param = erreur)
-"""
+""""""
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
