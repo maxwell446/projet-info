@@ -101,6 +101,33 @@
             transform: translate(50%, 50%);
         }
 
+        .modifier-btn:hover {
+            background-color: #d60000;
+            text-decoration: underline;
+        }
+
+
+        .valider-btn {
+            font-family: 'Times New Roman', Times, serif, Helvetica, sans-serif;
+            padding: 10px 30px;
+            background-color: #09a109;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.6em;
+            cursor: pointer;
+            position: absolute; /* important */
+            right: 35%; /* pas collé au bord droit, 15% de l'écran */
+            bottom: 10%; /* pas collé tout en bas, 20% du bas de l'écran */
+            transform: translate(50%, 50%);
+        }
+
+        .valider-btn:hover {
+            background-color: #108110;
+            text-decoration: underline;
+        }
+
+        
     </style>
     <meta charset="UTF-8">
 </head>
@@ -144,6 +171,8 @@
         </div>
         
         <button class="modifier-btn">Modifier</button>
+
+        <button class="valider-btn">Valider</button>
         
     </div>
 </body>

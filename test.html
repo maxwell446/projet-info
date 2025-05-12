@@ -1,35 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* Styles CSS inclus directement dans le HTML */
+        .container {
+            background-color: #f2eded;
+            height: 100vh;
+            width: 100vw;
+            border-radius: 100px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
 
-<<<<<<< HEAD
-            <div class="roles-container">
-                <a href="page_login_capitaine.html">
-                    <div class="role-card capitaine">
-                      <div class="role-icon">
-                        <span class="icon-c">C</span>
-                        </div>
-                     CAPITAINE
-                    </div>
-                </a>
-            
-                <a href="page_login_arbitre.html">
-                    <div class="role-card arbitre">
-                        <div class="role-icon">
-                            &#9878;
-                        </div>
-                        ARBITRE
-                    </div>
-                </a>
-                <a href ="page_spectateur.html">
-                    <div class="role-card joueur-spectateur">
-                        <div class="role-icon">
-                            &#128100;&#8205;&#128100;
-                        </div>
-                        JOUEUR<br>SPECTATEUR
-                    </div>
-                </a>
-                </div>
-                <a href="page_login_orga.html">
-                    <div class="role-card organisateur">
-                        <div class="role-icon">
-                            &#128100;
-                        </div>
-                        ORGANISATEUR
+        .carres-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            position: absolute;
+            top: 15%;
+            height: 100%;
+            width: 100%;
+        }
+
+        .carre {
+            border-radius: 0%;
+            width: 30%;
+            height: 40%;
+            background-color: #d3d3d3;
+            border: 2px solid #999;
+            position: relative;
+        }
+
+        .text {
+            color: #040417;
+        }
+
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="carres-container">
+            <div class="carre"></div>
+            <div class="carre"></div>
+            <div class="carre"></div>
+        </div>
+    </div>
+</body>
+</html>
