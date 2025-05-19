@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request
-from python_2eme.inscription import inscription_login_orga, inscription_login_capitaine, inscription_login_arbitre
 from python_2eme.inscription import inscription_login_orga, inscription_login_capitaine, inscription_login_arbitre, inscription_capitaine
 from python_2eme.connexion import connexion_orga, connexion_arbitre, connexion_capitaine
 
