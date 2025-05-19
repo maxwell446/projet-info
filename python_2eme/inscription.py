@@ -65,15 +65,38 @@ def inscription_login_capitaine (s, p):
 print(id_existe_pas(k='KOUKOUC')) 
 print(id_existe_pas(k='coucouc'))
 
+def setup():
+    conn = sqlite3.connect('tournois de sport.sqlite')
+    cur = conn.cursor()
+
+    # Crée les tables si elles n'existent pas
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS Equipe (
+            idEquipe INTEGER PRIMARY KEY AUTOINCREMENT,
+            nom TEXT NOT NULL,
+            nbJoueurs INTEGER
+        )
+    """)
+
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS joueur (
+            idJoueur INTEGER PRIMARY KEY AUTOINCREMENT,
+            nom TEXT NOT NULL,
+            prenom TEXT NOT NULL,
+            idEquipe INTEGER,
+            FOREIGN KEY(idEquipe) REFERENCES Equipe(idEquipe)
+        )
+    """)
+
+    conn.commit()
+    conn.close()
+
 def inscription_capitaine (n,p,e):
     import sqlite3
     conn = sqlite3.connect('tournois de sport.sqlite')
     cur = conn.cursor()
 
-    cur.execute("""
-                INSERT INTO Equipe 
-                VALUES (?)
-                """, (e,))
+    cur.execute(""" INSERT INTO Equipe(nom, nbJoueurs) VALUES (?, ?)""", (e, 1))
     id_Equipe = cur.lastrowid 
     conn.commit()
 
@@ -86,7 +109,7 @@ def inscription_capitaine (n,p,e):
     cur.execute("""
                 SELECT joueur.nom, joueur.prenom, Equipe.nom
                 FROM joueur
-                JOIN Equipe ON Joueur joueur.idEquipe = Equipe.idEquipe
+                JOIN Equipe ON joueur.idEquipe = Equipe.idEquipe
                 """ )
     conn.commit()
     conn.close()
@@ -102,8 +125,9 @@ def inscription_joueur (n,p):
     cur.execute("""
                 SELECT joueur.nom, joueur.prenom, Equipe.nom
                 FROM joueur
-                JOIN Equipe ON Joueur joueur.idEquipe = Equipe.idEquipe
+                JOIN Equipe ON joueur.idEquipe = Equipe.idEquipe
                 """ )
     conn.commit()
     conn.close()
 
+print(inscription_capitaine("Jean", "Dupont", "Les Tigres"))
