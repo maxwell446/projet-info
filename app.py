@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from python_2eme.inscription import inscription_login_orga, inscription_login_capitaine, inscription_login_arbitre
+from python_2eme.inscription import inscription_login_orga, inscription_login_capitaine, inscription_login_arbitre, inscription_capitaine
 from python_2eme.connexion import connexion_orga, connexion_arbitre, connexion_capitaine
 
 app = Flask(__name__)
@@ -91,7 +91,7 @@ def connexion_arbitre2():
             return render_template('page_arbitre.html')
     erreur="Login ou passwd incorrect"
     return render_template('page_login_arbitre.html',param = erreur)
-""""""
+
 @app.route('/connexion.capitaine', methods=['POST'])
 def connexion_capitaine2():
     if request.method == 'POST':
@@ -101,7 +101,7 @@ def connexion_capitaine2():
             return render_template('page_capitaine.html')
     erreur="Login ou passwd incorrect"
     return render_template('page_login_capitaine.html',param = erreur)
-""""""
+
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
