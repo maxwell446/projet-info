@@ -87,7 +87,7 @@ def connexion_arbitre2():
             return render_template('page_arbitre.html')
     erreur="Login ou passwd incorrect"
     return render_template('page_login_arbitre.html',param = erreur)
-""""""
+
 @app.route('/connexion.capitaine', methods=['POST'])
 def connexion_capitaine2():
     if request.method == 'POST':
@@ -97,7 +97,7 @@ def connexion_capitaine2():
             return render_template('page_capitaine.html')
     erreur="Login ou passwd incorrect"
     return render_template('page_login_capitaine.html',param = erreur)
-""""""
+
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
@@ -111,3 +111,6 @@ def inscription_joueur():
         nom_equipe = request.form['nom_equipe']
         inscription_capitaine(nom_capitaine,prenom_capitaine,nom_equipe)
     return render_template('page_principale.html')
+
+if __name__ == '__main__':
+    app.run(debug=True, use_reloader=False)

@@ -64,3 +64,46 @@ def inscription_login_capitaine (s, p):
 
 print(id_existe_pas(k='KOUKOUC')) 
 print(id_existe_pas(k='coucouc'))
+
+def inscription_capitaine (n,p,e):
+    import sqlite3
+    conn = sqlite3.connect('tournois de sport.sqlite')
+    cur = conn.cursor()
+
+    cur.execute("""
+                INSERT INTO Equipe 
+                VALUES (?)
+                """, (e,))
+    id_Equipe = cur.lastrowid 
+    conn.commit()
+
+    cur.execute("""
+                INSERT INTO joueur (nom, prenom, idEquipe) 
+                VALUES (?,?,?)
+                """, (n,p, id_Equipe))
+    conn.commit()
+
+    cur.execute("""
+                SELECT joueur.nom, joueur.prenom, Equipe.nom
+                FROM joueur
+                JOIN Equipe ON Joueur joueur.idEquipe = Equipe.idEquipe
+                """ )
+    conn.commit()
+    conn.close()
+
+def inscription_joueur (n,p):
+    import sqlite3
+    conn = sqlite3.connect('tournois de sport.sqlite')
+    cur = conn.cursor()
+
+    cur.execute(""" INSERT INTO joueur Values (?,?)""", (n,p))
+    conn.commit()
+
+    cur.execute("""
+                SELECT joueur.nom, joueur.prenom, Equipe.nom
+                FROM joueur
+                JOIN Equipe ON Joueur joueur.idEquipe = Equipe.idEquipe
+                """ )
+    conn.commit()
+    conn.close()
+
