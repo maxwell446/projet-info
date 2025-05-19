@@ -37,6 +37,10 @@ def page_incrip_orga():
 def page3():
     return render_template('page_spectateur.html')
 
+@app.route('/creer_tournoi.html')
+def page_creer_tournoi():
+    return render_template('creer_tournoi.html')
+
 
 
 

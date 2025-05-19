@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer un Tournoi</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Important for padding */
+        }
+
+        select {
+            appearance: none; /* Remove default arrow */
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23555" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 8px center;
+            background-size: 12px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .arrow-select {
+            position: relative;
+        }
+
+        .arrow-select::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            border-top: 5px solid #333;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Créer un Tournoi</h1>
+
+        <form id="tournament-form">
+            <div class="form-group">
+                <label for="sport">Sport</label>
+                <div class="arrow-select">
+                    <select id="sport" name="sport">
+                        <option value="football">Football</option>
+                        <option value="basketball">Basketball</option>
+                        <option value="tennis">Tennis</option>
+                        <option value="volleyball">Volleyball</option>
+                        <option value="rugby">Rugby</option>
+                        </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="nom_tournoi">Nom du Tournoi</label>
+                <input type="text" id="nom_tournoi" name="nom_tournoi" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nb_equipe_max">Nombre d'Équipes Max</label>
+                <input type="number" id="nb_equipe_max" name="nb_equipe_max" min="2" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nb_joueur_max">Nombre de Joueurs Max par Équipe</label>
+                <input type="number" id="nb_joueur_max" name="nb_joueur_max" min="1" required>
+            </div>
+
+            <div class="form-group">
+                <label for="nb_terrain_dispo">Nombre de Terrains Dispos</label>
+                <input type="number" id="nb_terrain_dispo" name="nb_terrain_dispo" min="1" required>
+            </div>
+
+            <div class="form-group">
+                <label for="temps_match">Temps d'un Match (minutes)</label>
+                <input type="number" id="temps_match" name="temps_match" min="1" required>
+            </div>
+
+            <div class="form-group">
+                <label for="date_tournoi">Date du Tournoi</label>
+                <input type="date" id="date_tournoi" name="date_tournoi" required>
+            </div>
+
+            <button type="submit">Créer le Tournoi</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('tournament-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // You would typically send this data to a server here
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => data[key] = value);
+
+            console.log("Tournament Data:", data);
+
+            // Redirect to another page (replace with your desired URL)
+            window.location.href = 'tournoi_details.html'; 
+        });
+    </script>
+
+</body>
+</html>
