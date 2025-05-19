@@ -133,47 +133,54 @@
 </head>
 <body>
     <div class="container">
-        <div class="title">*Nom du tournoi*</div>
-        
-        <div class="captain">
-            <div class="colonne">
-                <label for="prenom_capitaine">Prénom du Capitaine :</label>
-                <input type="text" id="prenom_capitaine" placeholder="Entrez le prénom du capitaine" />
-            </div>
-            <div class="colonne">
-                <label for="nom_capitaine">Nom du Capitaine :</label>
-                <input type="text" id="nom_capitaine" placeholder="Entrez le nom du capitaine" />
-            </div>
-            <div class="colonne">
-                <div class="equipe">
-                    <label for="nom_equipe">Nom de l'équipe :</label>
-                    <input type="text" id="nom_equipe" placeholder="Entrez le nom de l'équipe" />
+        <form method="POST" action="/inscription.joueur">
+            <a href="page_principale.html" class="title" style="display: block; text-decoration: none;">
+                *Nom du tournoi*
+            </a>
+
+            
+            <div class="captain">
+                <div class="colonne">
+                    <label for="prenom_capitaine">Prénom du Capitaine :</label>
+                    <input type="text" id="prenom_capitaine" placeholder="Entrez le prénom du capitaine" />
+                </div>
+                <div class="colonne">
+                    <label for="nom_capitaine">Nom du Capitaine :</label>
+                    <input type="text" id="nom_capitaine" placeholder="Entrez le nom du capitaine" />
+                </div>
+                <div class="colonne">
+                    <div class="equipe">
+                        <label for="nom_equipe">Nom de l'équipe :</label>
+                        <input type="text" id="nom_equipe" placeholder="Entrez le nom de l'équipe" />
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="players">
-            <div class="colonne">
-                <label for="prenom_player">Prénom des joueurs :</label>
-                <input type="text" id="prenom_player1" placeholder="Entrez le prénom du joueur 1"/>
-                <input type="text" id="prenom_player2" placeholder="Entrez le prénom du joueur 2"/>
-                <input type="text" id="prenom_player3" placeholder="Entrez le prénom du joueur 3"/>
-                <input type="text" id="prenom_player4" placeholder="Entrez le prénom du joueur 4"/>
-                <input type="text" id="prenom_player5" placeholder="Entrez le prénom du joueur 5"/>
+            <div class="players">
+                <div class="colonne">
+                    <label for="prenom_player">Prénom des joueurs :</label>
+                    <input type="text" id="prenom_player1" placeholder="Entrez le prénom du joueur 1"/>
+                    <input type="text" id="prenom_player2" placeholder="Entrez le prénom du joueur 2"/>
+                    <input type="text" id="prenom_player3" placeholder="Entrez le prénom du joueur 3"/>
+                    <input type="text" id="prenom_player4" placeholder="Entrez le prénom du joueur 4"/>
+                    <input type="text" id="prenom_player5" placeholder="Entrez le prénom du joueur 5"/>
+                </div>
+                <div class="colonne">
+                    <label for="nom_player">Nom des joueurs :</label>
+                    <input type="text" id="nom_player1" placeholder="Entrez le nom du joueur 1"/>
+                    <input type="text" id="nom_player2" placeholder="Entrez le nom du joueur 2"/>
+                    <input type="text" id="nom_player3" placeholder="Entrez le nom du joueur 3"/>
+                    <input type="text" id="nom_player4" placeholder="Entrez le nom du joueur 4"/>
+                    <input type="text" id="nom_player5" placeholder="Entrez le nom du joueur 5"/>
+                </div>
             </div>
-            <div class="colonne">
-                <label for="nom_player">Nom des joueurs :</label>
-                <input type="text" id="nom_player1" placeholder="Entrez le nom du joueur 1"/>
-                <input type="text" id="nom_player2" placeholder="Entrez le nom du joueur 2"/>
-                <input type="text" id="nom_player3" placeholder="Entrez le nom du joueur 3"/>
-                <input type="text" id="nom_player4" placeholder="Entrez le nom du joueur 4"/>
-                <input type="text" id="nom_player5" placeholder="Entrez le nom du joueur 5"/>
-            </div>
-        </div>
+            <button class="valider-btn">Valider</button>
+            <button class="modifier-btn">Modifier</button>
+        </form>
         
-        <button class="modifier-btn">Modifier</button>
+        </div>
+    
 
-        <button class="valider-btn">Valider</button>
-        
+    
     </div>
 </body>
 </html>

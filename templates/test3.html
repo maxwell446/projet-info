@@ -2,35 +2,31 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Page Arbitres</title>
+    <title>Page Arbitre</title>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            height: 100%;
-            background-color: #f4f0ed;
+            background: #f4f0ed;
+            margin: 0;
+            padding: 0;
         }
-
         .container {
-        background-color: #f2eded;
-        height: 100vh; 
-        width: 100vw;
-        border-radius: 10%;
-        box-shadow: 0 0 1% rgba(0, 0, 0, 0.1);
-        position: relative;
+            width: 95vw;
+            margin: 2vw auto;
+            background: #f2eded;
+            border-radius: 1vw;
+            min-height: 90vh;
+            padding-bottom: 3vw;
         }
-
         .titre {
-            background-color: #040417;
-            color: #ffffff;
-            padding: 20px;
-            border-radius: 20px;
-            margin-bottom: 40px;
-            font-size: 2.5em;
+            background: #040417;
+            color: #fff;
+            font-size: 2.3em;
             font-weight: bold;
             text-align: center;
+            padding: 1.5vw 0;
+            border-radius: 1vw;
+            margin: 2vw 2vw 3vw 2vw;
         }
-        
         .rangee-equipes {
             display: flex;
             justify-content: space-evenly;
@@ -131,11 +127,9 @@
         }
     </style>
 </head>
-<body><div class="container">
-    <a href="page_principale.html" class="titre" style="display: block; text-decoration: none;">
-        *Nom du tournoi*
-    </a>
-
+<body>
+<div class="container">
+    <div class="titre">*Nom du Tournoi*</div>
     <div class="rangee-equipes">
         <!-- Equipe 1 -->
         <div class="panneau-equipe" id="panneau1">

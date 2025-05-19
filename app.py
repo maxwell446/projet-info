@@ -105,3 +105,13 @@ def connexion_capitaine2():
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
+
+
+@app.route('/inscription.joueur', methods=['POST'])
+def inscription_joueur():
+    if request.method == 'POST':
+        nom_capitaine = request.form['nom_capitaine']
+        prenom_capitaine = request.form['prenom_capitaine']
+        nom_equipe = request.form['nom_equipe']
+        inscription_capitaine(nom_capitaine,prenom_capitaine,nom_equipe)
+    return render_template('page_principale.html')
