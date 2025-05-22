@@ -96,7 +96,7 @@ def inscription_capitaine (n,p,e):
     conn = sqlite3.connect('tournois de sport.sqlite')
     cur = conn.cursor()
 
-    cur.execute(""" INSERT INTO Equipe(nom, nbJoueurs) VALUES (?, ?)""", (e, 1))
+    cur.execute(""" INSERT INTO Equipe VALUES (?, ?)""", (e, 1))
     id_Equipe = cur.lastrowid 
     conn.commit()
 
