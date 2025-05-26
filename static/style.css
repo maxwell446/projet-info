@@ -1,12 +1,4 @@
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion / Inscription</title>
-    <style>        
-        body {
+ body {
             font-family: 'Times New Roman', Times, serif;
             background-color: #eee6e3;
             margin: 0;
@@ -98,49 +90,3 @@
         .merde {
             color: #ff0000;
         }
-
-
-    </style>
-</head>
-<body>
-    <a href="/" class="title" style="display: block; text-decoration: none;">
-            *Nom du tournoi*
-    </a>
-    <div class="TOUT">
-        <div class="container">
-            <h2>Connexion</h2>
-            <form method="POST" action="/connexion_capitaine">
-                <div class="form-group">
-                    <div class="icon-input">
-                        <span class="icon">&#128100;</span>
-                        <label for="id_conn">identifiant :</label>
-                        <input type="text" id="id_conn" name="id_conn" required><br>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="icon-input">
-                        <span class="icon">&#128272;</span>
-                        <label for="mot_dp">mot de passe :</label>
-                        <input type="text" id="mot_dp" name="mot_dp" required><br>
-                    </div>
-                </div>
-
-                <div class="merde">
-                    {{param}}
-                </div>
-                    
-                <button type="submit">Se connecter</button>
-
-                <hr class="separator">
-
-                <div>
-                    <a href="/page_incrip_capitaine">
-                        <button2 type="submit">inscription</button2>
-                    </a>
-                </div>
-
-            </form>
-        </div>
-    </div>
-</body>
-</html>

@@ -1,21 +1,35 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion / Inscription</title>
-    <style>        
-        body {
-            font-family: 'Times New Roman', Times, serif;
-            background-color: #eee6e3;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
+    <style>
+        a {
+            display: block;
+            text-decoration: none;
+            color: inherit;
         }
-        
+
+        body {
+            font-family: 'Times New Roman', Times, serif, Helvetica, sans-serif;
+            background-color: #eee6e3;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+        }
+
+        .container-principale {
+            background-color: #f2eded;
+            height: 98vh;
+            width: 97vw;
+            padding: 0;
+            border-radius: 150px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+        }
+
         .title {
             background-color: #040417;
             color: #ffffff;
@@ -24,16 +38,16 @@
             margin-bottom: 40px;
             font-size: 2.5em;
             font-weight: bold;
-            text-align: center;
-            width: 100%;
         }
 
-        .container {
+        .login-container {
             background-color: #e0e0e0;
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             text-align: center;
+            width: 40%;
+            margin: 0 auto;
         }
 
         h2 {
@@ -78,8 +92,8 @@
         }
 
         button2 {
-            color : rgb(0, 0, 0);
-            border :none;
+            color: rgb(0, 0, 0);
+            border: none;
             cursor: pointer;
             font-size: 13px;
         }
@@ -89,7 +103,6 @@
             text-decoration: underline;
         }
 
-
         .separator {
             margin: 20px;
             color: #777;
@@ -98,16 +111,14 @@
         .merde {
             color: #ff0000;
         }
-
-
     </style>
 </head>
 <body>
-    <a href="/" class="title" style="display: block; text-decoration: none;">
-            *Nom du tournoi*
-    </a>
-    <div class="TOUT">
-        <div class="container">
+    <div class="container-principale">
+        <a href="/">
+            <div class="title">*Nom du tournoi*</div>
+        </a>
+        <div class="login-container">
             <h2>Connexion</h2>
             <form method="POST" action="/connexion_capitaine">
                 <div class="form-group">
@@ -128,7 +139,7 @@
                 <div class="merde">
                     {{param}}
                 </div>
-                    
+
                 <button type="submit">Se connecter</button>
 
                 <hr class="separator">
