@@ -20,7 +20,7 @@ def id_existe_pas(k):
         if conn:
             conn.close()
 
-def nb_id_bdd (k):
+def nb_id_bdd_orga ():
     conn = sqlite3.connect('tournois de sport.sqlite')
     cur = conn.cursor()
 
@@ -34,13 +34,11 @@ def inscription_login_orga (s, p):
     conn = sqlite3.connect('tournois de sport.sqlite')
     cur = conn.cursor()
 
-    if nb_id_bdd(k=s) == 0 :
-        if id_existe_pas(k=s):
-            cur.execute ("""INSERT INTO login_organisateur Values (?,?)""", (s,p))
-            conn.commit()
-        conn.close()
-    else :
-        raise ValueError
+    
+    if id_existe_pas(k=s):
+        cur.execute ("""INSERT INTO login_organisateur Values (?,?)""", (s,p))
+        conn.commit()
+    conn.close()
 
 
 def inscription_login_arbitre (s, p):
@@ -61,16 +59,12 @@ def inscription_login_capitaine (s, p):
         conn.commit()
     conn.close()
 
-
-print(id_existe_pas(k='KOUKOUC')) 
-print(id_existe_pas(k='coucouc'))
-
 def inscription_capitaine (n,p,e):
     import sqlite3
     conn = sqlite3.connect('tournois de sport.sqlite')
     cur = conn.cursor()
 
-    cur.execute(""" INSERT INTO Equipe VALUES (?, ?)""", (e, 1))
+    cur.execute(""" INSERT INTO Equipe (nom, nbjoueur) VALUES (?, ?)""", (e, 1))
     id_Equipe = cur.lastrowid 
     conn.commit()
 
@@ -80,22 +74,17 @@ def inscription_capitaine (n,p,e):
                 """, (n,p, id_Equipe))
     conn.commit()
 
-    cur.execute("""
-                SELECT joueur.nom, joueur.prenom, Equipe.nom
-                FROM joueur
-                JOIN Equipe ON joueur.idEquipe = Equipe.idEquipe
-                """ )
-    conn.commit()
     conn.close()
 
-def inscription_joueur (n,p):
+def inscription_joueur (n,p,i):
     import sqlite3
     conn = sqlite3.connect('tournois de sport.sqlite')
     cur = conn.cursor()
 
-    cur.execute(""" INSERT INTO joueur Values (?,?)""", (n,p))
+    cur.execute(""" INSERT INTO joueur Values (?,?,?)""", (n,p,i))
+    cur.execute(""" UPDATE Equipe Set nbJoueur  = nbJoueur + 1 WHERE idEquipe = ?""", (i,) )
     conn.commit()
-
+    
     cur.execute("""
                 SELECT joueur.nom, joueur.prenom, Equipe.nom
                 FROM joueur
@@ -105,3 +94,4 @@ def inscription_joueur (n,p):
     conn.close()
 
 
+s

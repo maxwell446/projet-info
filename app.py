@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from python_2eme.inscription import inscription_login_orga, inscription_login_capitaine, inscription_login_arbitre, inscription_capitaine
+from python_2eme.inscription import inscription_login_orga, inscription_login_capitaine, inscription_login_arbitre, inscription_capitaine, nb_id_bdd_orga
 from python_2eme.connexion import connexion_orga, connexion_arbitre, connexion_capitaine
 
 app = Flask(__name__)
@@ -9,37 +9,37 @@ app = Flask(__name__)
 def page_html():
     return render_template("page_principale.html")
 
-@app.route('/page_login_arbitre.html')
+@app.route('/page_login_arbitre')
 def page_login_arbitre():
     return render_template('page_login_arbitre.html')
 
-@app.route('/page_login_capitaine.html')
+@app.route('/page_login_capitaine')
 def page_login_capitaine():
     return render_template('page_login_capitaine.html')
 
-@app.route('/page_login_orga.html')
+@app.route('/page_login_orga')
 def page_login_orga():
     return render_template('page_login_orga.html')
 
-@app.route('/page_incrip_arbitre.html')
+@app.route('/page_incrip_arbitre')
 def page_incrip_arbitre():
     return render_template('page_incrip_arbitre.html')
 
-@app.route('/page_incrip_capitaine.html')
+@app.route('/page_incrip_capitaine')
 def page_incrip_capitaine():
     return render_template('page_incrip_capitaine.html')
 
-@app.route('/page_incrip_orga.html')
+@app.route('/page_incrip_orga')
 def page_incrip_orga():
     return render_template('page_incrip_orga.html')
 
-@app.route('/page_spectateur.html')
+@app.route('/page_spectateur')
 def page3():
     return render_template('page_spectateur.html')
 
-@app.route('/creer_tournoi.html')
+@app.route('/creer_tournoi_orga')
 def page_creer_tournoi():
-    return render_template('creer_tournoi.html')
+    return render_template('creer_tournoi_orga.html')
 
 
 
@@ -49,9 +49,11 @@ def inscription_orga():
     if request.method == 'POST':
         identifiant = request.form['identifiant']
         mdp = request.form['mdp']
-        inscription_login_orga(identifiant, mdp)
-    erreur="Login ou passwd deja pris"
-    return render_template('page_login_orga.html', para=erreur)
+        if nb_id_bdd_orga() ==0 :
+            inscription_login_orga(identifiant, mdp)
+            return render_template('page_login_orga.html')
+    erreur="Login ou passwd impossible"
+    return render_template('page_incrip_orga.html', para=erreur)
 
 @app.route('/inscription.arbitre', methods=['POST'])
 def inscription_arbitre():
@@ -115,3 +117,6 @@ def inscription_joueur():
         nom_equipe = request.form['nom_equipe']
         inscription_capitaine(nom_capitaine,prenom_capitaine,nom_equipe)
     return render_template('page_principale.html')
+
+
+
