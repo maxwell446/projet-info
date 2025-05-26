@@ -94,7 +94,7 @@ def connexion_arbitre2():
     erreur="Login ou passwd incorrect"
     return render_template('page_login_arbitre.html',param = erreur)
 
-@app.route('/connexion.capitaine', methods=['POST'])
+@app.route('/connexion_capitaine', methods=['POST'])
 def connexion_capitaine2():
     if request.method == 'POST':
         identifiant = request.form['id_conn']

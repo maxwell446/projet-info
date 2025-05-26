@@ -92,6 +92,3 @@ def inscription_joueur (n,p,i):
                 """ )
     conn.commit()
     conn.close()
-
-
-s
