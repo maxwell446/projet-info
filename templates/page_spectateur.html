@@ -1,44 +1,15 @@
 
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>Page Capitaines</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            height: 100%;
-            background-color: #eee6e3;
-        }
-
-        .title {
-            background-color: #040417;
-            color: #ffffff;
-            padding: 20px;
-            border-radius: 20px;
-            margin-bottom: 40px;
-            font-size: 2.5em;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .container {
-        background-color: #f2eded;
-        width: 100%;
-        min-height: 96vh;
-        border-radius: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        box-sizing: border-box;
-        }
-        
-    </style>
+    <title>Page Spectateur</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
     <meta charset="UTF-8">
 </head>
 <body>
     <div class="container">
         <form method="POST" action="/inscription.joueur">
-            <a href="/page_principale" class="title" style="display: block; text-decoration: none;">
+            <a href="/page_principale" class="title" >
                 *Nom du tournoi*
             </a>
     </div>

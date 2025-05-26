@@ -1,4 +1,3 @@
-
 import sqlite3
 import os
 import sys
@@ -163,9 +162,25 @@ if id_equipe_A:
 else:
     print("Test Capitaine : Échec de la création de l'Équipe A.")
 
+   
+print("\n--- Test d'inscription d'une équipe existante (doit échouer si 'Équipe A' existe déjà) ---")
+id_equipe_A_bis = inscription_capitaine("Autre", "Cap", "Équipe A")
+if id_equipe_A_bis:
+    print(f"Test Capitaine : Équipe A (bis) créée avec ID: {id_equipe_A_bis}")
 id_equipe_B = inscription_capitaine('Smith', 'Jane', 'Équipe B')
 if id_equipe_B:
     print(f"Équipe B créée avec ID: {id_equipe_B}")
 else:
-    print("Échec de la création de l'Équipe B.")
-"""
+    print("Test Capitaine : Échec attendu de la création de l'Équipe A (bis).")
+
+
+print("\n--- Test d'inscription de joueurs ---")
+if id_equipe_A:
+    inscription_joueur("Brown", "Alice", id_equipe_A)
+    inscription_joueur("Green", "Bob", id_equipe_A)
+else:
+    print("Test Joueur : Impossible d'ajouter des joueurs à l'Équipe A car elle n'a pas été créée.")
+
+print("\n--- Test d'inscription d'un joueur à une équipe inexistante (doit échouer) ---")
+inscription_joueur("Non", "Existant", 999) # ID qui n'existe probablement pas
+print("Échec de la création de l'Équipe B.")

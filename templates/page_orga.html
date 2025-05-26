@@ -4,53 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Tournois</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 30px;
-        }
-
-        .action-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 18px;
-            text-decoration: none; /* Remove underline from links */
-        }
-
-        .action-button:hover {
-            background-color: #45a049;
-        }
-
-        button2 {
-            color : rgb(0, 0, 0);
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    <meta charset="UTF-8">
 </head>
 <body>
 
