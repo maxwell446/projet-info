@@ -20,7 +20,7 @@ def id_existe_pas(k):
         if conn:
             conn.close()
 
-def nb_id_bdd (k):
+def nb_id_bdd_orga ():
     conn = sqlite3.connect('tournois de sport.sqlite')
     cur = conn.cursor()
 
@@ -34,13 +34,11 @@ def inscription_login_orga (s, p):
     conn = sqlite3.connect('tournois de sport.sqlite')
     cur = conn.cursor()
 
-    if nb_id_bdd(k=s) == 0 :
-        if id_existe_pas(k=s):
-            cur.execute ("""INSERT INTO login_organisateur Values (?,?)""", (s,p))
-            conn.commit()
-        conn.close()
-    else :
-        raise ValueError
+    
+    if id_existe_pas(k=s):
+        cur.execute ("""INSERT INTO login_organisateur Values (?,?)""", (s,p))
+        conn.commit()
+    conn.close()
 
 
 def inscription_login_arbitre (s, p):
