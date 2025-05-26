@@ -40,7 +40,7 @@ def inscription_login_orga (s, p):
             conn.commit()
         conn.close()
     else :
-        ValueError
+        raise ValueError
 
 
 def inscription_login_arbitre (s, p):
