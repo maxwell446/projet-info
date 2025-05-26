@@ -70,10 +70,7 @@ def inscription_capitaine (n,p,e):
     conn = sqlite3.connect('tournois de sport.sqlite')
     cur = conn.cursor()
 
-    cur.execute("""
-                INSERT INTO Equipe 
-                VALUES (?)
-                """, (e,))
+    cur.execute(""" INSERT INTO Equipe VALUES (?, ?)""", (e, 1))
     id_Equipe = cur.lastrowid 
     conn.commit()
 
@@ -86,7 +83,7 @@ def inscription_capitaine (n,p,e):
     cur.execute("""
                 SELECT joueur.nom, joueur.prenom, Equipe.nom
                 FROM joueur
-                JOIN Equipe ON Joueur joueur.idEquipe = Equipe.idEquipe
+                JOIN Equipe ON joueur.idEquipe = Equipe.idEquipe
                 """ )
     conn.commit()
     conn.close()
@@ -102,8 +99,9 @@ def inscription_joueur (n,p):
     cur.execute("""
                 SELECT joueur.nom, joueur.prenom, Equipe.nom
                 FROM joueur
-                JOIN Equipe ON Joueur joueur.idEquipe = Equipe.idEquipe
+                JOIN Equipe ON joueur.idEquipe = Equipe.idEquipe
                 """ )
     conn.commit()
     conn.close()
+
 

@@ -1,24 +1,33 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créer un Tournoi</title>
+    <title>Page creation tournoi</title>
     <style>
         body {
-            font-family: sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
+            display: flex;
+            justify-content: center;
+            height: 100%;
+            background-color: #f4f0ed;
+        }
+
+        .title {
+            background-color: #040417;
+            color: #ffffff;
             padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            font-weight: bold;
+            text-align: center;
         }
 
         .container {
-            max-width: 600px;
-            margin: 20px auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #f2eded;
+            height: 100vh; 
+            width: 100vw;
+            border-radius: 10%;
+            box-shadow: 0 0 1% rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
         h1 {
@@ -44,15 +53,30 @@
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            box-sizing: border-box; /* Important for padding */
+            box-sizing: border-box;
         }
 
+        /* Modification ici : suppression du background-image sur select */
         select {
             appearance: none; /* Remove default arrow */
-            background-image: url('data:image/svg+xml;utf8,<svg fill="%23555" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 8px center;
-            background-size: 12px;
+            padding-right: 30px; /* espace pour la flèche CSS */
+        }
+
+        /* Flèche CSS en pseudo-élément sur le parent */
+        .arrow-select {
+            position: relative;
+        }
+
+        .arrow-select::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            border-top: 6px solid #555; /* couleur flèche */
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            pointer-events: none; /* laisse passer les clics */
         }
 
         button {
@@ -69,26 +93,13 @@
             background-color: #45a049;
         }
 
-        .arrow-select {
-            position: relative;
-        }
-
-        .arrow-select::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            border-top: 5px solid #333;
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-        }
-
     </style>
 </head>
 <body>
-
     <div class="container">
+        <a href="page_principale.html" class="title" style="display: block; text-decoration: none;">
+            *Nom du tournoi*
+        </a>
         <h1>Créer un Tournoi</h1>
 
         <form id="tournament-form">
@@ -101,7 +112,7 @@
                         <option value="tennis">Tennis</option>
                         <option value="volleyball">Volleyball</option>
                         <option value="rugby">Rugby</option>
-                        </select>
+                    </select>
                 </div>
             </div>
 
