@@ -115,3 +115,6 @@ def inscription_joueur():
         nom_equipe = request.form['nom_equipe']
         inscription_capitaine(nom_capitaine,prenom_capitaine,nom_equipe)
     return render_template('page_principale.html')
+
+
+
