@@ -8,7 +8,7 @@
             display: flex;
             justify-content: center;
             height: 100%;
-            background-color: #f4f0ed;
+            background-color: #eee6e3;
         }
 
         .container {
@@ -132,7 +132,7 @@
     </style>
 </head>
 <body><div class="container">
-    <a href="page_principale.html" class="titre" style="display: block; text-decoration: none;">
+    <a href="/page_principale" class="titre" style="display: block; text-decoration: none;">
         *Nom du tournoi*
     </a>
 
@@ -196,7 +196,7 @@
     function remplirSelectJoueurs() {
         for (let i = 1; i <= 2; i++) {
             let select = document.getElementById('joueur' + i);
-            for (let n = 1; n <= 10; n++) {
+            for (let n = 1; n <= 5; n++) {
                 let option = document.createElement('option');
                 option.value = n;
                 option.textContent = n;

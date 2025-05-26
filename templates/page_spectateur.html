@@ -8,7 +8,7 @@
             display: flex;
             justify-content: center;
             height: 100%;
-            background-color: #f4f0ed;
+            background-color: #eee6e3;
         }
 
         .title {
@@ -23,15 +23,14 @@
         }
 
         .container {
-            background-color: #f2eded;
-            height: 100vh; 
-            width: 100vw;
-            border-radius: 10%;
-            box-shadow: 0 0 1% rgba(0, 0, 0, 0.1);
-            position: relative;
+        background-color: #f2eded;
+        width: 100%;
+        min-height: 96vh;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        box-sizing: border-box;
         }
-        
-
         
     </style>
     <meta charset="UTF-8">
@@ -39,7 +38,7 @@
 <body>
     <div class="container">
         <form method="POST" action="/inscription.joueur">
-            <a href="page_principale.html" class="title" style="display: block; text-decoration: none;">
+            <a href="/page_principale" class="title" style="display: block; text-decoration: none;">
                 *Nom du tournoi*
             </a>
     </div>
