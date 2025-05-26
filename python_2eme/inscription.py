@@ -75,8 +75,10 @@ def inscription_login_capitaine (s, p):
 
 
 def init_db():
-    print(f"--- Tentative d'initialisation de la base de données ---")
-    print(f"Chemin de la DB pour init_db : {DATABASE_NAME}")
+    """
+    Initialise le schéma de la base de données (crée les tables si elles n'existent pas).
+    """
+    print(f"DEBUG: Démarrage de l'initialisation de la base de données à {DATABASE_NAME}.")
     conn = get_db_connection()
     cur = conn.cursor()
     try:
@@ -87,7 +89,7 @@ def init_db():
                 nbJoueur NUMERIC DEFAULT 0
             )
         """)
-        print("init_db : Table 'Equipe' vérifiée/créée.")
+        print("DEBUG: Table 'Equipe' vérifiée/créée.")
         cur.execute("""
             CREATE TABLE IF NOT EXISTS joueur (
                 idJoueur INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -97,20 +99,22 @@ def init_db():
                 FOREIGN KEY (idEquipe) REFERENCES Equipe(idEquipe) ON DELETE CASCADE
             )
         """)
-        print("init_db : Table 'joueur' vérifiée/créée.")
+        print("DEBUG: Table 'joueur' vérifiée/créée.")
         conn.commit()
-        print("init_db : Base de données et tables vérifiées/initialisées avec succès.")
-        print("init_db : Table 'joueur' vérifiée/créée.")
-        conn.commit()
-        print("init_db : Base de données et tables vérifiées/initialisées avec succès.")
+        print("DEBUG: Base de données et tables initialisées avec succès.")
+    except sqlite3.Error as e:
+        print(f"FATAL ERROR: Échec de l'initialisation de la base de données (CREATE TABLE) : {e}", file=sys.stderr)
+        conn.rollback()
+        sys.exit(1) 
     finally:
         conn.close()
+        print("DEBUG: Connexion de init_db fermée.")
 
 
 def inscription_capitaine(n, p, e):
     conn = get_db_connection()
     cur = conn.cursor()
-    
+    id_equipe = None
     try:
         cur.execute("SELECT idEquipe FROM Equipe WHERE nom = ?", (e,))
         if cur.fetchone():
@@ -127,6 +131,18 @@ def inscription_capitaine(n, p, e):
                     """, (p, n, id_equipe))
         conn.commit()
         return id_equipe
+    except sqlite3.IntegrityError as error:
+        print(f"ERROR (inscription_capitaine) : Erreur d'intégrité (nom d'équipe probablement non unique) : {error}", file=sys.stderr)
+        conn.rollback()
+        return None
+    except sqlite3.Error as error:
+        print(f"ERROR (inscription_capitaine) : Erreur SQLite : {error}", file=sys.stderr)
+        conn.rollback()
+        return None
+    except Exception as error:
+        print(f"ERROR (inscription_capitaine) : Erreur inattendue : {error}", file=sys.stderr)
+        conn.rollback()
+        return None
     finally:
         conn.close()
 
@@ -147,5 +163,102 @@ def inscription_joueur(n, p, i):
 
         print(f"Joueur '{p} {n}' inscrit à l'équipe ID {i} avec succès.")
         return True
+    except sqlite3.Error as error:
+        print(f"ERROR (inscription_joueur) : Erreur SQLite : {error}", file=sys.stderr)
+        conn.rollback()
+        return False
+    except Exception as error:
+        print(f"ERROR (inscription_joueur) : Erreur inattendue lors de l'inscription du joueur : {error}", file=sys.stderr)
+        conn.rollback()
+        return False
     finally:
         conn.close()
+
+    
+# --- Bloc d'exécution principal pour les tests ---
+if __name__ == "__main__":
+    print(f"\n--- Démarrage du script d'inscription ---")
+
+    # --- Section critique de gestion du fichier DB ---
+    print(f"DEBUG: Vérification de l'existence du fichier DB à : {DATABASE_NAME}")
+    if os.path.exists(DATABASE_NAME):
+        print(f"DEBUG: Le fichier de base de données '{os.path.basename(DATABASE_NAME)}' existe déjà.")
+        print(f"DEBUG: Tentative de suppression du fichier pour un redémarrage propre...")
+        try:
+            os.remove(DATABASE_NAME)
+            print(f"DEBUG: SUCCÈS : Fichier de base de données supprimé : {DATABASE_NAME}")
+        except OSError as e:
+            print(f"FATAL ERROR: IMPOSSIBLE DE SUPPRIMER LE FICHIER DB : {e}", file=sys.stderr)
+            print(f"FATAL ERROR: Cela peut être dû à des problèmes de permissions ou au fichier verrouillé par une autre application (ex: SQLiteStudio ouvert).", file=sys.stderr)
+            sys.exit(1) # Quitte le script car l'état de la DB n'est pas garanti
+    else:
+        print(f"DEBUG: Le fichier de base de données '{os.path.basename(DATABASE_NAME)}' n'existe PAS. Il sera créé par init_db().")
+
+    
+    init_db()
+
+    print("\n--- Début des tests d'inscription ---")
+    id_equipe_A = inscription_capitaine("Doe", "John", "Équipe A")
+    if id_equipe_A:
+        print(f"Test Capitaine : Équipe A créée avec ID: {id_equipe_A}")
+    else:
+        print("Test Capitaine : Échec de la création de l'Équipe A.")
+
+    id_equipe_B = inscription_capitaine("Smith", "Jane", "Équipe B")
+    if id_equipe_B:
+        print(f"Test Capitaine : Équipe B créée avec ID: {id_equipe_B}")
+    else:
+        print("Test Capitaine : Échec de la création de l'Équipe B.")
+
+    print("\n--- Test d'inscription d'une équipe existante (doit échouer si 'Équipe A' existe déjà) ---")
+    id_equipe_A_bis = inscription_capitaine("Autre", "Cap", "Équipe A")
+    if id_equipe_A_bis:
+        print(f"Test Capitaine : Équipe A (bis) créée avec ID: {id_equipe_A_bis}")
+    else:
+        print("Test Capitaine : Échec attendu de la création de l'Équipe A (bis).")
+
+
+    print("\n--- Test d'inscription de joueurs ---")
+    # Vérifier si id_equipe_A est défini avant d'essayer de l'utiliser
+    if 'id_equipe_A' in locals() and id_equipe_A:
+        inscription_joueur("Brown", "Alice", id_equipe_A)
+        inscription_joueur("Green", "Bob", id_equipe_A)
+    else:
+        print("Test Joueur : Impossible d'ajouter des joueurs à l'Équipe A car elle n'a pas été créée ou son ID n'est pas disponible.")
+
+    if 'id_equipe_B' in locals() and id_equipe_B:
+        inscription_joueur("White", "Charlie", id_equipe_B)
+    else:
+        print("Test Joueur : Impossible d'ajouter des joueurs à l'Équipe B car elle n'a pas été créée ou son ID n'est pas disponible.")
+
+
+    print("\n--- Test d'inscription d'un joueur à une équipe inexistante (doit échouer) ---")
+    inscription_joueur("Non", "Existant", 999) # ID qui n'existe probablement pas
+
+
+    print("\n--- Vérification finale des données ---")
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT joueur.prenom, joueur.nom, Equipe.nom AS nom_equipe, Equipe.nbJoueur FROM joueur JOIN Equipe ON joueur.idEquipe = Equipe.idEquipe")
+        players_data = cur.fetchall()
+        print("Liste des joueurs et leurs équipes :")
+        if players_data:
+            for player in players_data:
+                print(f"  - {player['prenom']} {player['nom']} ({player['nom_equipe']}), NbJoueur Equipe: {player['nbJoueur']}")
+        else:
+            print("  Aucun joueur trouvé dans la base de données.")
+
+        cur.execute("SELECT nom, nbJoueur FROM Equipe")
+        teams_data = cur.fetchall()
+        print("\nNombre de joueurs par équipe (table Equipe) :")
+        if teams_data:
+            for team in teams_data:
+                print(f"  - {team['nom']}: {team['nbJoueur']} joueurs")
+        else:
+            print("  Aucune équipe trouvée dans la base de données.")
+    except Exception as e:
+        print(f"ERROR: Erreur lors de la vérification finale des données : {e}", file=sys.stderr)
+    finally:
+        if 'conn' in locals() and conn: # S'assure que conn existe et n'est pas None
+            conn.close()
