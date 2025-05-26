@@ -93,7 +93,6 @@ def inscription_joueur (n,p,i):
     print(f"Joueur '{p} {n}' inscrit à l'équipe ID {i} avec succès.")
     conn.close()
     return True
-    
 
 """
 print("--- Test d'inscription de Capitaine ---")
