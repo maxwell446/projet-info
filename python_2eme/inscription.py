@@ -81,14 +81,31 @@ def inscription_joueur (n,p,i):
     conn = sqlite3.connect('tournois de sport.sqlite')
     cur = conn.cursor()
 
+    cur.execute("SELECT idEquipe FROM Equipe WHERE idEquipe = ?", (i,))
+    if not cur.fetchone():
+        print(f"Erreur : L'équipe avec l'ID {i} n'existe pas.")
+        return False
+
     cur.execute(""" INSERT INTO joueur Values (?,?,?)""", (n,p,i))
     cur.execute(""" UPDATE Equipe Set nbJoueur  = nbJoueur + 1 WHERE idEquipe = ?""", (i,) )
     conn.commit()
     
-    cur.execute("""
-                SELECT joueur.nom, joueur.prenom, Equipe.nom
-                FROM joueur
-                JOIN Equipe ON joueur.idEquipe = Equipe.idEquipe
-                """ )
-    conn.commit()
+    print(f"Joueur '{p} {n}' inscrit à l'équipe ID {i} avec succès.")
     conn.close()
+    return True
+    
+
+"""
+print("--- Test d'inscription de Capitaine ---")
+id_equipe_A = inscription_capitaine('Doe', 'John', 'Équipe A')
+if id_equipe_A:
+    print(f"Équipe A créée avec ID: {id_equipe_A}")
+else:
+    print("Échec de la création de l'Équipe A.")
+
+id_equipe_B = inscription_capitaine('Smith', 'Jane', 'Équipe B')
+if id_equipe_B:
+    print(f"Équipe B créée avec ID: {id_equipe_B}")
+else:
+    print("Échec de la création de l'Équipe B.")
+"""
