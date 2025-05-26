@@ -100,10 +100,9 @@ def init_db():
         print("init_db : Table 'joueur' vérifiée/créée.")
         conn.commit()
         print("init_db : Base de données et tables vérifiées/initialisées avec succès.")
-    except sqlite3.Error as e:
-        print(f"FATAL: ERREUR LORS DE L'INITIALISATION DE LA BASE DE DONNÉES : {e}", file=sys.stderr)
-        conn.rollback()
-        sys.exit(1)
+        print("init_db : Table 'joueur' vérifiée/créée.")
+        conn.commit()
+        print("init_db : Base de données et tables vérifiées/initialisées avec succès.")
     finally:
         conn.close()
 
@@ -150,22 +149,3 @@ def inscription_joueur(n, p, i):
         return True
     finally:
         conn.close()
-
-
-
-
-init_db()
-
-print("\n--- Test d'inscription de Capitaine ---")
-id_equipe_A = inscription_capitaine("Doe", "John", "Équipe A")
-if id_equipe_A:
-    print(f"Test Capitaine : Équipe A créée avec ID: {id_equipe_A}")
-else:
-    print("Test Capitaine : Échec de la création de l'Équipe A.")
-
-id_equipe_B = inscription_capitaine('Smith', 'Jane', 'Équipe B')
-if id_equipe_B:
-    print(f"Équipe B créée avec ID: {id_equipe_B}")
-else:
-    print("Échec de la création de l'Équipe B.")
-"""
