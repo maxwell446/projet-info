@@ -1,3 +1,4 @@
+"""
 # app.py
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
@@ -16,14 +17,13 @@ def get_db_connection():
     return conn
 
 @app.route('/creer_tournoi_submit2', methods=['POST'])
-nom_tournoi = request.form['nom_tournoi']
+    nom_tournoi_hjh = request.form['nom_tournoi']
 
 @app.route('/creer_tournoi_submit', methods=['POST'])
 def creer_tournoi_submit():
     if request.method == 'POST':
         nom_tournoi = request.form['nom_tournoi']
         nb_equipe_max = int(request.form['nb_equipe_max'])
-        nb_joueur_max_par_equipe = int(request.form['nb_joueur_max']) # Renommé pour plus de clarté
         nb_terrain_dispo = int(request.form['nb_terrain_dispo'])
         temps_match = int(request.form['temps_match'])
         date_tournoi = request.form['date_tournoi']
@@ -51,48 +51,21 @@ def creer_tournoi_submit():
             cursor.execute('''
                 INSERT INTO Tournois (nomTournoi, sport, nbEquipeMax, nbJoueurMaxParEquipe, nbTerrainDispo, tempsMatch, dateTournoi)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
-            ''', (nom_tournoi, sport, nb_equipe_max, nb_joueur_max_par_equipe, nb_terrain_dispo, temps_match, date_tournoi))
+            ''', (nom_tournoi, nb_equipe_max, nb_terrain_dispo, temps_match, date_tournoi))
             conn.commit()
             tournoi_id = cursor.lastrowid # Récupérer l'ID du tournoi nouvellement inséré
             print(f"Tournoi '{nom_tournoi}' inséré avec l'ID: {tournoi_id}")
 
             # 3. Insérer les Terrains (Fields)
-            # Assurez-vous que votre table 'terrain' a une colonne pour l'ID du tournoi (idTournoi)
-            cursor.execute('''
-                CREATE TABLE IF NOT EXISTS terrain (
-                    idTerrain INTEGER PRIMARY KEY AUTOINCREMENT,
-                    nomTerrain TEXT,
-                    idTournoi INTEGER,
-                    FOREIGN KEY (idTournoi) REFERENCES Tournois(idTournoi)
-                )
-            ''')
-            conn.commit() # Sauvegarder la création de la table si elle est nouvelle
-
             for i in range(1, nb_terrain_dispo + 1):
                 cursor.execute("INSERT INTO terrain (nomTerrain, idTournoi) VALUES (?, ?)", (f"Terrain {i}", tournoi_id))
             conn.commit()
-            print(f"{nb_terrain_dispo} terrains insérés pour le tournoi '{nom_tournoi}'.")
 
             # 4. Insérer les Équipes (Teams)
-            # Assurez-vous que votre table 'Equipe' a une colonne pour l'ID du tournoi (idTournoi)
-            cursor.execute('''
-                CREATE TABLE IF NOT EXISTS Equipe (
-                    idEquipe INTEGER PRIMARY KEY AUTOINCREMENT,
-                    nomEquipe TEXT,
-                    nbJoueursActuels INTEGER DEFAULT 0,
-                    idTournoi INTEGER,
-                    FOREIGN KEY (idTournoi) REFERENCES Tournois(idTournoi)
-                )
-            ''')
-            conn.commit() # Sauvegarder la création de la table si elle est nouvelle
-
             for i in range(1, nb_equipe_max + 1):
                 cursor.execute("INSERT INTO Equipe (nomEquipe, idTournoi) VALUES (?, ?)", (f"Équipe {i}", tournoi_id))
             conn.commit()
-            print(f"{nb_equipe_max} équipes insérées pour le tournoi '{nom_tournoi}'.")
 
-            # Rediriger vers la page principale en passant le nom du tournoi
-            # Le nom du tournoi est passé comme paramètre de requête (query parameter)
             return redirect(url_for('page_principale', nom_tournoi=nom_tournoi))
 
         except sqlite3.IntegrityError as e:
@@ -124,3 +97,5 @@ def erreur_page():
 if __name__ == '__main__':
     # Assurez-vous que le dossier 'templates' est au même niveau que app.py
     app.run(debug=True) # debug=True permet le rechargement automatique et les messages d'erreur détaillés
+
+"""
