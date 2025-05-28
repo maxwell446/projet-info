@@ -41,6 +41,16 @@ a{
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
+        
+        .container3 {
+            background-color: #e0e0e0;
+            margin-left: 35%;
+            margin-right: 35%;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
 
         h1 {
             text-align: center;
