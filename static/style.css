@@ -23,13 +23,23 @@ a{
         }
 
         .container {
-        background-color: #f2eded;
-        width: 100%;
-        min-height: 96vh;
-        border-radius: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        box-sizing: border-box;
+            background-color: #f2eded;
+            width: 100%;
+            min-height: 96vh;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container2 {
+            background-color: #e0e0e0;
+            margin-left: 35%;
+            margin-right: 35%;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         h1 {
@@ -61,6 +71,7 @@ a{
         button2 {
             color : rgb(0, 0, 0);
         }
+
          .captain {
             display: flex;
             margin-top: 5%;
@@ -102,7 +113,7 @@ a{
         
         .equipe {
             margin-left: 20%;
-            display: flex;            /* active Flexbox */
+            display: flex;
             flex-direction: column; 
         }
 
@@ -256,5 +267,62 @@ a{
                 font-size: 2em;
             }
         }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
 
+        .icon-input {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 8px;
+        }
+
+        .icon {
+            margin-right: 8px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            border: none;
+            padding: 8px;
+            flex-grow: 1;
+            outline: none;
+        }
+
+        button {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        button2 {
+            color : rgb(0, 0, 0);
+            border :none;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+            text-decoration: underline;
+        }
+
+
+        .separator {
+            margin: 20px;
+            color: #777;
+        }
+
+        .merde {
+            color: #ff0000;
+        }
         
