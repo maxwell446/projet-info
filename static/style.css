@@ -345,4 +345,40 @@ a{
         .merde {
             color: #ff0000;
         }
+        .flashes {
+            list-style: none; 
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+        }
         
+        .flashes li {
+            margin-bottom: 5px;
+        }
+        
+
+        .flashes .success {
+            background-color: #d4edda; 
+            color: #155724; 
+            border: 1px solid #c3e6cb;
+        }
+        
+        .flashes .error {
+            background-color: #f8d7da; 
+            color: #721c24; 
+            border: 1px solid #f5c6cb;
+        }
+        
+        .flashes .warning {
+            background-color: #fff3cd; 
+            color: #856404; 
+            border: 1px solid #ffeeba;
+        }
+        
+        .flashes .info {
+            background-color: #d1ecf1; 
+            color: #0c5460; 
+            border: 1px solid #bee5eb;
+        }

@@ -8,6 +8,15 @@
 
 <body>
     <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class="flashes">
+            {% for category, message in messages %}
+              <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
         <form method="POST" action="/inscription.joueur">
             <a href="/" class="title">
                 *Nom du tournoi*
@@ -48,8 +57,8 @@
                     <input type="text" id="nom_player5" placeholder="Entrez le nom du joueur 5"/>
                 </div>
             </div>
-            <button class="valider-btn", type="submit">Valider</button>
-            <button class="modifier-btn", type="submit">Modifier</button>
+            <button class="valider-btn" type="submit">Valider</button>
+            <button class="modifier-btn" type="submit">Modifier</button>
         
         </form>
         

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash, redirect, url_for
 from python_2eme.inscription import inscription_login_orga, inscription_login_capitaine, inscription_login_arbitre, inscription_capitaine, nb_id_bdd_orga
 from python_2eme.connexion import connexion_orga, connexion_arbitre, connexion_capitaine
 
@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def page_html():
-    return render_template("page_principale.html")
+    return render_template('page_principale.html')
 
 @app.route('/page_login_arbitre')
 def page_login_arbitre():
@@ -104,16 +104,83 @@ def connexion_capitaine2():
     erreur="Login ou passwd incorrect"
     return render_template('page_login_capitaine.html',param = erreur)
 
-
-if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False)
-
-
+@app.route('/')
+def afficher_formulaire_inscription():
+    return render_template('page_principale.html') 
+"""""
 @app.route('/inscription.joueur', methods=['POST'])
 def inscription_joueur():
     if request.method == 'POST':
-        nom_capitaine = request.form['nom_capitaine']
-        prenom_capitaine = request.form['prenom_capitaine']
-        nom_equipe = request.form['nom_equipe']
+        nom_capitaine = request.form.get('nom_capitaine')
+        prenom_capitaine = request.form.get('prenom_capitaine')
+        nom_equipe = request.form.get('nom_equipe')
         inscription_capitaine(nom_capitaine,prenom_capitaine,nom_equipe)
-    return render_template('page_principale.html')
+        
+    id_equipe = inscription_capitaine(nom_capitaine, prenom_capitaine, nom_equipe)
+        
+    if id_equipe is not None:
+        for i in range(1, 6):
+            prenom_joueur = request.form.get(f'prenom_player{i}')
+            nom_joueur = request.form.get(f'nom_player{i}')
+            if prenom_joueur and nom_joueur: 
+                success_joueur = inscription_joueur(nom_joueur, prenom_joueur, id_equipe)
+                if not success_joueur:
+                    flash(f"Erreur lors de l'inscription du joueur '{prenom_joueur} {nom_joueur}'.", 'warning')
+                elif prenom_joueur or nom_joueur: 
+                    flash(f"Veuillez fournir le nom ET le prénom pour le joueur {i} afin de l'inscrire.", 'info')
+
+         
+            return redirect(url_for('afficher_formulaire_inscription'))
+        else:
+            flash("Échec de l'inscription de l'équipe et du capitaine. Le nom d'équipe existe peut-être déjà ou une erreur est survenue.", 'error')
+            return render_template('page_principale.html')
+    return redirect(url_for('afficher_formulaire_inscription'))
+
+"""""
+@app.route('/inscription.joueur', methods=['POST'])
+def gerer_inscription_equipe_joueurs(): 
+    if request.method == 'POST':
+        # Récupération des données du capitaine et de l'équipe
+        nom_capitaine = request.form.get('nom_capitaine')
+        prenom_capitaine = request.form.get('prenom_capitaine')
+        nom_equipe = request.form.get('nom_equipe')
+
+        # 1. Inscription du capitaine et de l'équipe dans la base de données
+        # APPEL UNIQUE et CAPTURE du résultat
+        id_equipe = inscription_capitaine(nom_capitaine, prenom_capitaine, nom_equipe)
+        
+        # Vérification si l'inscription du capitaine et de l'équipe a réussi
+        if id_equipe is not None:
+            flash(f"L'équipe '{nom_equipe}' et le capitaine '{prenom_capitaine} {nom_capitaine}' ont été inscrits avec succès !", 'success')
+
+            # 2. Inscription des autres joueurs de l'équipe (s'ils sont renseignés)
+            # Boucle pour récupérer et inscrire les 5 autres joueurs
+            for i in range(1, 6): # Pour les joueurs 1 à 5
+                prenom_joueur = request.form.get(f'prenom_player{i}')
+                nom_joueur = request.form.get(f'nom_player{i}')
+
+                # Inscrit le joueur seulement si le prénom ET le nom sont fournis
+                if prenom_joueur and nom_joueur:
+                    success_joueur = inscription_joueur(nom_joueur, prenom_joueur, id_equipe)
+                    if not success_joueur:
+                        flash(f"Erreur lors de l'inscription du joueur '{prenom_joueur} {nom_joueur}'.", 'warning')
+                # Condition pour le cas où un seul champ est rempli pour un joueur donné (optionnel)
+                elif prenom_joueur or nom_joueur: 
+                    flash(f"Veuillez fournir le nom ET le prénom pour le joueur {i} afin de l'inscrire.", 'info')
+            
+            # --- Le REDIRECT se fait ICI, APRÈS la boucle et tout le traitement ---
+            return redirect(url_for('afficher_formulaire_inscription'))
+            # ---------------------------------------------------------------------
+
+        else:
+            # Si l'inscription du capitaine/équipe a échoué (par exemple, nom d'équipe déjà pris)
+            flash("Échec de l'inscription de l'équipe et du capitaine. Le nom d'équipe existe peut-être déjà ou une erreur interne est survenue.", 'error')
+            # On re-rend la page avec le formulaire pour que l'utilisateur puisse voir le message d'erreur
+            return render_template('page_principale.html')
+            
+    # Ce return est un repli au cas où la requête ne serait pas POST (ce qui ne devrait pas arriver ici)
+    return redirect(url_for('afficher_formulaire_inscription'))
+
+
+if __name__ == '__main__':
+    app.run(debug=True, use_reloader=False)
