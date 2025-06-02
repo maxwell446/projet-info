@@ -4,105 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion / Inscription</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #f4f4f4;
-            margin: 0;
-        }
-
-        .container {
-            background-color: #e0e0e0;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        h2 {
-            margin-top: 0;
-            color: #333;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .icon-input {
-            display: flex;
-            align-items: center;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 8px;
-        }
-
-        .icon {
-            margin-right: 8px;
-            color: #555;
-        }
-
-        input[type="text"],
-        input[type="password"] {
-            border: none;
-            padding: 8px;
-            flex-grow: 1;
-            outline: none;
-        }
-
-        button {
-            background-color: #5cb85c;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #4cae4c;
-            text-decoration: underline;
-        }
-
-        .separator {
-            margin: 20px 0;
-            color: #777;
-        }
-
-        .merde {
-            color: #ff0000;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
 </head>
-<div class="container">
-    <h2>Inscription</h2>
-    <form method="POST" action = "/inscription.arbitre">
-        <div class="form-group">
-            <div class="icon-input">
-                <span class="icon">&#128100;</span>
-                <label for="identifiant">identifiant :</label>
-                <input type="text" id="identifiant" name="identifiant" required><br>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="icon-input">
-                <span class="icon">&#128272;</span>
-                <label for="mdp">mot de passe :</label>
-                <input type="text" id="mdp" name="mdp" required><br>
-            </div>
-        </div>
 
-        <div class="merde">
-            {{para}}
-        </div>
+<body><div class="container">
+    <a href="/" class="title" style="display: block; text-decoration: none;">
+        *Nom du tournoi*
+    </a>
+    <div class="container3">
+        <h1>Inscription</h1>
+        <form method="POST" action = "/inscription.arbitre">
+            <div class="form-group">
+                <div class="icon-input">
+                    <span class="icon">&#128100;</span>
+                    <label for="identifiant">identifiant :</label>
+                    <input type="text" id="identifiant" name="identifiant" required><br>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="icon-input">
+                    <span class="icon">&#128272;</span>
+                    <label for="mdp">mot de passe :</label>
+                    <input type="text" id="mdp" name="mdp" required><br>
+                </div>
+            </div>
 
-        <button type="submit">S'inscrire</button>
-    </form>
+            <div class="merde">
+                {{para}}
+            </div>
+
+            <button type="submit">S'inscrire</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

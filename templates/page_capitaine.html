@@ -2,140 +2,14 @@
 <html lang="fr">
 <head>
     <title>Page Capitaines</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            height: 100%;
-            background-color: #eee6e3;
-        }
-
-        .titre {
-            background-color: #040417;
-            color: #ffffff;
-            padding: 20px;
-            border-radius: 20px;
-            margin-bottom: 40px;
-            font-size: 2.5em;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .container {
-            background-color: #f2eded;
-            width: 100%;
-            min-height: 96vh;
-            border-radius: 70px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        
-        .captain {
-            display: flex;
-            margin-top: 5%;
-            margin-bottom: 4%;
-            margin-left: 3%;
-        }
-
-        .captain label {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .players {
-            display: flex;
-            justify-content: flex-start;
-            margin-left: 3%;
-        }
-
-        .colonne {
-            flex: 0 0 25%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .colonne label {
-            font-weight: bold;
-            font-size: 1.4em;
-            margin-bottom: 4%;
-        }
-
-        .colonne input[type="text"] {
-            width: 85%;           
-            padding: 1.2%;
-            margin-bottom: 2%;    
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1.2em;
-        }
-        
-        .equipe {
-            margin-left: 20%;
-            display: flex;            /* active Flexbox */
-            flex-direction: column; 
-        }
-
-        .equipe input {
-            position: relative;
-            top: 1%;
-        }
-
-        .button-container {
-        display: flex;
-        justify-content: flex-end;
-        padding: 20px;
-        }
-
-        .modifier-btn {
-            font-family: 'Times New Roman', Times, serif, Helvetica, sans-serif;
-            padding: 10px 20px;
-            background: #ff0000;
-            color: #ffffff;
-            border: none;
-            border-radius: 4px;
-            font-size: 1.6em;
-            cursor: pointer;
-            position: absolute;
-            right: 35%;
-            bottom: 20%;
-            transform: translate(50%, 50%);
-        }
-
-        .modifier-btn:hover {
-            background-color: #d60000;
-            text-decoration: underline;
-        }
-
-
-        .valider-btn {
-            font-family: 'Times New Roman', Times, serif, Helvetica, sans-serif;
-            padding: 10px 30px;
-            background-color: #09a109;
-            color: #ffffff;
-            border: none;
-            border-radius: 4px;
-            font-size: 1.6em;
-            cursor: pointer;
-            position: absolute;
-            right: 35%;
-            bottom: 10%;
-            transform: translate(50%, 50%);
-        }
-
-        .valider-btn:hover {
-            background-color: #108110;
-            text-decoration: underline;
-        }
-
-        
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
     <meta charset="UTF-8">
 </head>
+
 <body>
     <div class="container">
         <form method="POST" action="/inscription.joueur">
-            <a href="/page_principale" class="titre" style="display: block; text-decoration: none;">
+            <a href="/" class="title">
                 *Nom du tournoi*
             </a>
 
