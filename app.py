@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
-from python_2eme.inscription import inscription_login_orga, inscription_login_capitaine, inscription_login_arbitre, inscription_capitaine, nb_id_bdd_orga, inscription_joueur
+from python_2eme.inscription import get_equipe_details, get_joueurs_by_equipe_id, inscription_login_orga, inscription_login_capitaine, inscription_login_arbitre, inscription_capitaine, nb_id_bdd_orga, inscription_joueur
 from python_2eme.connexion import connexion_orga, connexion_arbitre, connexion_capitaine
 
 app = Flask(__name__)
@@ -101,6 +101,7 @@ def connexion_capitaine2():
     erreur="Login ou passwd incorrect"
     return render_template('page_login_capitaine.html',param = erreur)
 
+#jia bien modifie et simplifier car le cas ou les champs ne sont pas rempli vont etre gere en html pour plus de simplicite cote utilisateur!
 
 @app.route('/form_inscription_equipe', methods=['POST'])
 def gerer_inscription_equipe_joueurs():
@@ -119,12 +120,22 @@ def gerer_inscription_equipe_joueurs():
                 success_joueur = inscription_joueur(nom_joueur, prenom_joueur, id_equipe)
                 if not success_joueur:
                     flash(f"Erreur lors de l'inscription du joueur '{prenom_joueur} {nom_joueur}'.", 'warning')
-            return redirect(url_for('inscription_equipe_form'))
+            return redirect(url_for('afficher_equipe', id_equipe=id_equipe))
         else:
             flash("Échec de l'inscription de l'équipe et du capitaine. Le nom d'équipe existe peut-être déjà ou une erreur interne est survenue.", 'error')
             return render_template('page_capitaine.html') 
-
     return redirect(url_for('page_html'))
+
+
+@app.route('/afficher_equipe/<int:id_equipe>')
+def afficher_equipe(id_equipe):
+    equipe_details = get_equipe_details(id_equipe)
+    joueurs = get_joueurs_by_equipe_id(id_equipe)
+    if equipe_details:
+        return render_template('afficher_equipe.html', equipe=equipe_details, joueurs=joueurs)
+    else:
+        flash("Équipe non trouvée.", 'error')
+        return redirect(url_for('inscription_equipe_form')) # Redirige si l'équipe n'est pas trouvée
 
 
 @app.route('/page_spectateur')

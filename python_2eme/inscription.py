@@ -5,7 +5,8 @@ import sys
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.dirname(SCRIPT_DIR)  # Obtient le dossier parent
 DATABASE_NAME = os.path.join(PARENT_DIR, 'tournois_de_sport.sqlite')
-
+#modification des lignes audessus pour quil se connecte la bonne bdd et quil la trouve sans la recreer a chaque fois 
+#la bonne bdd est:tournois_de_sport avec les _ on e ne met pas espaces!!!!!! grand fou va!!!!!
 def get_db_connection():
         conn = sqlite3.connect(DATABASE_NAME)
         conn.row_factory = sqlite3.Row
@@ -105,3 +106,41 @@ def inscription_joueur(nom_joueur, prenom_joueur, id_equipe):
     finally:
         if conn:
             conn.close()
+
+## rajout de ces deux def pour recuprer les infos dans la bdd pour les afficher dans la page de confirmation. 
+def get_equipe_details(id_equipe):
+    conn = None
+    equipe_details = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT Equipe.idEquipe, Equipe.nom AS nom_equipe, Capitaine.nom AS nom_capitaine, Capitaine.prenom AS prenom_capitaine
+            FROM Equipe
+            JOIN Capitaine ON Equipe.idEquipe = Capitaine.idCapitaine
+            WHERE Equipe.idEquipe = ?
+        """, (id_equipe,))
+        equipe_details = cursor.fetchone()
+    except Exception as e:
+        print(f"Erreur lors de la récupération des détails de l'équipe: {e}")
+    finally:
+        if conn:
+            conn.close()
+    return equipe_details
+
+def get_joueurs_by_equipe_id(id_equipe):
+    conn = None
+    joueurs = []
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT nom, prenom FROM Joueur WHERE idEquipe = ?
+        """, (id_equipe,))
+        joueurs = cursor.fetchall() 
+    except Exception as e:
+        print(f"Erreur lors de la récupération des joueurs: {e}")
+    finally:
+        if conn:
+            conn.close()
+    return joueurs
