@@ -182,3 +182,15 @@ def get_all_teams_in_competition(id_competition):
     finally:
         if conn:
             conn.close()
+
+def miseajour_statuts_compet(id_competition, new_status): 
+    conn = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("UPDATE Competition SET etat_competition = ? WHERE idCompetition = ?", (new_status, id_competition))
+        conn.commit()
+        return True, "Statut de la compétition mis à jour avec succès."
+    finally:
+        if conn:
+            conn.close()

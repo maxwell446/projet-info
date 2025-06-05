@@ -1,26 +1,49 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Tournois</title>
+    <title>Page Organisateur</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    <meta charset="UTF-8">
 </head>
-
 <body>
-
     <div class="container">
-        <h1>Gestionnaire de Tournois</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class="flashes">
+            {% for category, message in messages %}
+              <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+        <a href="/" class="title">
+            *Nom du tournoi*
+        </a>
+        <h1>Panneau Organisateur</h1>
 
-        <div class="button-container">
-            <a href="/creer_tournoi_orga" >
-                <button2 class="action-button">Créer un Tournoi </button2>
-            </a>
-            <a href="/page_spectateur" >
-                <button2 class="action-button">Accéder aux Tournois</button2>
-            </a>
+        <p class="current-status">Statut actuel de la compétition :
+            {% if current_status == 0 %}
+                Inscriptions Ouvertes (Phase 0)
+            {% elif current_status == 1 %}
+                Phase de Poules (Phase 1)
+            {% elif current_status == 2 %}
+                Phase de Tableaux (Phase 2)
+            {% else %}
+                Inconnu
+            {% endif %}
+        </p>
+
+        <div class="status-buttons">
+            <form action="{{ url_for('update_status', status=0) }}" method="post">
+                <button type="submit" class="phase-0">Passer en Phase 0 (Inscriptions)</button>
+            </form>
+            <form action="{{ url_for('update_status', status=1) }}" method="post">
+                <button type="submit" class="phase-1">Passer en Phase 1 (Poules)</button>
+            </form>
+            <form action="{{ url_for('update_status', status=2) }}" method="post">
+                <button type="submit" class="phase-2">Passer en Phase 2 (Tableaux)</button>
+            </form>
         </div>
     </div>
-
 </body>
 </html>

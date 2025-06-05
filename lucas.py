@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 import os
 
-from python_lucas.inscription import get_equipe_details, get_joueurs_by_equipe_id, inscription_login_capitaine, inscription_capitaine_and_equipe, inscription_joueur, get_capitaine_equipe_by_login_id, get_all_teams_in_competition , get_competition_details
+from python_lucas.inscription import get_equipe_details, get_joueurs_by_equipe_id, inscription_login_capitaine, inscription_capitaine_and_equipe, inscription_joueur, get_capitaine_equipe_by_login_id, get_all_teams_in_competition , get_competition_details, miseajour_statuts_compet
 from python_lucas.connexion import connexion_capitaine
 
 app = Flask(__name__)
@@ -165,6 +165,21 @@ def page_spectateur():
 
     return render_template('page_spectateur.html', competition=competition_info, equipes=equipes, message_spectateur=message_spectateur)
 
+################################cote organisateur##########################
+@app.route('/page_orga')
+def page_orga():
+    competition_info = get_competition_details(CURRENT_COMPETITION_ID)
+    current_status = competition_info['etat_competition'] if competition_info else -1 
+    return render_template('page_orga.html', current_status=current_status)
+
+@app.route('/update_competition_status/<int:status>', methods=['POST'])
+def update_status(status):
+    success, message = miseajour_statuts_compet(CURRENT_COMPETITION_ID, status)
+    if success:
+        flash(f"Statut de la compétition mis à jour à {status} : {message}", 'success')
+    else:
+        flash(f"Erreur lors de la mise à jour du statut : {message}", 'error')
+    return redirect(url_for('page_orga'))
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)

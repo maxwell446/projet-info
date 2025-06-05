@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
     <meta charset="UTF-8">
 </head>
-
 <body>
     <div class="container">
         <a href="/" class="title">
@@ -31,10 +30,6 @@
         {% elif competition and competition.etat_competition == 2 %}
             <p>Détails des tableaux à venir...</p>
         {% endif %}
-
-        <div class="actions">
-            <a href="{{ url_for('page_html') }}" class="button">Retour à la page principale</a>
-        </div>
     </div>
 </body>
 </html>
