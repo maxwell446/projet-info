@@ -4,10 +4,13 @@
     <title>Détails de l'équipe</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
     <meta charset="UTF-8">
-    <!-- nouvlle page pour faficher les infos dune equipe que je pense vous pourez reutilisez par exemple du cote spectateur pour afficher les stats leur prochains matchs etc-->
+    <!-- nouvlle page pour aficher les infos d'une equipe que je pense vous pourez reutilisez par exemple du cote spectateur pour afficher les stats leur prochains matchs etc-->
 </head>
 <body>
     <div class="container">
+        <a href="/" class="title">
+            *Nom du tournoi*
+        </a>
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             <ul class="flashes">
@@ -18,26 +21,23 @@
           {% endif %}
         {% endwith %}
 
-        <a href="/" class="title">
-            *Nom du tournoi*
-        </a>
         {% if session.login_id %} 
             <a href="/logout" class="logout-button">Déconnexion</a>
         {% endif %} 
-        <h1>Détails de l'équipe</h1>
+        <h2>Détails de l'équipe</h2>
 
         {% if equipe %}
             <div class="team-details">
-                <h2>Nom de l'équipe : {{ equipe.nom_equipe }}</h2>
+                <h2>Nom de l'équipe : </h2><h1>{{ equipe.nom_equipe }}</h1>
                 <h3>Capitaine : {{ equipe.prenom_capitaine }} {{ equipe.nom_capitaine }}</h3>
 
-                <h3>Joueurs :</h3>
+                <h3>Joueurs :
                 {% if joueurs %}
                     <ul>
                     {% for joueur in joueurs %}
                         <li>{{ joueur.prenom }} {{ joueur.nom }}</li>
                     {% endfor %}
-                    </ul>
+                    </ul></h3>
                 {% else %}
                     <p>Aucun joueur supplémentaire n'a été inscrit pour cette équipe.</p>
                 {% endif %}

@@ -8,6 +8,10 @@
 
 <body>
     <div class="container">
+        <form method="POST" action="/form_inscription_equipe">
+            <a href="/" class="title">
+                *Nom du tournoi*
+            </a>
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             <ul class="flashes">
@@ -17,11 +21,6 @@
             </ul>
           {% endif %}
         {% endwith %}
-        <form method="POST" action="/form_inscription_equipe">
-            <a href="/" class="title">
-                *Nom du tournoi*
-            </a>
-            <!-- Fjia rajoute le mot required pour obliger  a remplir le champs avant d'envoyer -->
             <div class="captain">
                 <div class="colonne">
                     <label for="prenom_capitaine">Prénom du Capitaine :</label>
@@ -38,7 +37,6 @@
                     </div>
                 </div>
             </div>
-            <!-- jia rajoute un champs name pour pouvoir le recupere dans ta route flsk beaucoup plus simplement-->
             <div class="players">
                 <div class="colonne">
                     <label for="prenom_player">Prénom des joueurs :</label>
