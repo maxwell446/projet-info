@@ -21,6 +21,15 @@ a{
             font-weight: bold;
             text-align: center;
         }
+        .title {
+            background-color: #040417;
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
 
         .container {
             background-color: #f2eded;
@@ -77,10 +86,12 @@ a{
         }
         
         h3 {
-            position: relative;
-            left: 10%;
             color: #333;
             font-size: 140%;
+            text-align: left;
+            margin-left: 5%;
+            margin-bottom: 10px;
+            margin-top: 30px;
         }
 
         .button-container {
@@ -411,16 +422,6 @@ a{
             position: relative;
         }
 
-        .title {
-            background-color: #040417;
-            color: #ffffff;
-            padding: 20px;
-            border-radius: 20px;
-            margin-bottom: 40px;
-            font-size: 2.5em;
-            font-weight: bold;
-        }
-
         .roles-container {
             display: flex;
             justify-content: center;
@@ -509,4 +510,14 @@ a{
             position: absolute;
             left: 80%;
             top: 70%;
+        }
+
+        ul {
+            margin-bottom: 15px; /* espace sous la liste */
+        }
+        li {
+            position: relative;
+            font-size: 120%;
+            text-align: left;
+            margin-left: 15%;
         }
