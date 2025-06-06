@@ -87,7 +87,7 @@ a{
         
         h3 {
             color: #333;
-            font-size: 140%;
+            font-size: 150%;
             text-align: left;
             margin-left: 5%;
             margin-bottom: 10px;
@@ -513,11 +513,18 @@ a{
         }
 
         ul {
-            margin-bottom: 15px; /* espace sous la liste */
+            margin-bottom: 15px;
         }
+        
         li {
             position: relative;
-            font-size: 120%;
+            font-size: 130%;
             text-align: left;
             margin-left: 15%;
+        }
+        
+        li2 {
+            position: relative;
+            font-size: 130%;
+            text-align: center;
         }
