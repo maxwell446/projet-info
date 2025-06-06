@@ -3,125 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+
     <title>*Nom du Tournoi*</title>
-    <style>
-        a {
-            display: block;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        body {
-            font-family: 'Times New Roman', Times, serif, Helvetica, sans-serif;
-            background-color: #091639;
-            display: flex;
-            justify-content: center;
-        }
-
-        .container {
-            background-color: #f2eded;
-            height: 98vh; 
-            width: 97vw;  
-            padding: 0vw;
-            border-radius: 120px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            position: relative;
-        }
-
-        .title {
-            background-color: #040417;
-            color: #ffffff;
-            padding: 20px;
-            border-radius: 20px;
-            margin-bottom: 40px;
-            font-size: 2.5em;
-            font-weight: bold;
-        }
-
-        .roles-container {
-            display: flex;
-            justify-content: center;
-            position: relative;
-            height: 42%;
-        }
-
-        .role-card {
-            border-radius: 10%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: #161048;
-            font-weight: bold;
-            text-align: center;
-            position: absolute;
-        }
-
-        .capitaine {
-            background-color: #e4dada;
-            border: 3px solid #082847;
-            left: 2%;
-            width: 27%;
-            height: 70%;
-            margin-top: 8%;
-        }
-
-        .arbitre {
-            background-color: #e4dada;
-            border: 3px solid #082847;
-            right: 2%;
-            width: 27%;
-            height: 70%;
-            margin-top: 8%;
-        }
-
-        .joueur-spectateur {
-            background-color: #e4dada;
-            border: 5px solid #0e1c4d;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 33%;
-            height: 128%;
-            margin-top: 10px;
-
-        }
-
-        .organisateur {
-            background-color: #d2e4e6;
-            width: 70%;
-            height: 10%;
-            border: 2px solid #082847;
-            position: absolute;
-            bottom: 05%;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 10px;
-        }
-
-        .role-icon {
-            font-size: 2em;
-            margin-bottom: 8px;
-        }
-
-        .icon-c {
-            font-size: 2.5em;
-        }
-        .icon-whistle {
-            font-size: 2.5em;
-        }
-        .icon-people {
-            font-size: 2.5em;
-        }
-        .icon-organizer {
-            font-size: 1.5vw;
-        }
-        
-    </style>
 </head>
 <body>
     <div class="container">
         <div class="title">*Nom du tournoi*</div>
+        <h1>{{status}} </h1>
         <div class="roles-container">
             <a href="/page_login_capitaine">
                 <div class="role-card capitaine">
@@ -149,7 +38,7 @@
                 </div>
             </a>
             </div>
-            <a href="/page_login_orga">
+            <a href="/page_orga">
                 <div class="role-card organisateur">
                     <div class="role-icon">
                         &#128100;

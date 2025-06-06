@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -6,13 +5,31 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
     <meta charset="UTF-8">
 </head>
-
 <body>
     <div class="container">
-        <form method="POST" action="/inscription.joueur">
-            <a href="/" class="title" >
-                *Nom du tournoi*
-            </a>
+        <a href="/" class="title">
+            *Nom du tournoi*
+        </a>
+        <h1>Page Spectateur</h1>
+
+        <p>{{ message_spectateur }}</p>
+
+        {% if competition and competition.etat_competition == 0 %}
+            {% if equipes %}
+                <h2>Équipes inscrites :</h2>
+                <ul>
+                {% for equipe in equipes %}
+                    <li><a href="{{ url_for('afficher_equipe', id_equipe=equipe.idEquipe) }}">{{ equipe.nom_equipe }}</a></li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>Aucune équipe n'est encore inscrite pour cette compétition.</p>
+            {% endif %}
+        {% elif competition and competition.etat_competition == 1 %}
+            <p>Détails des poules à venir...</p>
+        {% elif competition and competition.etat_competition == 2 %}
+            <p>Détails des tableaux à venir...</p>
+        {% endif %}
     </div>
 </body>
 </html>

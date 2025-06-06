@@ -17,52 +17,49 @@
             </ul>
           {% endif %}
         {% endwith %}
-        <form method="POST" action="/inscription.joueur">
+        <form method="POST" action="/form_inscription_equipe">
             <a href="/" class="title">
                 *Nom du tournoi*
             </a>
-
-            
+            <!-- Fjia rajoute le mot required pour obliger  a remplir le champs avant d'envoyer -->
             <div class="captain">
                 <div class="colonne">
                     <label for="prenom_capitaine">Prénom du Capitaine :</label>
-                    <input type="text" id="prenom_capitaine" placeholder="Entrez le prénom du capitaine" />
+                    <input type="text" id="prenom_capitaine" name="prenom_capitaine" placeholder="Entrez le prénom du capitaine" required/>
                 </div>
                 <div class="colonne">
                     <label for="nom_capitaine">Nom du Capitaine :</label>
-                    <input type="text" id="nom_capitaine" placeholder="Entrez le nom du capitaine" />
+                    <input type="text" id="nom_capitaine" name="nom_capitaine" placeholder="Entrez le nom du capitaine" required />
                 </div>
                 <div class="colonne">
                     <div class="equipe">
                         <label for="nom_equipe">Nom de l'équipe :</label>
-                        <input type="text" id="nom_equipe" placeholder="Entrez le nom de l'équipe" />
+                        <input type="text" id="nom_equipe" name="nom_equipe" placeholder="Entrez le nom de l'équipe" required />
                     </div>
                 </div>
             </div>
+            <!-- jia rajoute un champs name pour pouvoir le recupere dans ta route flsk beaucoup plus simplement-->
             <div class="players">
                 <div class="colonne">
                     <label for="prenom_player">Prénom des joueurs :</label>
-                    <input type="text" id="prenom_player1" placeholder="Entrez le prénom du joueur 1"/>
-                    <input type="text" id="prenom_player2" placeholder="Entrez le prénom du joueur 2"/>
-                    <input type="text" id="prenom_player3" placeholder="Entrez le prénom du joueur 3"/>
-                    <input type="text" id="prenom_player4" placeholder="Entrez le prénom du joueur 4"/>
-                    <input type="text" id="prenom_player5" placeholder="Entrez le prénom du joueur 5"/>
+                    <input type="text" id="prenom_player1" name="prenom_player1" placeholder="Entrez le prénom du joueur 1" required/>
+                    <input type="text" id="prenom_player2" name="prenom_player2" placeholder="Entrez le prénom du joueur 2" required/>
+                    <input type="text" id="prenom_player3" name="prenom_player3" placeholder="Entrez le prénom du joueur 3" required  />
+                    <input type="text" id="prenom_player4" name="prenom_player4" placeholder="Entrez le prénom du joueur 4" required/>
+                    <input type="text" id="prenom_player5" name="prenom_player5" placeholder="Entrez le prénom du joueur 5" required/>
                 </div>
                 <div class="colonne">
                     <label for="nom_player">Nom des joueurs :</label>
-                    <input type="text" id="nom_player1" placeholder="Entrez le nom du joueur 1"/>
-                    <input type="text" id="nom_player2" placeholder="Entrez le nom du joueur 2"/>
-                    <input type="text" id="nom_player3" placeholder="Entrez le nom du joueur 3"/>
-                    <input type="text" id="nom_player4" placeholder="Entrez le nom du joueur 4"/>
-                    <input type="text" id="nom_player5" placeholder="Entrez le nom du joueur 5"/>
+                    <input type="text" id="nom_player1" name="nom_player1" placeholder="Entrez le nom du joueur 1" required/>
+                    <input type="text" id="nom_player2" name="nom_player2" placeholder="Entrez le nom du joueur 2" required/>
+                    <input type="text" id="nom_player3" name="nom_player3" placeholder="Entrez le nom du joueur 3" required/>
+                    <input type="text" id="nom_player4" name="nom_player4" placeholder="Entrez le nom du joueur 4" required/>
+                    <input type="text" id="nom_player5" name="nom_player5" placeholder="Entrez le nom du joueur 5" required/>
                 </div>
             </div>
             <button class="valider-btn" type="submit">Valider</button>
-            <button class="modifier-btn" type="submit">Modifier</button>
-        
+            <!-- <button class="modifier-btn" type="submit">Modifier</button> car tu peux pas avoir 2 bouton submit et puis tu gere pas ce cas dans ta route ca sera a faire mais je pense avec une autre page  -->
         </form>
-        
         </div>
-    </div>
 </body>
 </html>
