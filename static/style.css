@@ -124,6 +124,9 @@ a{
 
         button2 {
             color : rgb(0, 0, 0);
+            border :none;
+            cursor: pointer;
+            font-size: 13px;
         }
 
          .captain {
@@ -348,18 +351,12 @@ a{
             padding: 10px 20px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 14px;
             transition: background-color 0.3s ease;
             margin-top: 3%;
-            padding: 1.0%;
+            padding: 2.5%;
         }
 
-        button2 {
-            color : rgb(0, 0, 0);
-            border :none;
-            cursor: pointer;
-            font-size: 13px;
-        }
 
         button:hover {
             background-color: #4cae4c;
