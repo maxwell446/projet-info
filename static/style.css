@@ -375,8 +375,10 @@ a{
         .merde {
             color: #ff0000;
         }
+
         .flashes {
             list-style: none; 
+            width: 100vw;
             padding: 15px;
             margin-bottom: 20px;
             border-radius: 5px;
