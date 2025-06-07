@@ -21,6 +21,7 @@ a{
             font-weight: bold;
             text-align: center;
         }
+
         .title {
             background-color: #040417;
             color: #ffffff;
@@ -100,6 +101,12 @@ a{
             margin-top: 30px;
         }
 
+        .button-container {
+        display: flex;
+        justify-content: flex-end;
+        padding: 20px;
+        }
+
         .action-button {
             background-color: #4CAF50;
             color: white;
@@ -167,12 +174,6 @@ a{
         .equipe input {
             position: relative;
             top: 1%;
-        }
-
-        .button-container {
-        display: flex;
-        justify-content: flex-end;
-        padding: 20px;
         }
 
         .modifier-btn {
@@ -341,14 +342,16 @@ a{
         }
 
         button {
-            background-color: #5cb85c;
+            background-color: #082656;
             color: white;
             border: none;
             padding: 10px 20px;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px;
             transition: background-color 0.3s ease;
+            margin-top: 3%;
+            padding: 1.0%;
         }
 
         button2 {
@@ -523,8 +526,3 @@ a{
             margin-left: 15%;
         }
         
-        li2 {
-            position: relative;
-            font-size: 130%;
-            text-align: center;
-        }
