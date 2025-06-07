@@ -214,3 +214,16 @@ def create_competition(nom_competition, joueur_max):
             conn.close()
 
 create_competition("les choupis", 10)
+
+def get_all_competition():
+    conn = None
+    competition = []
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT idCompetition, nom_competition FROM Competition")
+        competition = cursor.fetchall()
+        return competition
+    finally:
+        if conn:
+            conn.close()

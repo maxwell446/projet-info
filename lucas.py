@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 import os
 
-from python_lucas.inscription import get_equipe_details, get_joueurs_by_equipe_id, inscription_login_capitaine, inscription_capitaine_and_equipe, inscription_joueur, get_capitaine_equipe_by_login_id, get_all_teams_in_competition , get_competition_details, miseajour_statuts_compet
+from python_lucas.inscription import get_all_competition,get_equipe_details, get_joueurs_by_equipe_id, inscription_login_capitaine, inscription_capitaine_and_equipe, inscription_joueur, get_capitaine_equipe_by_login_id, get_all_teams_in_competition , get_competition_details, miseajour_statuts_compet
 from python_lucas.connexion import connexion_capitaine
 
 app = Flask(__name__)
@@ -10,6 +10,12 @@ app.secret_key = 'super_secret_key'
 CURRENT_COMPETITION_ID = 1
 
 @app.route("/")
+def premiere_page():
+    competition = get_all_competition()
+    return render_template('premiere_page.html', competition=competition)
+
+
+@app.route("/tournois")
 def page_html():
     competition_info = get_competition_details(CURRENT_COMPETITION_ID)
     nombre_equipes_inscrites = len(get_all_teams_in_competition(CURRENT_COMPETITION_ID))
@@ -165,11 +171,6 @@ def page_spectateur():
 
     return render_template('page_spectateur.html', competition=competition_info, equipes=equipes, message_spectateur=message_spectateur)
 
-""""""
-@app.route('/premiere_page')
-def premiere_page():
-    return premiere_page
-""""""
 
 ################################cote organisateur##########################
 @app.route('/page_orga')
