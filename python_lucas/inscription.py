@@ -194,3 +194,23 @@ def miseajour_statuts_compet(id_competition, new_status):
     finally:
         if conn:
             conn.close()
+
+
+
+def create_competition(nom_competition, joueur_max):
+    conn = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO Competition (nom_competition, nombre_max_equipe, etat_competition) VALUES (?, ?, ?)",
+                       (nom_competition, joueur_max, 0))
+        conn.commit()
+        return True
+    except sqlite3.Error as e:
+        print(f"Erreur lors de la création de la compétition: {e}")
+        return None
+    finally:
+        if conn:
+            conn.close()
+
+create_competition("les choupis", 10)

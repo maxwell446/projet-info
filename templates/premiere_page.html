@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Arbitre Site Web</title>
+    <style>
+        
+        .container {
+            background-color: #f2eded;
+            width: 100%;
+            min-height: 96vh;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .title {
+            display: block;
+            background-color: #040417;
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+        }
+
+        .header-bar {
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center; /* Centrer le texte BIENVENUE */
+            align-items: center;
+            padding: 20px 0; /* Plus de padding vertical */
+            position: relative; /* Pour positionner l'icône */
+        }
+
+        .header-bar h1 {
+            margin: 0;
+            font-size: 2.5em; /* Taille plus grande pour BIENVENUE */
+            letter-spacing: 2px; /* Espacement entre les lettres */
+        }
+
+        .icon-placeholder {
+            position: absolute;
+            left: 20px; /* Positionne l'icône à gauche */
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2em; /* Taille de l'icône */
+            /* Pour une vraie icône, vous utiliseriez Font Awesome ou un SVG */
+        }
+        
+        .content-area {
+            padding: 30px; /* Padding pour le contenu blanc en dessous de la barre noire */
+        }
+
+        .organisateur-button-container {
+            text-align: center;
+            margin-top: 40px; /* Espace au-dessus du bouton ORGANISATEUR */
+            margin-bottom: 50px; /* Espace en dessous du bouton ORGANISATEUR */
+        }
+
+        .organisateur-button {
+            background-color: #f0f0f0; /* Couleur grise comme dans l'image */
+            color: #333;
+            border: none;
+            padding: 15px 40px; /* Padding plus généreux */
+            font-size: 1.2em; /* Taille de police plus grande */
+            font-weight: bold;
+            border-radius: 5px; /* Bords légèrement arrondis */
+            cursor: pointer;
+            text-decoration: none; /* Pour si c'est un lien <a> */
+            display: inline-block; /* Pour que le padding et la taille fonctionnent bien */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Petite ombre */
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .organisateur-button:hover {
+            background-color: #e0e0e0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .tournois-disponibles {
+            margin-top: 30px;
+            font-size: 1.3em; /* Taille de police pour "Tournois disponible :" */
+            color: #333;
+            font-weight: bold;
+        }
+
+        .tournament-list {
+            margin-top: 20px;
+            /* Style pour une liste de tournois si vous en ajoutez */
+        }
+
+        .tournament-item {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="title">BIENVENUE</div>
+
+        <div class="content-area">
+            <div class="button-container">
+                <a href=page_login_orga.html class="submit">ORGANISATEUR</a>
+            </div>
+
+            {% if competition %}
+                <h2>tournois crées :</h2>
+                <ul>
+                {% for competition in competition %}
+                    <li><a href="{{ url_for('page_principale', id_competition=competition.idCompetition) }}">{{ competiton.nom_competition }}</a></li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>Aucun tournois n'est encore crée pour le moment.</p>
+            {% endif %}
+
+        </div>
+    </div>
+
+</body>
+</html>
