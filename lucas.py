@@ -165,6 +165,12 @@ def page_spectateur():
 
     return render_template('page_spectateur.html', competition=competition_info, equipes=equipes, message_spectateur=message_spectateur)
 
+""""""
+@app.route('/premiere_page')
+def premiere_page():
+    return premiere_page
+""""""
+
 ################################cote organisateur##########################
 @app.route('/page_orga')
 def page_orga():
