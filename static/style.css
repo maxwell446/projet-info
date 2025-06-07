@@ -22,6 +22,16 @@ a{
             text-align: center;
         }
 
+        .title {
+            background-color: #040417;
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+
         .container {
             background-color: #f2eded;
             width: 100%;
@@ -77,16 +87,24 @@ a{
         }
         
         h3 {
-            position: relative;
-            left: 10%;
             color: #333;
-            font-size: 140%;
+            font-size: 150%;
+            text-align: left;
+            margin-left: 5%;
+            margin-bottom: 10px;
+            margin-top: 30px;
         }
 
         .button-container {
             display: flex;
             justify-content: space-around;
             margin-top: 30px;
+        }
+
+        .button-container {
+        display: flex;
+        justify-content: flex-end;
+        padding: 20px;
         }
 
         .action-button {
@@ -156,12 +174,6 @@ a{
         .equipe input {
             position: relative;
             top: 1%;
-        }
-
-        .button-container {
-        display: flex;
-        justify-content: flex-end;
-        padding: 20px;
         }
 
         .modifier-btn {
@@ -330,14 +342,16 @@ a{
         }
 
         button {
-            background-color: #5cb85c;
+            background-color: #082656;
             color: white;
             border: none;
             padding: 10px 20px;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px;
             transition: background-color 0.3s ease;
+            margin-top: 3%;
+            padding: 1.0%;
         }
 
         button2 {
@@ -361,8 +375,10 @@ a{
         .merde {
             color: #ff0000;
         }
+
         .flashes {
             list-style: none; 
+            width: 100vw;
             padding: 15px;
             margin-bottom: 20px;
             border-radius: 5px;
@@ -409,16 +425,6 @@ a{
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
             position: relative;
-        }
-
-        .title {
-            background-color: #040417;
-            color: #ffffff;
-            padding: 20px;
-            border-radius: 20px;
-            margin-bottom: 40px;
-            font-size: 2.5em;
-            font-weight: bold;
         }
 
         .roles-container {
@@ -510,3 +516,15 @@ a{
             left: 80%;
             top: 70%;
         }
+
+        ul {
+            margin-bottom: 15px;
+        }
+        
+        li {
+            position: relative;
+            font-size: 130%;
+            text-align: left;
+            margin-left: 15%;
+        }
+        

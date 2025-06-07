@@ -17,9 +17,9 @@ def page_html():
     if competition_info:
         if competition_info['etat_competition'] == 0:
             equipes_restantes = competition_info['nombre_max_equipe'] - nombre_equipes_inscrites
-            status_message = f"Il reste {equipes_restantes} places disponibles."
+            status_message = f"Il reste {equipes_restantes} places disponibles. Inscriptions possibles !"
         elif competition_info['etat_competition'] == 1:
-            status_message = "La compétition est lancée et est dans l'état 'Poules'."
+            status_message = "La compétition est lancée."
         elif competition_info['etat_competition'] == 2:
             status_message = "La compétition est lancée et est dans l'état 'Tableaux'."
         else:
@@ -29,7 +29,7 @@ def page_html():
     
     return render_template('page_principale.html', status=status_message)
 
-################################cote capitaine##########################
+################################cote capitaine###################################
 
 @app.route('/page_login_capitaine')
 def page_login_capitaine():
@@ -182,7 +182,7 @@ def page_orga():
 def update_status(status):
     success, message = miseajour_statuts_compet(CURRENT_COMPETITION_ID, status)
     if success:
-        flash(f"Statut de la compétition mis à jour à {status} : {message}", 'success')
+        flash(f"Statut de la compétition : {status}. {message}", 'success')
     else:
         flash(f"Erreur lors de la mise à jour du statut : {message}", 'error')
     return redirect(url_for('page_orga'))

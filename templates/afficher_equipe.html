@@ -24,24 +24,27 @@
         {% if session.login_id %} 
             <a href="/logout" class="logout-button">Déconnexion</a>
         {% endif %} 
-        <h2>Détails de l'équipe</h2>
+        <h1>Détails de l'équipe</h1>
 
         {% if equipe %}
-            <div class="team-details">
-                <h2>Nom de l'équipe : </h2><h1>{{ equipe.nom_equipe }}</h1>
-                <h3>Capitaine : {{ equipe.prenom_capitaine }} {{ equipe.nom_capitaine }}</h3>
+                <h2>Nom de l'équipe : </h2>
+                <h1>{{ equipe.nom_equipe }}</h1>
 
-                <h3>Joueurs :
+                <h3>Capitaine :</h3>
+                <ul>
+                    <li>{{ equipe.prenom_capitaine }} {{ equipe.nom_capitaine }}</li>
+                </ul>
+
+                <h3>Joueurs :</h3>
                 {% if joueurs %}
                     <ul>
                     {% for joueur in joueurs %}
                         <li>{{ joueur.prenom }} {{ joueur.nom }}</li>
                     {% endfor %}
-                    </ul></h3>
+                    </ul>
                 {% else %}
                     <p>Aucun joueur supplémentaire n'a été inscrit pour cette équipe.</p>
                 {% endif %}
-            </div>
         {% else %}
             <p>Impossible de charger les détails de l'équipe. Veuillez vérifier l'ID.</p>
         {% endif %}

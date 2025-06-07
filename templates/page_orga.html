@@ -7,6 +7,9 @@
 </head>
 <body>
     <div class="container">
+        <a href="/" class="title">
+            *Nom du tournoi*
+        </a>
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             <ul class="flashes">
@@ -16,10 +19,7 @@
             </ul>
           {% endif %}
         {% endwith %}
-        <a href="/" class="title">
-            *Nom du tournoi*
-        </a>
-        <h1>Panneau Organisateur</h1>
+        <h1>Espace Organisateur</h1>
 
         <p class="current-status">Statut actuel de la compétition :
             {% if current_status == 0 %}
