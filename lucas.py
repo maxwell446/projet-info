@@ -33,8 +33,7 @@ def page_html(id_competition):
     else:
         status_message = "Aucune compétition n'est active pour le moment."
     
-    return render_template('page_principale.html', status=status_message)
-
+    return render_template('page_principale.html', status=status_message, nom_competition=competition_info[1] if competition_info else "Compétition inconnue")
 ################################cote capitaine###################################
 
 @app.route('/page_login_capitaine')

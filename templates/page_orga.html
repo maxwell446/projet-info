@@ -8,7 +8,7 @@
 <body>
     <div class="container">
         <a href="/" class="title">
-            *Nom du tournoi*
+            {{nom_competition}}
         </a>
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
