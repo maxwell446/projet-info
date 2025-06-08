@@ -125,7 +125,7 @@
                 <h2>tournois crées :</h2>
                 <ul>
                 {% for competition in competition %}
-                    <li><a href="{{ url_for('page_principale', id_competition=competition.idCompetition) }}">{{ competiton.nom_competition }}</a></li>
+                    <li><a href="{{ url_for('page_html', id_competition=competition.idCompetition) }}">{{ competition.nom_competition }}</a></li>
                 {% endfor %}
                 </ul>
             {% else %}

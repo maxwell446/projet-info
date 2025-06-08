@@ -15,10 +15,10 @@ def premiere_page():
     return render_template('premiere_page.html', competition=competition)
 
 
-@app.route("/tournois")
-def page_html():
-    competition_info = get_competition_details(CURRENT_COMPETITION_ID)
-    nombre_equipes_inscrites = len(get_all_teams_in_competition(CURRENT_COMPETITION_ID))
+@app.route("/tournois/<int:id_competition>")
+def page_html(id_competition):
+    competition_info = get_competition_details(id)
+    nombre_equipes_inscrites = len(get_all_teams_in_competition(id_competition))
     status_message = ""
     if competition_info:
         if competition_info['etat_competition'] == 0:
