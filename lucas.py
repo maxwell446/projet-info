@@ -17,7 +17,7 @@ def premiere_page():
 
 @app.route("/tournois/<int:id_competition>")
 def page_html(id_competition):
-    competition_info = get_competition_details(id)
+    competition_info = get_competition_details(id_competition)
     nombre_equipes_inscrites = len(get_all_teams_in_competition(id_competition))
     status_message = ""
     if competition_info:
