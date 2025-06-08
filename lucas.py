@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 import os
+import sqlite3
 
-from python_lucas.inscription import get_all_competition,get_equipe_details, get_joueurs_by_equipe_id, inscription_login_capitaine, inscription_capitaine_and_equipe, inscription_joueur, get_capitaine_equipe_by_login_id, get_all_teams_in_competition , get_competition_details, miseajour_statuts_compet
-from python_lucas.connexion import connexion_capitaine
+from python_lucas.inscription import get_nb_equipe_in_competition, inscription_login_orga, get_all_competition,get_equipe_details, get_joueurs_by_equipe_id, inscription_login_capitaine, inscription_capitaine_and_equipe, inscription_joueur, get_capitaine_equipe_by_login_id, get_all_teams_in_competition , get_competition_details, miseajour_statuts_compet
+from python_lucas.connexion import connexion_capitaine, connexion_arbitre, connexion_orga
 
 app = Flask(__name__)
 app.secret_key = 'super_secret_key' 
@@ -13,6 +14,11 @@ CURRENT_COMPETITION_ID = 1
 def premiere_page():
     competition = get_all_competition()
     return render_template('premiere_page.html', competition=competition)
+
+
+@app.route('/premiere_page')
+def retour_premiere_page ():
+    return premiere_page()
 
 
 @app.route("/tournois/<int:id_competition>")
@@ -34,6 +40,8 @@ def page_html(id_competition):
         status_message = "Aucune compétition n'est active pour le moment."
     
     return render_template('page_principale.html', status=status_message, nom_competition=competition_info[1] if competition_info else "Compétition inconnue")
+
+
 ################################cote capitaine###################################
 
 @app.route('/page_login_capitaine')
@@ -81,6 +89,7 @@ def connexion_capitaine2():
             flash("Identifiant ou mot de passe incorrect.", 'error')
             return render_template('page_login_capitaine.html', param="Identifiant ou mot de passe incorrect")
     return redirect(url_for('page_login_capitaine')) 
+
 #jia bien modifie et simplifier car le cas ou les champs ne sont pas rempli vont etre gere en html pour plus de simplicite cote utilisateur!
 
 @app.route('/form_inscription_equipe', methods=['POST'])
@@ -186,6 +195,90 @@ def update_status(status):
     else:
         flash(f"Erreur lors de la mise à jour du statut : {message}", 'error')
     return redirect(url_for('page_orga'))
+
+@app.route('/page_login_orga')
+def login_orga ():
+    return render_template('page_login_orga.html')
+
+@app.route('/page_incrip_orga')
+def inscrip_orga():
+    return render_template('page_incrip_orga.html')
+
+@app.route('/connexion.orga')
+def connexion_orga2 ():
+    identifiant = request.form.get('id_conn')
+    mdp = request.form.get('mot_dp')
+    if connexion_orga(identifiant, mdp) == True :
+        return render_template('creer_tournois_orga.html')
+    else :
+        erreur = "login ou mot de passe incorrect"
+        return render_template('page_login_orga.html', param=erreur)
+    
+@app.route('/inscription.orga')
+def inscription_orga2():
+    identifiant = request.form.get('identifiant')
+    mdp = request.form.get('mdp')
+    if inscription_login_orga(identifiant, mdp)==True:
+        return render_template('page_login_orga.html')
+    else :
+        erreur = "inscription impossible "
+        return render_template('page_incrip_orga.html', para=erreur)
+    
+def generer_calendrier_competition(id_competition):
+    """
+    Récupère le nombre maximum d'équipes pour une compétition donnée par son ID,
+    puis génère un calendrier de matchs en round-robin pour ce nombre d'équipes.
+    """
+    try:
+        nombre_max_equipe = get_nb_equipe_in_competition(id_competition)
+
+        if nombre_max_equipe is None:
+            print(f"Erreur : Aucune compétition trouvée avec l'ID {id_competition}")
+            return None
+
+        equipes = get_all_teams_in_competition(id_competition)
+
+        n = len(equipes)
+        if n % 2 != 0:
+            equipes.append("BYE") # Ajoutez une équipe fictive pour les nombres impairs
+            n += 1
+
+        calendrier = []
+        
+        for i in range(n - 1): # n-1 journées pour un nombre pair d'équipes
+            journee = []
+            
+            # Match de l'équipe fixe (equipes[0])
+            journee.append([equipes[0], equipes[n - 1 - i]]) 
+
+            # Matchs des autres équipes
+            for j in range(1, n // 2):
+                equipe1_idx = (i + j) % (n - 1)
+                equipe2_idx = (i + n - 1 - j) % (n - 1)
+                
+                e1 = equipes[ (1 + equipe1_idx) ] 
+                e2 = equipes[ (1 + equipe2_idx) ]
+                journee.append([e1, e2])
+            
+            # Correction pour le cas de N=2 (pour eviter des erreurs d'indices)
+            if n == 2:
+                journee = [[equipes[0], equipes[1]]]
+
+            # Filtrer les matchs avec "BYE" si N était initialement impair
+            matchs_valides = []
+            for match in journee:
+                if "BYE" not in match:
+                    matchs_valides.append(match)
+            
+            if matchs_valides: # Ajouter la journée seulement s'il y a des matchs valides
+                calendrier.append(matchs_valides)
+        
+        return calendrier
+
+    except sqlite3.Error as e:
+        print(f"Une erreur SQLite s'est produite : {e}")
+        return None
+
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)

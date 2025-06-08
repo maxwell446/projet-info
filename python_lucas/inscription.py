@@ -28,6 +28,28 @@ def id_existe_pas(identifiant, table_name):
         if conn:
             conn.close()
 
+def nb_id_bdd_orga ():
+    conn = sqlite3.connect(DATABASE_NAME)
+    cur = conn.cursor()
+
+    cur.execute ("""SELECT COUNT(*) FROM login_organisateur""")
+    nb_id = cur.fetchone()[0]
+
+    return nb_id
+
+def inscription_login_orga (s, p):
+    conn = sqlite3.connect(DATABASE_NAME)
+    cur = conn.cursor()
+
+
+    if id_existe_pas(s)==True:
+        cur.execute ("""INSERT INTO login_organisateur Values (?,?)""", (s,p))
+        conn.commit()
+        conn.close()
+        return True
+    else : 
+        return False
+
 def inscription_login_capitaine(identifiant, mdp):
     if not id_existe_pas(identifiant, 'login_capitaine'):
         return False, "Cet identifiant est déjà pris."
@@ -170,6 +192,7 @@ def get_competition_details(id_competition):
         if conn:
             conn.close()
 
+"""
 def get_all_teams_in_competition(id_competition):
     conn = None
     teams = []
@@ -182,7 +205,32 @@ def get_all_teams_in_competition(id_competition):
     finally:
         if conn:
             conn.close()
+"""
 
+
+def get_nb_equipe_in_competition(id_competition):
+    conn = None
+    nb_equipe = 0
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        cur.execute("SELECT COUNT(*) FROM Equipe WHERE idCompetition = ?", (id_competition,))
+
+        resultat_compte = cur.fetchone()
+        if resultat_compte:
+            nb_equipe = resultat_compte[0]
+        else:
+            nb_equipe = 0 
+
+        return nb_equipe
+    except sqlite3.Error as e: 
+        print(f"Erreur SQLite lors de la récupération du nombre d'équipes: {e}")
+        return -1
+    finally:
+        if conn:
+            conn.close()
+    
 def miseajour_statuts_compet(id_competition, new_status): 
     conn = None
     try:
@@ -213,7 +261,7 @@ def create_competition(nom_competition, joueur_max):
         if conn:
             conn.close()
 
-create_competition("les choupis", 10)
+#create_competition("les choupis", 10)
 
 def get_all_competition():
     conn = None
@@ -227,3 +275,41 @@ def get_all_competition():
     finally:
         if conn:
             conn.close()
+
+import sqlite3
+
+def get_db_connection():
+    db_path = "tournois_de_sport_vf.sqlite"  # Assurez-vous que le chemin est correct
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row # Important pour accéder par nom de colonne
+    return conn
+
+def get_all_teams_in_competition(id_competition):
+    conn = None
+    nom_equipes_list = [] # Initialisation pour stocker uniquement les noms
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        # La requête SELECT est correcte pour récupérer l'ID et le nom
+        cursor.execute("SELECT IDequipe, nom_equipe FROM Equipe WHERE idCompetition = ?", (id_competition,))
+        
+        # Récupère toutes les lignes
+        teams_data = cursor.fetchall() 
+        
+        # Itérer sur les données récupérées pour extraire seulement le nom
+        for team_row in teams_data:
+            nom_equipes_list.append(team_row['nom_equipe']) # Accès par nom de colonne grâce à row_factory
+            # Si row_factory n'est pas défini, utilisez: nom_equipes_list.append(team_row[1])
+
+        print(f"Équipes pour la compétition {id_competition}: {nom_equipes_list}")
+        return nom_equipes_list # Retourne la liste des noms
+
+    except sqlite3.Error as e: # Capture des erreurs SQLite spécifiques
+        print(f"Erreur SQLite lors de la récupération des équipes: {e}")
+        return [] # Retourne une liste vide en cas d'erreur
+    finally:
+        if conn:
+            conn.close()
+
+print(get_all_teams_in_competition(1))

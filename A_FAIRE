@@ -1,0 +1,31 @@
+à faire :
+
+- il y a des problèmes sur l'inscription de l'orga (dans premiere page)
+- faire en sorte que si on clique sur le nom d'un tournois, ça nous renvoie sur la page principale du tournois et non pas sur la premiere page 
+- mettre le nom du tournois en haut sur toute les pages
+- rendre un peu beau 
+- il manque des liens pour revenirs sur les pages principales (le bouton du nom du tournoi)
+- empecher de s'inscrire quand phase 2
+- avancer sur la representation
+
+fait :
+- la fonction qui renvoie une liste de :
+1. plusieurs liste en fonction des journee (première liste (dans la grande liste) = la premiere journee)
+2. dans la liste de listes (qui represente les journees), il y a des listes de 2 elements (les deux équipes qui s'affrontent)
+schéma :
+[
+    (journee 1)[
+                   [equipe1, equipe2],
+                   [equipe3, equipe4]
+               ]
+    
+    (journee 2)[
+                   [equipe1, equipe3],
+                   [equipe2, equipe4]
+               ]
+
+    (journee 3)[
+                   [equipe1, equipe4],
+                   [equipe2, equipe3]
+               ]
+]
