@@ -3,206 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créer un Tournoi</title>
+    <title>Saisie des Scores - Arbitre</title>
     <style>
+        /* Styles CSS basiques pour ressembler à l'image */
         body {
-            font-family: sans-serif;
-            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            color: #333;
         }
         .container {
             background-color: #fff;
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
+            width: 90%;
+            max-width: 600px;
         }
         h1 {
-            color: #333;
+            background-color: #000;
+            color: #fff;
+            padding: 15px 0;
+            margin: -30px -30px 30px -30px; /* Pour étendre le fond noir */
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-size: 1.8em;
+        }
+        .match-setup, .score-entry {
+            display: flex; /* Utilise Flexbox pour aligner les éléments */
+            justify-content: space-around;
+            align-items: center;
             margin-bottom: 20px;
         }
-        .form-group {
-            margin-bottom: 15px;
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            align-items: center;
-            gap: 10px;
-        }
-        label {
-            font-weight: bold;
-            color: #555;
-            text-align: left;
-        }
-        input[type="text"],
-        select {
+        .team-select, .score-input-group {
+            flex: 1; /* Prend l'espace disponible */
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        .number-input {
-            display: flex;
-            align-items: center;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .number-input input[type="number"] {
-            width: 60px;
-            padding: 10px;
-            border: none;
             text-align: center;
-            -moz-appearance: textfield; /* Firefox */
-            appearance: textfield;
         }
-        .number-input input[type="number"]::-webkit-outer-spin-button,
-        .number-input input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        .arrow {
-            background-color: #eee;
-            color: #555;
-            border: none;
-            padding: 5px;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 0.8em;
-            user-select: none;
-        }
-        .arrow:hover {
-            background-color: #ddd;
-        }
-        .arrow.up {
-            border-bottom: 1px solid #ccc;
-        }
-        .date-input {
-            display: flex;
-            align-items: center;
-            border: 1px solid #ccc;
+        select, input[type="number"] {
+            width: calc(100% - 20px); /* Ajuster la largeur */
+            padding: 10px; /* Rend les champs "carrés" */
+            margin-top: 5px;
+            border: 1px solid #ddd;
             border-radius: 4px;
-            overflow: hidden;
+            font-size: 1em;
         }
-        .date-input input[type="date"] {
-            padding: 10px;
-            border: none;
-            width: calc(100% - 30px); /* Adjust width for the icon */
-            box-sizing: border-box;
-        }
-        .date-icon {
-            background-color: #eee;
-            color: #555;
-            padding: 8px;
+        .score-input-group {
             display: flex;
-            justify-content: center;
+            flex-direction: column; /* Pour empiler label et input */
             align-items: center;
         }
-        button {
-            background-color: #dc3545;
+        .score-input-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .divider {
+            border-left: 2px dashed #ccc; /* La barre de séparation */
+            height: 80px; /* Ajustez selon besoin */
+            margin: 0 20px;
+        }
+        .button-ok {
+            background-color: #4CAF50; /* Vert OK */
             color: white;
             padding: 12px 25px;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-top: 20px;
             transition: background-color 0.3s ease;
         }
-        button:hover {
-            background-color: #c82333;
+        .button-ok:hover {
+            background-color: #45a049;
+        }
+        .message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none; /* Caché par défaut, affiché via JavaScript ou Flask */
+        }
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Créer un Tournoi</h1>
-        <div class="form-group">
-            <label for="nomTournoi">Nom du tournoi:</label>
-            <input type="text" id="nomTournoi" name="nomTournoi">
-            <div></div>
-        </div>
-        <div class="form-group">
-            <label for="sport">Sport:</label>
-            <select id="sport" name="sport">
-                <option value="">Sélectionner un sport</option>
-                <option value="football">Football</option>
-                <option value="basketball">Basketball</option>
-                <option value="tennis">Tennis</option>
-                <option value="rugby">Rugby</option>
-                <option value="volley-ball">Volley-ball</option>
-                </select>
-            <div></div>
-        </div>
-        <div class="form-group">
-            <label for="nbEquipeMax">Nombre d'équipe max:</label>
-            <div class="number-input">
-                <button type="button" class="arrow up" onclick="decrementValue('nbEquipeMax')"></button>
-                <input type="number" id="nbEquipeMax" name="nbEquipeMax" value="1" min="1">
-                <button type="button" class="arrow down" onclick="incrementValue('nbEquipeMax')"></button>
+        <h1>BIENVENUE</h1>
+
+        <form method="POST" action="/saisie_scores_match">
+            <div class="match-setup">
+                <div class="team-select">
+                    <label for="equipe1_id">Équipe :</label>
+                    <select id="equipe1_id" name="equipe1_id" required>
+                        <option value="">Sélectionner équipe 1</option>
+                        {% for equipe in equipes_disponibles %}
+                        <option value="{{ equipe.idEquipe }}">{{ equipe.nom_equipe }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="team-select">
+                    <label for="equipe2_id">Équipe :</label>
+                    <select id="equipe2_id" name="equipe2_id" required>
+                        <option value="">Sélectionner équipe 2</option>
+                        {% for equipe in equipes_disponibles %}
+                        <option value="{{ equipe.idEquipe }}">{{ equipe.nom_equipe }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
             </div>
-            <div></div>
-        </div>
-        <div class="form-group">
-            <label for="nbJoueurMax">Nb de joueur max par équipe:</label>
-            <div class="number-input">
-                <button type="button" class="arrow up" onclick="decrementValue('nbJoueurMax')"></button>
-                <input type="number" id="nbJoueurMax" name="nbJoueurMax" value="1" min="1">
-                <button type="button" class="arrow down" onclick="incrementValue('nbJoueurMax')"></button>
+
+            <div class="score-entry">
+                <div class="score-input-group">
+                    <label for="points_equipe1">Nombre de points</label>
+                    <input type="number" id="points_equipe1" name="points_equipe1" value="0" min="0" required>
+                </div>
+
+                <div class="divider"></div> <div class="score-input-group">
+                    <label for="points_equipe2">Nombre de points</label>
+                    <input type="number" id="points_equipe2" name="points_equipe2" value="0" min="0" required>
+                </div>
+                
+                <button type="submit" class="button-ok">OK</button>
             </div>
-            <div></div>
-        </div>
-        <div class="form-group">
-            <label for="nbTerrainDispo">Nb de terrain dispo:</label>
-            <div class="number-input">
-                <button type="button" class="arrow up" onclick="decrementValue('nbTerrainDispo')"></button>
-                <input type="number" id="nbTerrainDispo" name="nbTerrainDispo" value="1" min="0">
-                <button type="button" class="arrow down" onclick="incrementValue('nbTerrainDispo')"></button>
+            
+            {% if message %}
+            <div class="message {% if 'succès' in message|lower %}success{% else %}error{% endif %}">
+                {{ message }}
             </div>
-            <div></div>
-        </div>
-        <div class="form-group">
-            <label for="tempsMatch">Temps d'un match (minutes):</label>
-            <div class="number-input">
-                <button type="button" class="arrow up" onclick="decrementValue('tempsMatch')"></button>
-                <input type="number" id="tempsMatch" name="tempsMatch" value="15" min="5">
-                <button type="button" class="arrow down" onclick="incrementValue('tempsMatch')"></button>
-            </div>
-            <div></div>
-        </div>
-        <div class="form-group">
-            <label for="dateTournoi">Date du tournoi:</label>
-            <input type="date" id="dateTournoi" name="dateTournoi">
-            <div></div>
-        </div>
-        <button onclick="goToNextPage()">Créer</button>
+            {% endif %}
+
+        </form>
     </div>
 
     <script>
-        function incrementValue(inputId) {
-            const inputElement = document.getElementById(inputId);
-            inputElement.value = parseInt(inputElement.value) + 1;
-        }
+        // JavaScript optionnel pour des vérifications côté client
+        document.addEventListener('DOMContentLoaded', function() {
+            const equipe1Select = document.getElementById('equipe1_id');
+            const equipe2Select = document.getElementById('equipe2_id');
+            const form = document.querySelector('form');
 
-        function decrementValue(inputId) {
-            const inputElement = document.getElementById(inputId);
-            const currentValue = parseInt(inputElement.value);
-            if (currentValue > parseInt(inputElement.min)) {
-                inputElement.value = currentValue - 1;
-            }
-        }
-
-        function goToNextPage() {
-            // Ici, vous pouvez ajouter la logique pour récupérer les données du formulaire
-            // et rediriger l'utilisateur vers la page suivante.
-            alert("Redirection vers la page suivante (fonctionnalité à implémenter).");
-            // window.location.href = "votre_autre_page.html";
-        }
+            form.addEventListener('submit', function(event) {
+                if (equipe1Select.value === equipe2Select.value && equipe1Select.value !== "") {
+                    alert("Veuillez sélectionner deux équipes différentes.");
+                    event.preventDefault(); // Empêche la soumission du formulaire
+                }
+            });
+        });
     </script>
 </body>
 </html>

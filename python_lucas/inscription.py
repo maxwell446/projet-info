@@ -41,14 +41,19 @@ def inscription_login_orga (s, p):
     conn = sqlite3.connect(DATABASE_NAME)
     cur = conn.cursor()
 
+    if nb_id_bdd_orga()==0:
 
-    if id_existe_pas(s)==True:
-        cur.execute ("""INSERT INTO login_organisateur Values (?,?)""", (s,p))
-        conn.commit()
-        conn.close()
-        return True
-    else : 
+
+        if id_existe_pas(s, 'login_organisateur')==True:
+            cur.execute ("""INSERT INTO login_organisateur Values (?,?)""", (s,p))
+            conn.commit()
+            conn.close()
+            return True
+        else : 
+            return False
+    else :
         return False
+
 
 def inscription_login_capitaine(identifiant, mdp):
     if not id_existe_pas(identifiant, 'login_capitaine'):
@@ -312,4 +317,4 @@ def get_all_teams_in_competition(id_competition):
         if conn:
             conn.close()
 
-print(get_all_teams_in_competition(1))
+#print(get_all_teams_in_competition(1))
