@@ -29,3 +29,16 @@ schéma :
                    [equipe2, equipe3]
                ]
 ]
+
+ce qui pourriat etre mieux:
+[
+    (journee 1)[
+                   [(id_equipe1,nom,scores), (id_equipe2,nom,scores)],
+                   [(id_equipe3,nom,scores), (id_equipe4,nom,scores)]
+               ]
+    
+    (journee 2)[
+                   [(id_equipe1,nom,scores) (id_equipe3,nom,scores)],
+                     [(id_equipe2,nom,scores), (id_equipe4,nom,scores)]
+               ]
+]
