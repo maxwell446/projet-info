@@ -204,25 +204,30 @@ def login_orga ():
 def inscrip_orga():
     return render_template('page_incrip_orga.html')
 
-@app.route('/connexion.orga')
+@app.route('/connexion.orga', methods=['GET', 'POST'])
 def connexion_orga2 ():
-    identifiant = request.form.get('id_conn')
-    mdp = request.form.get('mot_dp')
-    if connexion_orga(identifiant, mdp) == True :
-        return render_template('creer_tournois_orga.html')
-    else :
-        erreur = "login ou mot de passe incorrect"
-        return render_template('page_login_orga.html', param=erreur)
+    if request.method == 'POST':
+        identifiant = request.form.get('id_conn')
+        mdp = request.form.get('mot_dp')
+        print(identifiant, mdp)
+        if connexion_orga(identifiant, mdp) == True :
+            return render_template('creer_tournoi_orga.html')
+        else :
+            erreur = "login ou mot de passe incorrect"
+            return render_template('page_login_orga.html', param=erreur)
     
-@app.route('/inscription.orga')
+@app.route('/inscription.orga', methods=['GET', 'POST'])
 def inscription_orga2():
-    identifiant = request.form.get('identifiant')
-    mdp = request.form.get('mdp')
-    if inscription_login_orga(identifiant, mdp)==True:
-        return render_template('page_login_orga.html')
-    else :
-        erreur = "inscription impossible "
-        return render_template('page_incrip_orga.html', para=erreur)
+    if request.method == 'POST' :
+        identifiant = request.form.get('identifiant')
+        mdp = request.form.get('mdp')
+        print(identifiant, mdp)
+        if inscription_login_orga(identifiant, mdp)==True:
+            return render_template('page_login_orga.html')
+        else :
+            erreur = "inscription impossible "
+            return render_template('page_incrip_orga.html', para=erreur)
+    
     
 def generer_calendrier_competition(id_competition):
     """
