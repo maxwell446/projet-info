@@ -299,7 +299,8 @@ def get_all_teams_in_competition(id_competition):
         
         # Itérer sur les données récupérées pour extraire seulement le nom
         for team_row in teams_data:
-            nom_equipes_list.append(team_row['nom_equipe']) # Accès par nom de colonne grâce à row_factory
+            nom_equipes_list.append((team_row['IDequipe'], team_row['nom_equipe']))
+
             # Si row_factory n'est pas défini, utilisez: nom_equipes_list.append(team_row[1])
 
         print(f"Équipes pour la compétition {id_competition}: {nom_equipes_list}")

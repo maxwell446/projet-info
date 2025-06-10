@@ -526,3 +526,47 @@ a{
             margin-left: 15%;
         }
         
+
+
+
+
+        /*design de la poule*/
+        table.poule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .poule-table th, .poule-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+
+        .poule-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .poule-table .header-numbers th {
+            background-color: black;
+            color: white;
+        }
+
+        .poule-table .diagonal{
+            background-color: #d3d3d3; /* Couleur grise pour la diagonale */
+        }
+
+        .poule-table .blue-dot {
+            width: 15px;
+            height: 15px;
+            background-color: blue;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .poule-table .player-name {
+            text-align: left;
+            font-weight: bold;
+        }

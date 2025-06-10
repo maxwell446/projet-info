@@ -162,9 +162,9 @@ def logout():
 def page_spectateur():
     competition_info = get_competition_details(CURRENT_COMPETITION_ID)
     equipes = []
+    equipes = get_all_teams_in_competition(CURRENT_COMPETITION_ID)
     if competition_info:
         if competition_info['etat_competition'] == 0:
-            equipes = get_all_teams_in_competition(CURRENT_COMPETITION_ID)
             message_spectateur = "Voici la liste des équipes inscrites pour le moment :"
         elif competition_info['etat_competition'] == 1:
             message_spectateur = "La compétition est en cours (Phase de poules). Plus de détails bientôt !"

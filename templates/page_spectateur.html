@@ -4,6 +4,7 @@
     <title>Page Spectateur</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
     <meta charset="UTF-8">
+    
 </head>
 <body>
     <div class="container">
@@ -18,14 +19,54 @@
                 <h2>Équipes inscrites :</h2>
                 <ul>
                 {% for equipe in equipes %}
-                    <li><a href="{{ url_for('afficher_equipe', id_equipe=equipe.idEquipe) }}">{{ equipe.nom_equipe }}</a></li>
+                    <li><a href="{{ url_for('afficher_equipe', id_equipe=equipe[0]) }}">{{ equipe[1] }}</a></li>
                 {% endfor %}
                 </ul>
             {% else %}
                 <p>Aucune équipe n'est encore inscrite pour cette compétition.</p>
             {% endif %}
         {% elif competition and competition.etat_competition == 1 %}
-            <p>Détails des poules à venir...</p>
+            <p>Voici la poule</p>
+            <h2>Poule de la compétition :</h2>
+
+            {% if equipes %}
+                <table class="poule-table">
+                    <thead>
+                        <tr>
+                            <th rowspan="2">NOMS</th>
+                            <th colspan="{{ equipes|length }}" class="header-numbers"></th> 
+                            <th rowspan="2">Total Victoires</th>
+                            <th rowspan="2">Total Points</th>
+                            <th rowspan="2">Place</th>
+                        </tr>
+                        <tr>
+                            {% for i in range(equipes|length) %}
+                                <th class="header-numbers">{{ i + 1 }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in range(equipes|length) %}
+                            {% set current_equipe = equipes[i] %}
+                            <tr>
+                                <td class="player-name">{{ current_equipe[1] }}</td> {# Nom de l'équipe #}
+                                {% for j in range(equipes|length) %}
+                                    {% if i == j %}
+                                        <td class="diagonal"></td> 
+                                    {% else %}
+                                        <td></td> 
+                                    {% endif %}
+                                {% endfor %}
+                                <td>0</td> 
+                                <td>0</td> 
+                                <td></td> 
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Aucune équipe n'est inscrite pour cette compétition.</p>
+            {% endif %}
         {% elif competition and competition.etat_competition == 2 %}
             <p>Détails des tableaux à venir...</p>
         {% endif %}
