@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 import os
 import sqlite3
 
-from python_lucas.inscription import get_nb_equipe_in_competition, inscription_login_orga, get_all_competition,get_equipe_details, get_joueurs_by_equipe_id, inscription_login_capitaine, inscription_capitaine_and_equipe, inscription_joueur, get_capitaine_equipe_by_login_id, get_all_teams_in_competition , get_competition_details, miseajour_statuts_compet
+from python_lucas.inscription import get_id_equipe, get_db_connection, get_nb_equipe_in_competition, inscription_login_orga, get_all_competition,get_equipe_details, get_joueurs_by_equipe_id, inscription_login_capitaine, inscription_capitaine_and_equipe, inscription_joueur, get_capitaine_equipe_by_login_id, get_all_teams_in_competition , get_competition_details, miseajour_statuts_compet
 from python_lucas.connexion import connexion_capitaine, connexion_arbitre, connexion_orga
 
 app = Flask(__name__)
@@ -235,10 +235,10 @@ def generer_calendrier_competition(id_competition):
     puis génère un calendrier de matchs en round-robin pour ce nombre d'équipes.
     """
     try:
-        nombre_max_equipe = get_nb_equipe_in_competition(id_competition)
+        nombre_equipe = get_nb_equipe_in_competition(id_competition)
 
-        if nombre_max_equipe is None:
-            print(f"Erreur : Aucune compétition trouvée avec l'ID {id_competition}")
+        if nombre_equipe is None:
+            print(f"Erreur : Aucune equipe dans la competition pour le moment {id_competition}")
             return None
 
         equipes = get_all_teams_in_competition(id_competition)
@@ -254,7 +254,7 @@ def generer_calendrier_competition(id_competition):
             journee = []
             
             # Match de l'équipe fixe (equipes[0])
-            journee.append([equipes[0], equipes[n - 1 - i]]) 
+            journee.append([[equipes[0], get_id_equipe(equipes, 0, id_competition)], [equipes[n - 1 - i], get_id_equipe(equipes, n-1-i, id_competition)]]) 
 
             # Matchs des autres équipes
             for j in range(1, n // 2):
@@ -276,6 +276,7 @@ def generer_calendrier_competition(id_competition):
                     matchs_valides.append(match)
             
             if matchs_valides: # Ajouter la journée seulement s'il y a des matchs valides
+                
                 calendrier.append(matchs_valides)
         
         return calendrier

@@ -63,7 +63,7 @@
             font-weight: bold;
         }
         .divider {
-            border-left: 2px dashed #ccc; /* La barre de séparation */
+            border-left: 2px dashed #808080; /* La barre de séparation */
             height: 80px; /* Ajustez selon besoin */
             margin: 0 20px;
         }
@@ -98,11 +98,18 @@
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+
+        .fond {
+            background-color: #c4c4c4ec;
+            border-radius: 5px;
+            padding: 1px;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>BIENVENUE</h1>
+        <h1>*Nom du tournois*</h1>
 
         <form method="POST" action="/saisie_scores_match">
             <div class="match-setup">
@@ -127,19 +134,25 @@
                 </div>
             </div>
 
-            <div class="score-entry">
-                <div class="score-input-group">
-                    <label for="points_equipe1">Nombre de points</label>
-                    <input type="number" id="points_equipe1" name="points_equipe1" value="0" min="0" required>
-                </div>
+            
+            <hr class="separator">
 
-                <div class="divider"></div> <div class="score-input-group">
-                    <label for="points_equipe2">Nombre de points</label>
-                    <input type="number" id="points_equipe2" name="points_equipe2" value="0" min="0" required>
-                </div>
+            <div class="fond">
+                <div class="score-entry">
+                    <div class="score-input-group">
+                        <label for="points_equipe1">*Equipe1*</label>
+                        <input type="number" id="points_equipe1" name="points_equipe1" value="0" min="0" required>
+                    </div>
+
+                    <div class="divider"></div> <div class="score-input-group">
+                        <label for="points_equipe2">*equipe2*</label>
+                        <input type="number" id="points_equipe2" name="points_equipe2" value="0" min="0" required>
+                    </div>
                 
-                <button type="submit" class="button-ok">OK</button>
+                    <button type="submit" class="button-ok">OK</button>
+                </div>
             </div>
+            
             
             {% if message %}
             <div class="message {% if 'succès' in message|lower %}success{% else %}error{% endif %}">
