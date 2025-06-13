@@ -256,6 +256,7 @@ def generer_calendrier_competition(id_competition):
             # Match de l'équipe fixe (equipes[0])
             journee.append([[equipes[0], get_id_equipe(equipes, 0, id_competition)], [equipes[n - 1 - i], get_id_equipe(equipes, n-1-i, id_competition)]]) 
 
+
             # Matchs des autres équipes
             for j in range(1, n // 2):
                 equipe1_idx = (i + j) % (n - 1)
