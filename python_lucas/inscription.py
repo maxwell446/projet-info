@@ -321,73 +321,208 @@ def get_all_teams_in_competition(id_competition):
 #print(get_all_teams_in_competition(1))
 
 
-def get_id_equipe(liste, rang_de_liste, id_competition):
+def get_all_team_ids(idCompetition):
+    """
+    Récupère tous les IDs d'équipe de la table 'Equipe' dans la base de données.
+
+    Returns:
+        list: Une liste d'entiers (IDs d'équipe). Retourne une liste vide en cas d'erreur ou si aucune équipe n'est trouvée.
+    """
     conn = None
+    team_ids = []
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT idEquipe FROM Equipe WHERE idcompetition = {idCompetition}")
+        results = cursor.fetchall() # Récupère une liste de Row objects ou tuples
+        
+        # Extrait l'ID de chaque Row object/tuple
+        for row in results:
+            team_ids.append(row['idEquipe']) # Ou row[0] si row_factory n'est pas utilisé
+            
+    except sqlite3.Error as e:
+        print(f"Erreur SQLite lors de la récupération des IDs d'équipe: {e}")
+    except Exception as e:
+        print(f"Une erreur inattendue est survenue: {e}")
+    finally:
+        if conn:
+            conn.close()
+    return team_ids
+
+print(get_all_team_ids(1))
+
+def get_all_team_names(idCompetition):
+    """
+    Récupère tous les noms d'équipe de la table 'Equipe' dans la base de données.
+
+    Returns:
+        list: Une liste de chaînes de caractères (noms d'équipe). Retourne une liste vide en cas d'erreur ou si aucune équipe n'est trouvée.
+    """
+    conn = None
+    team_names = []
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT nom_equipe FROM Equipe WHERE idcompetition = {idCompetition}")
+        results = cursor.fetchall()
+        
+        # Extrait le nom de chaque Row object/tuple
+        for row in results:
+            team_names.append(row['nom_equipe']) # Ou row[0] si row_factory n'est pas utilisé
+            
+    except sqlite3.Error as e:
+        print(f"Erreur SQLite lors de la récupération des noms d'équipe: {e}")
+    except Exception as e:
+        print(f"Une erreur inattendue est survenue: {e}")
+    finally:
+        if conn:
+            conn.close()
+    return team_names
+
+print(get_all_team_names(1))
+
+import sqlite3
+import math
+
+# Assurez-vous que cette fonction est bien définie et accessible
+def get_db_connection():
+    db_path = "tournois_de_sport_vf.sqlite" # Chemin vers votre base de données
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row # Pour accéder aux colonnes par leur nom
+    return conn
+
+
+import sqlite3
+import math
+
+# Assurez-vous que cette fonction est bien définie et accessible
+def get_db_connection():
+    db_path = "tournois_de_sport_vf.sqlite" # Chemin vers votre base de données
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row # Permet d'accéder aux colonnes par leur nom
+    return conn
+
+def generer_calendrier_round_robin(id_competition):
+    """
+    Génère un calendrier de tournoi de type round-robin pour une compétition donnée.
+    Chaque équipe joue une fois contre toutes les autres, et une seule fois par journée.
+
+    Args:
+        id_competition (int): L'ID de la compétition pour laquelle générer le calendrier.
+
+    Returns:
+        list: Une liste de dictionnaires, où chaque dictionnaire représente un match
+              et contient des informations sur les équipes et un placeholder pour le score.
+              Ex: [
+                    {'journee': 1, 'equipe1_id': 1, 'equipe1_nom': 'Equipe A', 'equipe2_id': 2, 'equipe2_nom': 'Equipe B', 'score1': None, 'score2': None},
+                    {'journee': 1, 'equipe1_id': 3, 'equipe1_nom': 'Equipe C', 'equipe2_id': 4, 'equipe2_nom': 'Equipe D', 'score1': None, 'score2': None},
+                    ...
+                ]
+              Retourne une liste vide en cas d'erreur ou d'équipes insuffisantes.
+    """
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT idEquipe FROM Equipe WHERE nom_equipe = ? AND idCompetition = ?", (liste[rang_de_liste], id_competition))
-    id_equipe = cursor.fetchone()
-    return id_equipe
-
-
-
-def generer_calendrier_competition(id_competition):
-    """
-    Récupère le nombre maximum d'équipes pour une compétition donnée par son ID,
-    puis génère un calendrier de matchs en round-robin pour ce nombre d'équipes.
-    """
+    
+    # 1. Récupérer les équipes inscrites à la compétition
     try:
-        nombre_equipe = get_nb_equipe_in_competition(id_competition)
-
-        if nombre_equipe == 0:
-            print(f"Erreur : Aucune equipe dans la competition pour le moment dans la competition {id_competition}")
-            return None
-
-        equipes = get_all_teams_in_competition(id_competition)
-
-        n = len(equipes)
-        if n % 2 != 0:
-            equipes.append("BYE") # Ajoutez une équipe fictive pour les nombres impairs
-            n += 1
-
-        calendrier = []
-        
-        for i in range(n - 1): # n-1 journées pour un nombre pair d'équipes
-            journee = []
-            
-            # Match de l'équipe fixe (equipes[0])
-            journee.append([[equipes[0]], [equipes[n - 1 - i]]]) 
-
-#            , get_id_equipe(equipes, 0, id_competition)
-#, get_id_equipe(equipes, n-1-i, id_competition)
-
-            # Matchs des autres équipes
-            for j in range(1, n // 2):
-                equipe1_idx = (i + j) % (n - 1)
-                equipe2_idx = (i + n - 1 - j) % (n - 1)
-                
-                e1 = equipes[ (1 + equipe1_idx) ] 
-                e2 = equipes[ (1 + equipe2_idx) ]
-                journee.append([e1, e2])
-            
-            # Correction pour le cas de N=2 (pour eviter des erreurs d'indices)
-            if n == 2:
-                journee = [[equipes[0], equipes[1]]]
-
-            # Filtrer les matchs avec "BYE" si N était initialement impair
-            matchs_valides = []
-            for match in journee:
-                if "BYE" not in match:
-                    matchs_valides.append(match)
-            
-            if matchs_valides: # Ajouter la journée seulement s'il y a des matchs valides
-                
-                calendrier.append(matchs_valides)
-        
-        return calendrier
-
+        cursor.execute("""
+            SELECT E.idEquipe, E.nom_equipe
+            FROM Equipe E
+            JOIN EquipeCompetition EC ON E.idEquipe = EC.idEquipe
+            WHERE EC.idCompetition = ?
+            ORDER BY E.nom_equipe -- Pour un ordre stable des équipes
+        """, (id_competition,))
+        equipes_db = cursor.fetchall()
     except sqlite3.Error as e:
-        print(f"Une erreur SQLite s'est produite : {e}")
-        return None
+        print(f"Erreur SQLite lors de la récupération des équipes pour la compétition {id_competition}: {e}")
+        conn.close()
+        return []
 
-print(generer_calendrier_competition(1))
+    conn.close() # Fermez la connexion après avoir récupéré les données.
+
+    if not equipes_db or len(equipes_db) < 2:
+        print(f"La compétition {id_competition} a moins de 2 équipes inscrites. Impossible de générer un calendrier round-robin.")
+        return []
+
+    # Convertir les Row objects en dict pour une manipulation plus simple
+    equipes_reelles = [{'id': eq['idEquipe'], 'nom': eq['nom_equipe']} for eq in equipes_db]
+    
+    # Copie de la liste pour la manipulation de l'algorithme
+    teams = list(equipes_reelles) 
+    
+    # Gérer le cas d'un nombre impair d'équipes : ajouter une équipe fantôme
+    # L'équipe fantôme a un id=None et nom='Repos'
+    if len(teams) % 2 != 0:
+        teams.append({'id': None, 'nom': 'Repos'})
+    
+    num_teams = len(teams) # Nombre total d'équipes (réelles + fantôme si impair)
+    
+    calendrier_genere = []
+    
+    # Nombre de journées
+    # Si N équipes (y compris la fantôme), il y a N-1 journées
+    num_journees = num_teams - 1 
+
+    for journee_idx in range(num_journees):
+        journee_actuelle = journee_idx + 1
+        
+        # L'équipe à l'index 0 (première équipe) est "fixe"
+        # Elle joue contre l'équipe à l'index (num_teams - 1 - journee_idx) dans la liste originale `teams`
+        # Non, c'est l'équipe du milieu de la partie rotative qui joue contre la fixe.
+        # Plus simple:
+        # La première équipe (teams[0]) est appariée à la dernière (teams[num_teams-1]).
+        # Les autres équipes sont appariées en allant vers le centre (teams[1] vs teams[num_teams-2], etc.)
+
+        # Maintenant, le bon algorithme de rotation "Circle Method"
+        
+        # Match de la première équipe avec la dernière
+        equipe1_journee = teams[0]
+        equipe2_journee = teams[num_teams - 1]
+
+        # Ajouter le match si aucune des équipes n'est fantôme
+        if equipe1_journee['id'] is not None and equipe2_journee['id'] is not None:
+            calendrier_genere.append({
+                'journee': journee_actuelle,
+                'equipe1_id': equipe1_journee['id'],
+                'equipe1_nom': equipe1_journee['nom'],
+                'equipe2_id': equipe2_journee['id'],
+                'equipe2_nom': equipe2_journee['nom'],
+                'score1': None,
+                'score2': None
+            })
+        
+        # Autres matchs de la journée
+        for i in range(1, num_teams // 2):
+            eq1_idx = i
+            eq2_idx = num_teams - 1 - i
+
+            equipe1_journee = teams[eq1_idx]
+            equipe2_journee = teams[eq2_idx]
+            
+            if equipe1_journee['id'] is not None and equipe2_journee['id'] is not None:
+                calendrier_genere.append({
+                    'journee': journee_actuelle,
+                    'equipe1_id': equipe1_journee['id'],
+                    'equipe1_nom': equipe1_journee['nom'],
+                    'equipe2_id': equipe2_journee['id'],
+                    'equipe2_nom': equipe2_journee['nom'],
+                    'score1': None,
+                    'score2': None
+                })
+        
+        # Rotation des équipes pour la prochaine journée (sauf la première)
+        # La dernière équipe se déplace en position 1
+        # Les équipes de la position 1 à num_teams-2 se décalent d'une position
+        if num_teams > 2: # Si plus de 2 équipes (la première est fixe, donc au moins 3 pour que la rotation ait un sens)
+            last_team = teams.pop(num_teams - 1) # Retirer la dernière
+            teams.insert(1, last_team) # Insérer en 2ème position (après la fixe teams[0])
+            # La première équipe (teams[0]) est toujours la même
+            # Exemple: [E1, E2, E3, E4, E5, E6]
+            # Après 1er jour: E1 fixe, E6 se déplace en pos 1. E2->E3, E3->E4, E4->E5, E5->E6
+            # La rotation est: [E1, E6, E2, E3, E4, E5]
+            # Ma ligne ci-dessus fait: last_team = E6, teams = [E1, E2, E3, E4, E5], teams.insert(1, E6) -> [E1, E6, E2, E3, E4, E5]
+            # C'est la bonne rotation.
+
+    return calendrier_genere
+print(generer_calendrier_round_robin(1))
+
