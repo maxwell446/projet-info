@@ -283,12 +283,6 @@ def get_all_competition():
 
 import sqlite3
 
-def get_db_connection():
-    db_path = "tournois_de_sport_vf.sqlite"  # Assurez-vous que le chemin est correct
-    conn = sqlite3.connect(db_path)
-    conn.row_factory = sqlite3.Row # Important pour accéder par nom de colonne
-    return conn
-
 def get_all_teams_in_competition(id_competition):
     conn = None
     nom_equipes_list = [] # Initialisation pour stocker uniquement les noms
@@ -349,7 +343,7 @@ def get_all_team_ids(idCompetition):
             conn.close()
     return team_ids
 
-print(get_all_team_ids(1))
+#print(get_all_team_ids(1))
 
 def get_all_team_names(idCompetition):
     """
@@ -379,7 +373,7 @@ def get_all_team_names(idCompetition):
             conn.close()
     return team_names
 
-print(get_all_team_names(1))
+#print(get_all_team_names(1))
 
 import sqlite3
 import math
@@ -524,5 +518,5 @@ def generer_calendrier_round_robin(id_competition):
             # C'est la bonne rotation.
 
     return calendrier_genere
-print(generer_calendrier_round_robin(1))
+#print(generer_calendrier_round_robin(1))
 

@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 import os
 import sqlite3
 
-from python_lucas.inscription import get_id_equipe, get_db_connection, get_nb_equipe_in_competition, inscription_login_orga, get_all_competition,get_equipe_details, get_joueurs_by_equipe_id, inscription_login_capitaine, inscription_capitaine_and_equipe, inscription_joueur, get_capitaine_equipe_by_login_id, get_all_teams_in_competition , get_competition_details, miseajour_statuts_compet
+from python_lucas.inscription import get_db_connection, get_nb_equipe_in_competition, inscription_login_orga, get_all_competition,get_equipe_details, get_joueurs_by_equipe_id, inscription_login_capitaine, inscription_capitaine_and_equipe, inscription_joueur, get_capitaine_equipe_by_login_id, get_all_teams_in_competition , get_competition_details, miseajour_statuts_compet
 from python_lucas.connexion import connexion_capitaine, connexion_arbitre, connexion_orga
 
 app = Flask(__name__)
@@ -229,63 +229,6 @@ def inscription_orga2():
             return render_template('page_incrip_orga.html', para=erreur)
     
     
-def generer_calendrier_competition(id_competition):
-    """
-    Récupère le nombre maximum d'équipes pour une compétition donnée par son ID,
-    puis génère un calendrier de matchs en round-robin pour ce nombre d'équipes.
-    """
-    try:
-        nombre_equipe = get_nb_equipe_in_competition(id_competition)
-
-        if nombre_equipe is None:
-            print(f"Erreur : Aucune equipe dans la competition pour le moment {id_competition}")
-            return None
-
-        equipes = get_all_teams_in_competition(id_competition)
-
-        n = len(equipes)
-        if n % 2 != 0:
-            equipes.append("BYE") # Ajoutez une équipe fictive pour les nombres impairs
-            n += 1
-
-        calendrier = []
-        
-        for i in range(n - 1): # n-1 journées pour un nombre pair d'équipes
-            journee = []
-            
-            # Match de l'équipe fixe (equipes[0])
-            journee.append([[equipes[0], get_id_equipe(equipes, 0, id_competition)], [equipes[n - 1 - i], get_id_equipe(equipes, n-1-i, id_competition)]]) 
-
-
-            # Matchs des autres équipes
-            for j in range(1, n // 2):
-                equipe1_idx = (i + j) % (n - 1)
-                equipe2_idx = (i + n - 1 - j) % (n - 1)
-                
-                e1 = equipes[ (1 + equipe1_idx) ] 
-                e2 = equipes[ (1 + equipe2_idx) ]
-                journee.append([e1, e2])
-            
-            # Correction pour le cas de N=2 (pour eviter des erreurs d'indices)
-            if n == 2:
-                journee = [[equipes[0], equipes[1]]]
-
-            # Filtrer les matchs avec "BYE" si N était initialement impair
-            matchs_valides = []
-            for match in journee:
-                if "BYE" not in match:
-                    matchs_valides.append(match)
-            
-            if matchs_valides: # Ajouter la journée seulement s'il y a des matchs valides
-                
-                calendrier.append(matchs_valides)
-        
-        return calendrier
-
-    except sqlite3.Error as e:
-        print(f"Une erreur SQLite s'est produite : {e}")
-        return None
-
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
