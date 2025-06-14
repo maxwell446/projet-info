@@ -373,7 +373,7 @@ def get_all_team_names(idCompetition):
             conn.close()
     return team_names
 
-#print(get_all_team_names(1))
+print(get_all_team_names(1))
 
 import sqlite3
 import math
@@ -395,6 +395,29 @@ def get_db_connection():
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row # Permet d'accéder aux colonnes par leur nom
     return conn
+
+def inserer_match(id_competition, journee, id_equipe1, score_equipe1, id_equipe2, score_equipe2):
+    conn = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        abb = """
+        INSERT INTO Match (idCompetition, journee, idEquipe1, idEquipe2, score1, score2)
+        VALUES (?, ?, ?, ?, ?, ?)
+        """
+
+        valeur = (id_competition, journee, id_equipe1, id_equipe2, score_equipe1, score_equipe2)
+
+        cursor.execute(abb, valeur)
+        conn.commit()
+        return True
+
+    except sqlite3.Error as e:
+        return False
+    finally:
+        if conn:
+            conn.close()
 
 def generer_calendrier_round_robin(id_competition):
     """
@@ -475,6 +498,7 @@ def generer_calendrier_round_robin(id_competition):
 
         # Ajouter le match si aucune des équipes n'est fantôme
         if equipe1_journee['id'] is not None and equipe2_journee['id'] is not None:
+            inserer_match(id_competition, journee_actuelle, equipe1_journee['id'], None, equipe2_journee['id'], None)
             calendrier_genere.append({
                 'journee': journee_actuelle,
                 'equipe1_id': equipe1_journee['id'],
@@ -494,6 +518,7 @@ def generer_calendrier_round_robin(id_competition):
             equipe2_journee = teams[eq2_idx]
             
             if equipe1_journee['id'] is not None and equipe2_journee['id'] is not None:
+                inserer_match(id_competition, journee_actuelle, equipe1_journee['id'], None, equipe2_journee['id'], None)
                 calendrier_genere.append({
                     'journee': journee_actuelle,
                     'equipe1_id': equipe1_journee['id'],
@@ -520,3 +545,19 @@ def generer_calendrier_round_robin(id_competition):
     return calendrier_genere
 #print(generer_calendrier_round_robin(1))
 
+
+def ajouter_score(calendrier, journee_cible, id_equipe_cible, score_equipe):
+    try :
+        for match in calendrier:
+        # Vérifie si la journée correspond
+            if match['journee'] == journee_cible:
+            # Vérifie si l'id_equipe_cible est equipe1_id ou equipe2_id
+                if match['equipe1_id'] == id_equipe_cible:
+                    match['score1'] = score_equipe
+                    return True
+                elif match['equipe2_id'] == id_equipe_cible:
+                    match['score2'] = score_equipe
+                    return True
+        return False
+    except sqlite3.Error as e:
+        return False

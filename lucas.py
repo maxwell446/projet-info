@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 import os
 import sqlite3
 
-from python_lucas.inscription import get_db_connection, get_nb_equipe_in_competition, inscription_login_orga, get_all_competition,get_equipe_details, get_joueurs_by_equipe_id, inscription_login_capitaine, inscription_capitaine_and_equipe, inscription_joueur, get_capitaine_equipe_by_login_id, get_all_teams_in_competition , get_competition_details, miseajour_statuts_compet
+from python_lucas.inscription import get_all_team_names, ajouter_score, generer_calendrier_round_robin, get_db_connection, get_nb_equipe_in_competition, inscription_login_orga, get_all_competition,get_equipe_details, get_joueurs_by_equipe_id, inscription_login_capitaine, inscription_capitaine_and_equipe, inscription_joueur, get_capitaine_equipe_by_login_id, get_all_teams_in_competition , get_competition_details, miseajour_statuts_compet
 from python_lucas.connexion import connexion_capitaine, connexion_arbitre, connexion_orga
 
 app = Flask(__name__)
@@ -192,6 +192,7 @@ def update_status(status):
     success, message = miseajour_statuts_compet(CURRENT_COMPETITION_ID, status)
     if success:
         flash(f"Statut de la compétition : {status}. {message}", 'success')
+        
     else:
         flash(f"Erreur lors de la mise à jour du statut : {message}", 'error')
     return redirect(url_for('page_orga'))
@@ -228,7 +229,28 @@ def inscription_orga2():
             erreur = "inscription impossible "
             return render_template('page_incrip_orga.html', para=erreur)
     
+@app.route('/page_score')
+def aller_sur_page_score ():
+    calendrier = generer_calendrier_round_robin(CURRENT_COMPETITION_ID)
+    equipes_disponibles = get_all_team_names(CURRENT_COMPETITION_ID) 
+    return render_template('page_score.html', calendrier=calendrier, equipes_disponibles=equipes_disponibles)
     
+@app.route('/saisie_scores_match')
+def rentrer_score():
+    calendrier = generer_calendrier_round_robin(CURRENT_COMPETITION_ID)
+    score_1 = request.form.get('points_equipe1')
+    score_2 = request.form.get('points_equipe2')
+    
+    if ajouter_score(generer_calendrier_round_robin(CURRENT_COMPETITION_ID), calendrier[0], calendrier[0]['equipe1_id'], score_1) == True:
+        return render_template('page_score.html')
+    
+
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
+
+
+
+
+
+
