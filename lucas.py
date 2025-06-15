@@ -39,19 +39,23 @@ def page_html(id_competition):
     else:
         status_message = "Aucune compétition n'est active pour le moment."
     
-    return render_template('page_principale.html', status=status_message, nom_competition=competition_info[1] if competition_info else "Compétition inconnue")
+    return render_template('page_principale.html', 
+                           status=status_message, 
+                           nom_competition = competition_info[1] if competition_info else "Compétition inconnue", 
+                           id_competition = competition_info[0] if competition_info else "Compétition inconnue")
 
 
 ################################cote capitaine###################################
 
-@app.route('/page_login_capitaine')
-def page_login_capitaine():
+@app.route('/page_login_capitaine/<int:id_competition>')
+def page_login_capitaine(id_competition):
+    competition_info = get_competition_details(id_competition)
     if 'login_id' in session:
         id_equipe_existante = get_capitaine_equipe_by_login_id(session['login_id'])
         if id_equipe_existante:
             flash("Vous êtes déjà connecté et avez une équipe inscrite.", 'info')
             return redirect(url_for('afficher_equipe', id_equipe=id_equipe_existante))
-    return render_template('page_login_capitaine.html')
+    return render_template('page_login_capitaine.html', competition_info=competition_info)
 
 @app.route('/page_incrip_capitaine')
 def page_incrip_capitaine():
@@ -159,11 +163,11 @@ def logout():
 
 
 ################################cote spectateur##########################
-@app.route('/page_spectateur')
-def page_spectateur():
-    competition_info = get_competition_details(CURRENT_COMPETITION_ID)
+@app.route('/page_spectateur/<int:id_competition>')
+def page_spectateur(id_competition):
+    competition_info = get_competition_details(id_competition)
     equipes = []
-    equipes = get_all_teams_in_competition(CURRENT_COMPETITION_ID)
+    equipes = get_all_teams_in_competition(id_competition)
     if competition_info:
         if competition_info['etat_competition'] == 0:
             message_spectateur = "Voici la liste des équipes inscrites pour le moment :"
@@ -182,9 +186,9 @@ def page_spectateur():
 
 
 ################################cote organisateur##########################
-@app.route('/page_orga')
-def page_orga():
-    competition_info = get_competition_details(CURRENT_COMPETITION_ID)
+@app.route('/page_orga/<int:id_competition>')
+def page_orga(id_competition):
+    competition_info = get_competition_details(id_competition)
     current_status = competition_info['etat_competition'] if competition_info else -1 
     return render_template('page_orga.html', current_status=current_status, competition_info=competition_info)
 

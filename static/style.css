@@ -446,10 +446,21 @@ a{
         .capitaine {
             background-color: #e4dada;
             border: 3px solid #082847;
-            left: 2%;
-            width: 27%;
-            height: 70%;
-            margin-top: 8%;
+            left: 22%;
+            width: 25%;
+            height: 90%;
+            margin-top: 2%;
+        }
+
+        .joueur-spectateur {
+            background-color: #e4dada;
+            border: 3px solid #0e1c4d;
+            left : 66%;
+            transform: translateX(-50%);
+            width: 25%;
+            height: 90%;
+            margin-top: 2%;
+
         }
 
         .arbitre {
@@ -461,16 +472,6 @@ a{
             margin-top: 8%;
         }
 
-        .joueur-spectateur {
-            background-color: #e4dada;
-            border: 5px solid #0e1c4d;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 33%;
-            height: 128%;
-            margin-top: 10px;
-
-        }
 
         .organisateur {
             background-color: #d2e4e6;

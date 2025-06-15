@@ -179,9 +179,38 @@ def get_competition_details(id_competition):
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM Competition WHERE idCompetition = ?", (id_competition,))
         return cursor.fetchone()
+    except sqlite3.Error as e:
+        print(f"Erreur lors de la récupération des détails de la compétition: {e}")
+        return None
     finally:
         if conn:
             conn.close()
+
+def get_competition_details(id_competition):
+    conn = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM Competition WHERE idCompetition = ?", (id_competition,))
+        return cursor.fetchone()
+    finally:
+        if conn:
+            conn.close()
+
+"""
+def get_all_teams_in_competition(id_competition):
+    conn = None
+    teams = []
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT idEquipe, nom_equipe FROM Equipe WHERE idCompetition = ?", (id_competition,))
+        teams = cursor.fetchall()
+        return teams
+    finally:
+        if conn:
+            conn.close()
+"""
 
 
 def get_nb_equipe_in_competition(id_competition):
@@ -418,7 +447,6 @@ def generer_calendrier_round_robin(id_competition):
             FROM Equipe E
             JOIN EquipeCompetition EC ON E.idEquipe = EC.idEquipe
             WHERE EC.idCompetition = ?
-            ORDER BY E.nom_equipe -- Pour un ordre stable des équipes
         """, (id_competition,))
         equipes_db = cursor.fetchall()
     except sqlite3.Error as e:
@@ -514,7 +542,7 @@ def generer_calendrier_round_robin(id_competition):
             # C'est la bonne rotation.
 
     return calendrier_genere
-#print(generer_calendrier_round_robin(1))
+print(generer_calendrier_round_robin(1))
 
 def recuperer_calendrier_match(id_competition):
     """
@@ -542,13 +570,10 @@ def recuperer_calendrier_match(id_competition):
 
         # Requête SQL pour récupérer les matchs avec les noms des équipes
         # Correction ici : utilisation de E1.nom_equipe et E2.nom_equipe
-        sql_query = """
-        SELECT * FROM Match WHERE idCompetition = ?
-        """
-        cursor.execute(f"SELECT * FROM Match WHERE idCompetition = {id_competition}")   
-        rows = cursor.fetchone()
-        print(rows)
-        print(f"DEBUG: Nombre de matchs récupérés de la base de données pour la compétition {id_competition}: {len(rows)}")
+        
+        cursor.execute(f"SELECT COUNT(*) FROM Match WHERE idCompetition = {id_competition}")   
+        rows = cursor.fetchone()[0]
+        print(f"DEBUG: Nombre de matchs récupérés de la base de données pour la compétition {id_competition}:{rows}")
         print("--------------------------------------------------------------------------")
         
     finally:
@@ -557,7 +582,7 @@ def recuperer_calendrier_match(id_competition):
     
     return calendrier_recuperer
 
-print(recuperer_calendrier_match(1))
+#print(recuperer_calendrier_match(1))
 
 def ajouter_score(calendrier, journee_cible, id_equipe_cible, score_equipe):
     try :

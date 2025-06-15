@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,9 +8,9 @@
 </head>
 
 <body><div class="container">
-    <a href="/" class="title" style="display: block; text-decoration: none;">
-            *Nom du tournoi*
-    </a>
+        <a href="/tournois/{{competition_info[0]}}" class="title">
+            {{competition_info[1]}}
+        </a>
         <div class="container2">
             <h1>Connexion</h1>
             <form method="POST" action="/connexion_capitaine">
