@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 import os
 import sqlite3
 
-from python_lucas.inscription import get_all_team_names, ajouter_score, generer_calendrier_round_robin, get_db_connection, get_nb_equipe_in_competition, inscription_login_orga, get_all_competition,get_equipe_details, get_joueurs_by_equipe_id, inscription_login_capitaine, inscription_capitaine_and_equipe, inscription_joueur, get_capitaine_equipe_by_login_id, get_all_teams_in_competition , get_competition_details, miseajour_statuts_compet
+from python_lucas.inscription import get_all_team_names, ajouter_score, generer_calendrier_round_robin, get_db_connection, get_nb_equipe_in_competition, inscription_login_orga, get_all_competition,get_equipe_details, get_joueurs_by_equipe_id, inscription_login_capitaine, inscription_capitaine_and_equipe, inscription_joueur, get_capitaine_equipe_by_login_id, get_all_teams_in_competition , get_competition_details, miseajour_statuts_compet,create_competition
 from python_lucas.connexion import connexion_capitaine, connexion_arbitre, connexion_orga
 
 app = Flask(__name__)
@@ -154,7 +154,7 @@ def inscription_equipe_form():
 def logout():
     session.pop('login_id', None) # Supprime l'identifiant de connexion de la session
     flash("Vous avez été déconnecté.", 'info')
-    return redirect(url_for('page_html'))
+    return redirect(url_for('premiere_page'))
 
 
 
@@ -206,6 +206,22 @@ def login_orga ():
 def inscrip_orga():
     return render_template('page_incrip_orga.html')
 
+@app.route('/creer_tournoi', methods=['GET', 'POST'])
+def creer_tournoi():
+    if request.method == 'POST':
+        nom_tournoi = request.form.get('nom_tournoi')
+        nb_equipe_max = request.form.get('nb_equipe_max')
+        if nom_tournoi and nb_equipe_max:
+            success = create_competition(nom_tournoi, int(nb_equipe_max))
+            if success:
+                flash(f"Le tournoi '{nom_tournoi}' a été créé avec succès !", 'success')
+                return redirect(url_for('premiere_page'))
+            else:
+                flash("Erreur lors de la création du tournoi. Le nom existe peut-être déjà.", 'error')
+        else:
+            flash("Veuillez remplir tous les champs du formulaire.", 'warning')
+    return render_template('creer_tournoi_orga.html')
+
 @app.route('/connexion.orga', methods=['GET', 'POST'])
 def connexion_orga2 ():
     if request.method == 'POST':
@@ -213,11 +229,13 @@ def connexion_orga2 ():
         mdp = request.form.get('mot_dp')
         print(identifiant, mdp)
         if connexion_orga(identifiant, mdp) == True :
-            return render_template('creer_tournoi_orga.html')
+            # On redirige vers la nouvelle fonction 'creer_tournoi'
+            return redirect(url_for('creer_tournoi'))
         else :
             erreur = "login ou mot de passe incorrect"
             return render_template('page_login_orga.html', param=erreur)
-    
+    # Si la méthode est GET, on retourne simplement la page de login
+    return render_template('page_login_orga.html')
 @app.route('/inscription.orga', methods=['GET', 'POST'])
 def inscription_orga2():
     if request.method == 'POST' :

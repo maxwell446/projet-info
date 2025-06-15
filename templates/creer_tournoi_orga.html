@@ -12,9 +12,8 @@
         </a>
         <div class="container4">
             <h1>Créer un Tournoi</h1>
-
-            <form id="tournament-form">
-                <div class="form-group">
+                <form method="POST" action="{{ url_for('creer_tournoi') }}">
+                    <div class="form-group">
                     <label for="sport">Sport</label>
                     <input type="text" id="sport" name="sport" value="Basketball" readonly>
                 </div>
@@ -62,22 +61,6 @@
             </form>
         </div>
     </div>
-
-    <script>
-        document.getElementById('tournament-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent form submission
-
-            // You would typically send this data to a server here
-            const formData = new FormData(this);
-            const data = {};
-            formData.forEach((value, key) => data[key] = value);
-
-            console.log("Tournament Data:", data);
-
-            // Redirect to another page (replace with your desired URL)
-            window.location.href = 'tournoi_details.html'; 
-        });
-    </script>
 
 </body>
 </html>
