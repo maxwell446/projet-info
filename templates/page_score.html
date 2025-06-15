@@ -109,90 +109,56 @@
 </head>
 <body>
     <div class="container">
-        <h1>*Nom du tournois*</h1>
+        <h1>Saisie des Scores</h1>
 
-        <form method="POST" action="/saisie_scores_match">
-            <div class="match-setup">
-                
-                <div class="team-select">
-                    <label for="equipe1_id">Équipe :</label>
-                    <select id="equipe1_id" name="equipe1_id" >
-                        <option value="">Sélectionner équipe 1</option>
-                        {% for equipe in equipes_disponibles %}
-                        <option value="{{ equipe }}">{{ equipe }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="team-select">
-                    <label for="equipe2_id">Équipe :</label>
-                    <select id="equipe2_id" name="equipe2_id" >
-                        <option value="">Sélectionner équipe 2</option>
-                        {% for equipe in equipes_disponibles %}
-                        <option value="{{ equipe }}">{{ equipe }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            </div>
-
-            <hr class="separator">
-
-            {% for match in calendrier %}
-            <div class="score-entry">
-                <h3>Journée {{ match.journee }}</h3>
-        
-                <div class="score-input-group">
-                    <label for="points_equipe1_{{ match.idMatch }}">{{ match.equipe1_nom }}</label>
-                    {% if match.score1 is not none %}
-                        {# Si le score 1 existe, l'afficher en texte #}
-                        <p class="display-score">{{ match.score1 }}</p>
-                    {% else %}
-                        {# Sinon, afficher le champ de saisie #}
-                        <input type="number" 
-                               id="points_equipe1_{{ match.idMatch }}" 
-                               name="score_{{ match.idMatch }}_equipe1" 
-                               value="0" 
-                               min="0" 
-                               required>
-                        <input type="hidden" name="match_id_{{ loop.index }}" value="{{ match.idMatch }}">
-                        <input type="hidden" name="equipe1_id_{{ loop.index }}" value="{{ match.equipe1_id }}">
-                    {% endif %}
-                </div>
-
-                <div class="divider"></div>
-
-                <div class="score-input-group">
-                    <label for="points_equipe2_{{ match.idMatch }}">{{ match.equipe2_nom }}</label>
-                    {% if match.score2 is not none %}
-                        {# Si le score 2 existe, l'afficher en texte #}
-                        <p class="display-score">{{ match.score2 }}</p>
-                    {% else %}
-                        {# Sinon, afficher le champ de saisie #}
-                        <input type="number" 
-                               id="points_equipe2_{{ match.idMatch }}" 
-                               name="score_{{ match.idMatch }}_equipe2" 
-                               value="0" 
-                               min="0" 
-                               required>
-                        <input type="hidden" name="equipe2_id_{{ loop.index }}" value="{{ match.equipe2_id }}">
-                    {% endif %}
-                </div>
-
-                <button type="submit" class="button-ok">OK</button>
-            </div>
-            {% endfor %}
-
-            <button type="submit" class="button-ok">Valider les scores</button>
-            
-            {% if message %}
-            <div class="message {% if 'succès' in message|lower %}success{% else %}error{% endif %}">
-                {{ message }}
-            </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                {% for category, message in messages %}
+                  <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul>
             {% endif %}
+        {% endwith %}
 
-        </form>
+        {# On boucle sur chaque match disponible dans le calendrier #}
+        {% for match in calendrier %}
+            {# CHAQUE MATCH A SON PROPRE FORMULAIRE #}
+            <form method="POST" action="{{ url_for('enregistrer_score_un_match') }}">
+                
+                <div class="score-entry">
+                    <h3>Journée {{ match.journee }}</h3>
+                    
+                    <input type="hidden" name="id_match" value="{{ match.id_match }}">
+
+                    <div class="score-input-group">
+                        <label>{{ match.equipe1_nom }}</label>
+                        {% if match.score1 is not none %}
+                            <p class="display-score">{{ match.score1 }}</p>
+                        {% else %}
+                            <input type="number" name="score1" value="0" min="0" required>
+                        {% endif %}
+                    </div>
+
+                    <div class="divider">vs</div>
+
+                    <div class="score-input-group">
+                        <label>{{ match.equipe2_nom }}</label>
+                        {% if match.score2 is not none %}
+                            <p class="display-score">{{ match.score2 }}</p>
+                        {% else %}
+                            <input type="number" name="score2" value="0" min="0" required>
+                        {% endif %}
+                    </div>
+                    
+                    {# Le bouton n'est affiché que si les scores ne sont pas encore saisis #}
+                    {% if match.score1 is none and match.score2 is none %}
+                        <button type="submit" class="button-ok">OK</button>
+                    {% endif %}
+                </div>
+            </form>
+            <hr class="separator">
+        {% endfor %}
     </div>
-
-    
 </body>
 </html>
