@@ -7,8 +7,8 @@
 </head>
 <body>
     <div class="container">
-        <a href="/" class="title">
-            {{nom_competition}}
+        <a href="/tournois/{{competition_info[0]}}" class="title">
+            {{competition_info[1]}}
         </a>
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
@@ -34,22 +34,20 @@
         </p>
 
         <div class="status-buttons">
-            <form action="{{ url_for('update_status', status=0) }}" method="post">
-                <button type="submit" class="phase-0">Passer en Phase 0 (Inscriptions)</button>
-            </form>
+            {% if current_status == 0 %}
             <form action="{{ url_for('update_status', status=1) }}" method="post">
                 <button type="submit" class="phase-1">Passer en Phase 1 (Poules)</button>
             </form>
+            {%else%}
+            <a href="/page_score">
+                <button type="submit">rentrer les scores</button>
+            </a>
             <form action="{{ url_for('update_status', status=2) }}" method="post">
-                <button type="submit" class="phase-2">Passer en Phase 2 (Tableaux)</button>
+                <button type="submit" class="phase-2">Cloturer la competitions</button>
             </form>
+            {% endif %}
         </div>
 
-        <div>
-            <a href="/page_score">
-                <button2 type="submit">rentrer les scores</button2>
-            </a>
-        </div>
     </div>
 </body>
 </html>

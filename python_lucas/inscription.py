@@ -179,38 +179,9 @@ def get_competition_details(id_competition):
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM Competition WHERE idCompetition = ?", (id_competition,))
         return cursor.fetchone()
-    except sqlite3.Error as e:
-        print(f"Erreur lors de la récupération des détails de la compétition: {e}")
-        return None
     finally:
         if conn:
             conn.close()
-
-def get_competition_details(id_competition):
-    conn = None
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM Competition WHERE idCompetition = ?", (id_competition,))
-        return cursor.fetchone()
-    finally:
-        if conn:
-            conn.close()
-
-"""
-def get_all_teams_in_competition(id_competition):
-    conn = None
-    teams = []
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("SELECT idEquipe, nom_equipe FROM Equipe WHERE idCompetition = ?", (id_competition,))
-        teams = cursor.fetchall()
-        return teams
-    finally:
-        if conn:
-            conn.close()
-"""
 
 
 def get_nb_equipe_in_competition(id_competition):

@@ -130,9 +130,10 @@ def gerer_inscription_equipe_joueurs():
 def afficher_equipe(id_equipe):
     equipe_details = get_equipe_details(id_equipe)
     joueurs = get_joueurs_by_equipe_id(id_equipe)
+    competition_info = get_competition_details(CURRENT_COMPETITION_ID)
     
     if equipe_details:
-        return render_template('afficher_equipe.html', equipe=equipe_details, joueurs=joueurs)
+        return render_template('afficher_equipe.html', equipe=equipe_details, joueurs=joueurs, competition=competition_info)
     else:
         flash("Équipe non trouvée ou erreur de récupération.", 'error')
         return redirect(url_for('inscription_equipe_form'))
@@ -185,7 +186,7 @@ def page_spectateur():
 def page_orga():
     competition_info = get_competition_details(CURRENT_COMPETITION_ID)
     current_status = competition_info['etat_competition'] if competition_info else -1 
-    return render_template('page_orga.html', current_status=current_status)
+    return render_template('page_orga.html', current_status=current_status, competition_info=competition_info)
 
 @app.route('/update_competition_status/<int:status>', methods=['POST'])
 def update_status(status):
