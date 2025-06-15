@@ -344,7 +344,6 @@ def get_all_team_names(idCompetition):
             conn.close()
     return team_names
 
-print(get_all_team_names(1))
 
 import sqlite3
 import math
@@ -450,19 +449,8 @@ def generer_calendrier_round_robin(id_competition):
                 })
 
     return calendrier_genere
-print(generer_calendrier_round_robin(1))
 
 def recuperer_calendrier_match(id_competition):
-    """
-    Récupère le calendrier d'une compétition avec les noms des équipes,
-    en utilisant des requêtes SQL séparées pour une meilleure lisibilité.
-
-    Args:
-        id_competition (int): L'ID de la compétition.
-
-    Returns:
-        list: Une liste de dictionnaires, où chaque dictionnaire représente un match.
-    """
     calendrier_final = []
     conn = None
     try:
@@ -491,6 +479,7 @@ def recuperer_calendrier_match(id_competition):
             if resultat_equipe2:
                 nom_equipe2 = resultat_equipe2['nom_equipe']
             calendrier_final.append({
+                'id_match': match_row['idMatch'],
                 'journee': match_row['journee'],
                 'equipe1_id': id_equipe1,
                 'equipe1_nom': nom_equipe1,
@@ -507,7 +496,6 @@ def recuperer_calendrier_match(id_competition):
             conn.close()
 
     return calendrier_final
-print(recuperer_calendrier_match(1))
 
 def ajouter_score(calendrier, journee_cible, id_equipe_cible, score_equipe):
     try :
@@ -524,3 +512,30 @@ def ajouter_score(calendrier, journee_cible, id_equipe_cible, score_equipe):
         return False
     except sqlite3.Error as e:
         return False
+    
+
+
+
+
+
+# python_lucas/inscription.py
+
+def mettre_a_jour_score_match(id_match, score1, score2):
+    conn = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        sql = """
+            UPDATE Match 
+            SET score1 = ?, score2 = ? 
+            WHERE idMatch = ?
+        """
+        cursor.execute(sql, (score1, score2, id_match))
+        conn.commit()
+        return cursor.rowcount > 0 
+    except sqlite3.Error as e:
+        print(f"Erreur SQLite lors de la mise à jour des scores : {e}")
+        return False
+    finally:
+        if conn:
+            conn.close()

@@ -38,13 +38,14 @@
             <form action="{{ url_for('update_status', status=1) }}" method="post">
                 <button type="submit" class="phase-1">Passer en Phase 1 (Poules)</button>
             </form>
-            {%else%}
+            {%elif current_status == 1 %}
             <a href="/page_score">
                 <button type="submit">rentrer les scores</button>
             </a>
             <form action="{{ url_for('update_status', status=2) }}" method="post">
                 <button type="submit" class="phase-2">Cloturer la competitions</button>
             </form>
+            {%else%}
             {% endif %}
         </div>
 
