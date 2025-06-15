@@ -192,7 +192,7 @@ def update_status(status):
     success, message = miseajour_statuts_compet(CURRENT_COMPETITION_ID, status)
     if success:
         flash(f"Statut de la compétition : {status}. {message}", 'success')
-        
+
     else:
         flash(f"Erreur lors de la mise à jour du statut : {message}", 'error')
     return redirect(url_for('page_orga'))
@@ -230,10 +230,21 @@ def inscription_orga2():
             return render_template('page_incrip_orga.html', para=erreur)
     
 @app.route('/page_score')
-def aller_sur_page_score ():
+def aller_sur_page_score():
     calendrier = generer_calendrier_round_robin(CURRENT_COMPETITION_ID)
-    equipes_disponibles = get_all_team_names(CURRENT_COMPETITION_ID) 
-    return render_template('page_score.html', calendrier=calendrier, equipes_disponibles=equipes_disponibles)
+    equipes_disponibles = get_all_team_names(CURRENT_COMPETITION_ID)
+
+    # Vérifier si tous les matchs ont des scores complets
+    tous_scores_entres = True
+    for match in calendrier:
+        if match['score1'] is None and match['score2'] is None:
+            tous_scores_entres = False
+            break # Pas besoin de vérifier le reste si un match est incomplet
+
+    return render_template('page_score.html',
+                           calendrier=calendrier,
+                           equipes_disponibles=equipes_disponibles,
+                           tous_scores_entres=tous_scores_entres) # Passer le flag au template
     
 @app.route('/saisie_scores_match')
 def rentrer_score():

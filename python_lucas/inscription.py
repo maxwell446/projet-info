@@ -545,6 +545,48 @@ def generer_calendrier_round_robin(id_competition):
     return calendrier_genere
 #print(generer_calendrier_round_robin(1))
 
+def recuperer_calendrier_match(id_competition):
+    """
+    Récupère les matchs d'une compétition spécifique depuis une base de données SQLite
+    et les formate dans une liste de dictionnaires.
+
+    Args:
+        chemin_bdd (str): Le chemin complet vers le fichier de la base de données SQLite.
+        id_competition_cible (int): L'ID de la compétition dont les matchs doivent être récupérés.
+
+    Returns:
+        list: Une liste de dictionnaires, chaque dictionnaire représentant un match,
+              ou une liste vide en cas d'erreur ou d'absence de matchs.
+              Exemple de format :
+              [
+                  {'journee': 1, 'equipe1_id': 1, 'equipe1_nom': 'PTITLu', 'equipe2_id': 3, 'equipe2_nom': 'la chiente', 'score1': 56, 'score2': 45, 'idMatch': 1},
+                  # ... autres matchs
+              ]
+    """
+    calendrier_recuperer = []
+    conn = None
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Requête SQL pour récupérer les matchs avec les noms des équipes
+        # Correction ici : utilisation de E1.nom_equipe et E2.nom_equipe
+        sql_query = """
+        SELECT * FROM Match WHERE idCompetition = ?
+        """
+        cursor.execute(f"SELECT * FROM Match WHERE idCompetition = {id_competition}")   
+        rows = cursor.fetchone()
+        print(rows)
+        print(f"DEBUG: Nombre de matchs récupérés de la base de données pour la compétition {id_competition}: {len(rows)}")
+        print("--------------------------------------------------------------------------")
+        
+    finally:
+        if conn:
+            conn.close()
+    
+    return calendrier_recuperer
+
+print(recuperer_calendrier_match(1))
 
 def ajouter_score(calendrier, journee_cible, id_equipe_cible, score_equipe):
     try :

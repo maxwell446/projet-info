@@ -116,7 +116,7 @@
                 
                 <div class="team-select">
                     <label for="equipe1_id">Équipe :</label>
-                    <select id="equipe1_id" name="equipe1_id" required>
+                    <select id="equipe1_id" name="equipe1_id" >
                         <option value="">Sélectionner équipe 1</option>
                         {% for equipe in equipes_disponibles %}
                         <option value="{{ equipe }}">{{ equipe }}</option>
@@ -126,7 +126,7 @@
 
                 <div class="team-select">
                     <label for="equipe2_id">Équipe :</label>
-                    <select id="equipe2_id" name="equipe2_id" required>
+                    <select id="equipe2_id" name="equipe2_id" >
                         <option value="">Sélectionner équipe 2</option>
                         {% for equipe in equipes_disponibles %}
                         <option value="{{ equipe }}">{{ equipe }}</option>
@@ -143,28 +143,39 @@
         
                 <div class="score-input-group">
                     <label for="points_equipe1_{{ match.idMatch }}">{{ match.equipe1_nom }}</label>
-                    <input type="number" 
-                           id="points_equipe1_{{ match.idMatch }}" 
-                           name="score_{{ match.idMatch }}_equipe1" {# Nom unique pour le score de l'équipe 1 de ce match #}
-                           value="{{ match.score1 if match.score1 is not none else 0 }}"
-                           min="0" 
-                           required>
-                    <input type="hidden" name="match_id_{{ loop.index }}" value="{{ match.idMatch }}">
-                    <input type="hidden" name="equipe1_id_{{ loop.index }}" value="{{ match.equipe1_id }}">
+                    {% if match.score1 is not none %}
+                        {# Si le score 1 existe, l'afficher en texte #}
+                        <p class="display-score">{{ match.score1 }}</p>
+                    {% else %}
+                        {# Sinon, afficher le champ de saisie #}
+                        <input type="number" 
+                               id="points_equipe1_{{ match.idMatch }}" 
+                               name="score_{{ match.idMatch }}_equipe1" 
+                               value="0" 
+                               min="0" 
+                               required>
+                        <input type="hidden" name="match_id_{{ loop.index }}" value="{{ match.idMatch }}">
+                        <input type="hidden" name="equipe1_id_{{ loop.index }}" value="{{ match.equipe1_id }}">
+                    {% endif %}
                 </div>
 
                 <div class="divider"></div>
 
                 <div class="score-input-group">
-                    {# Affiche le nom de la deuxième équipe du match actuel #}
                     <label for="points_equipe2_{{ match.idMatch }}">{{ match.equipe2_nom }}</label>
-                    <input type="number" 
-                           id="points_equipe2_{{ match.idMatch }}" 
-                           name="score_{{ match.idMatch }}_equipe2" {# Nom unique pour le score de l'équipe 2 de ce match #}
-                           value="{{ match.score2 if match.score2 is not none else 0 }}" {# Pré-remplit si le score existe, sinon 0 #}
-                           min="0" 
-                           required>
-                    <input type="hidden" name="equipe2_id_{{ loop.index }}" value="{{ match.equipe2_id }}">
+                    {% if match.score2 is not none %}
+                        {# Si le score 2 existe, l'afficher en texte #}
+                        <p class="display-score">{{ match.score2 }}</p>
+                    {% else %}
+                        {# Sinon, afficher le champ de saisie #}
+                        <input type="number" 
+                               id="points_equipe2_{{ match.idMatch }}" 
+                               name="score_{{ match.idMatch }}_equipe2" 
+                               value="0" 
+                               min="0" 
+                               required>
+                        <input type="hidden" name="equipe2_id_{{ loop.index }}" value="{{ match.equipe2_id }}">
+                    {% endif %}
                 </div>
 
                 <button type="submit" class="button-ok">OK</button>

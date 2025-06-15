@@ -7,43 +7,43 @@
 
     <div class="score-entry">
         {# Bloc pour la première équipe #}
-        <div class="score-input-group">
-            <label for="points_equipe1_{{ match.idMatch }}">{{ match.equipe1_nom }}</label>
-            {% if match.score1 is not none %}
-                {# Si le score 1 existe, l'afficher en texte #}
-                <p class="display-score">{{ match.score1 }}</p>
-            {% else %}
-                {# Sinon, afficher le champ de saisie #}
-                <input type="number" 
-                       id="points_equipe1_{{ match.idMatch }}" 
-                       name="score_{{ match.idMatch }}_equipe1" 
-                       value="0" 
-                       min="0" 
-                       required>
-                <input type="hidden" name="match_id_{{ loop.index }}" value="{{ match.idMatch }}">
-                <input type="hidden" name="equipe1_id_{{ loop.index }}" value="{{ match.equipe1_id }}">
-            {% endif %}
-        </div>
+                <div class="score-input-group">
+                    <label for="points_equipe1_{{ match.idMatch }}">{{ match.equipe1_nom }}</label>
+                    {% if match.score1 is not none %}
+                        {# Si le score 1 existe, l'afficher en texte #}
+                        <p class="display-score">{{ match.score1 }}</p>
+                    {% else %}
+                        {# Sinon, afficher le champ de saisie #}
+                        <input type="number" 
+                               id="points_equipe1_{{ match.idMatch }}" 
+                               name="score_{{ match.idMatch }}_equipe1" 
+                               value="0" 
+                               min="0" 
+                               required>
+                        <input type="hidden" name="match_id_{{ loop.index }}" value="{{ match.idMatch }}">
+                        <input type="hidden" name="equipe1_id_{{ loop.index }}" value="{{ match.equipe1_id }}">
+                    {% endif %}
+                </div>
 
         <div class="divider"></div>
 
         {# Bloc pour la deuxième équipe #}
-        <div class="score-input-group">
-            <label for="points_equipe2_{{ match.idMatch }}">{{ match.equipe2_nom }}</label>
-            {% if match.score2 is not none %}
-                {# Si le score 2 existe, l'afficher en texte #}
-                <p class="display-score">{{ match.score2 }}</p>
-            {% else %}
-                {# Sinon, afficher le champ de saisie #}
-                <input type="number" 
-                       id="points_equipe2_{{ match.idMatch }}" 
-                       name="score_{{ match.idMatch }}_equipe2" 
-                       value="0" 
-                       min="0" 
-                       required>
-                <input type="hidden" name="equipe2_id_{{ loop.index }}" value="{{ match.equipe2_id }}">
-            {% endif %}
-        </div>
+                <div class="score-input-group">
+                    <label for="points_equipe2_{{ match.idMatch }}">{{ match.equipe2_nom }}</label>
+                    {% if match.score2 is not none %}
+                        {# Si le score 2 existe, l'afficher en texte #}
+                        <p class="display-score">{{ match.score2 }}</p>
+                    {% else %}
+                        {# Sinon, afficher le champ de saisie #}
+                        <input type="number" 
+                               id="points_equipe2_{{ match.idMatch }}" 
+                               name="score_{{ match.idMatch }}_equipe2" 
+                               value="0" 
+                               min="0" 
+                               required>
+                        <input type="hidden" name="equipe2_id_{{ loop.index }}" value="{{ match.equipe2_id }}">
+                    {% endif %}
+                </div>
     </div>
     {% endfor %}
 
