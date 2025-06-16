@@ -171,27 +171,28 @@ def logout():
 @app.route('/page_spectateur/<int:id_competition>')
 def page_spectateur(id_competition):
     competition_info = get_competition_details(id_competition)
-    equipes = []
     equipes = get_all_teams_in_competition(id_competition)
+    classement_final = None # Initialiser le classement à None
+
     if competition_info:
-        if competition_info['etat_competition'] == 0:
-            message_spectateur = "Voici la liste des équipes inscrites pour le moment :"
-        elif competition_info['etat_competition'] == 1:
-            message_spectateur = "La compétition est en cours (Phase de poules). Plus de détails bientôt !"
-            # a faire
-        elif competition_info['etat_competition'] == 2:
-            message_spectateur = "La compétition est en cours (Phase de tableaux). Plus de détails bientôt !"
-            # a faire
-        else:
-            message_spectateur = "Statut de compétition inconnu."
-    else:
-        message_spectateur = "Aucune compétition n'est active pour le moment."
+        if competition_info['etat_competition'] == 2:
+            classement_final = classement_general(id_competition)
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            for equipe_stats in classement_final:
+                cursor.execute("SELECT nom_equipe FROM Equipe WHERE idEquipe = ?", (equipe_stats['idequipe'],))
+                result = cursor.fetchone()
+                equipe_stats['nom_equipe'] = result['nom_equipe'] if result else 'Nom Inconnu'
+            conn.close()
 
-    return render_template('page_spectateur.html', equipes=equipes, message_spectateur=message_spectateur, 
-                            nom_competition = competition_info[1] if competition_info else "Compétition inconnue", 
-                            id_competition = competition_info[0] if competition_info else "Compétition inconnue")
-
-
+    return render_template(
+        'page_spectateur.html', 
+        competition=competition_info,
+        equipes=equipes, 
+        classement=classement_final, # Passer le classement au template
+        nom_competition=competition_info['nom_competition'] if competition_info else "Compétition inconnue", 
+        id_competition=id_competition
+    )
 ################################cote organisateur##########################
 @app.route('/page_orga/<int:id_competition>')
 def page_orga(id_competition):
@@ -229,7 +230,10 @@ def page_orga(id_competition):
 def update_status(status, id_competition):
     competition_info = get_competition_details(id_competition)
     success, message = miseajour_statuts_compet(competition_info[0], status)
-    tableau = generer_calendrier_round_robin(competition_info[0])
+    if status == 1:
+        tableau = generer_calendrier_round_robin(competition_info[0])
+    elif status == 2:
+        classement = classement_general(id_competition)
     if success:
         flash(f"Statut de la compétition : {status}. {message}", 'success')
     else:

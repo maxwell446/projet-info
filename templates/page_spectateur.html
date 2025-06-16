@@ -13,7 +13,6 @@
         </a>
         <h1>Page Spectateur</h1>
 
-
         {% if competition and competition.etat_competition == 0 %}
             {% if equipes %}
                 <h2>Équipes inscrites :</h2>
@@ -68,7 +67,51 @@
                 <p>Aucune équipe n'est inscrite pour cette compétition.</p>
             {% endif %}
         {% elif competition and competition.etat_competition == 2 %}
-            <p>Détails des tableaux à venir...</p>
+            <h1>Classement Général</h1>
+                {% if classement|length >= 3 %}
+                <div class="podium">
+                    <div class="podium-place second">
+                        <div class="podium-rank">2</div>
+                        <div class="podium-team">{{ classement[1].nom_equipe }}</div>
+                    </div>
+                    <div class="podium-place first">
+                        <div class="podium-rank">1</div>
+                        <div class="podium-team">{{ classement[0].nom_equipe }}</div>
+                    </div>
+                    <div class="podium-place third">
+                        <div class="podium-rank">3</div>
+                        <div class="podium-team">{{ classement[2].nom_equipe }}</div>
+                    </div>
+                </div>
+                {% endif %}
+                <table class="classement-table">
+                    <thead>
+                        <tr>
+                            <th>Rang</th>
+                            <th>Équipe</th>
+                            <th>Gagnés</th>
+                            <th>Nuls</th>
+                            <th>Perdus</th>
+                            <th>PP</th>
+                            <th>PC</th>
+                            <th>Diff.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for equipe in classement %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>{{ equipe.nom_equipe }}</td>
+                            <td>{{ equipe.gagnes }}</td>
+                            <td>{{ equipe.nuls }}</td>
+                            <td>{{ equipe.perdus }}</td>
+                            <td>{{ equipe.PP }}</td>
+                            <td>{{ equipe.PC }}</td>
+                            <td>{{ equipe.difference }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
         {% endif %}
     </div>
 </body>

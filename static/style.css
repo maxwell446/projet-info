@@ -571,3 +571,63 @@ a{
             text-align: left;
             font-weight: bold;
         }
+
+
+
+
+.podium {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 40px;
+    height: 250px;
+}
+
+.podium-place {
+    width: 120px;
+    text-align: center;
+    color: white;
+    padding: 10px;
+    margin: 0 10px;
+    border-radius: 5px;
+}
+
+.podium-place.first {
+    background-color: #ffd700; 
+    height: 200px;
+    order: 2;
+}
+
+.podium-place.second {
+    background-color: #c0c0c0; 
+    height: 150px;
+    order: 1;
+}
+
+.podium-place.third {
+    background-color: #cd7f32; 
+    height: 100px;
+    order: 3;
+}
+
+.podium-rank {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.podium-team {
+    margin-top: 10px;
+    font-size: 1.2em;
+}
+
+.classement-table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+.classement-table th, .classement-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
