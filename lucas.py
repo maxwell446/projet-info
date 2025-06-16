@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 import os
 import sqlite3
 
-from python_lucas.inscription import get_all_team_names, ajouter_score, generer_calendrier_round_robin, get_db_connection, get_nb_equipe_in_competition, inscription_login_orga, get_all_competition,get_equipe_details, get_joueurs_by_equipe_id, inscription_login_capitaine, inscription_capitaine_and_equipe, inscription_joueur, get_capitaine_equipe_by_login_id, get_all_teams_in_competition , get_competition_details, miseajour_statuts_compet,create_competition,mettre_a_jour_score_match,recuperer_calendrier_match
+from python_lucas.inscription import get_all_team_names, ajouter_score, generer_calendrier_round_robin, get_db_connection, get_nb_equipe_in_competition, inscription_login_orga, get_all_competition,get_equipe_details, get_joueurs_by_equipe_id, inscription_login_capitaine, inscription_capitaine_and_equipe, inscription_joueur, get_capitaine_equipe_by_login_id, get_all_teams_in_competition , get_competition_details, miseajour_statuts_compet,create_competition,recuperer_calendrier_match
 from python_lucas.connexion import connexion_capitaine, connexion_arbitre, connexion_orga
 
 app = Flask(__name__)
