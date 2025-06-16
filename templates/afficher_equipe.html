@@ -8,8 +8,8 @@
 </head>
 <body>
     <div class="container">
-        <a href="/tournois/{{competition[0]}}" class="title">
-            {{competition[1]}}
+        <a href="/tournois/{{id_competition}}" class="title">
+            {{nom_competition}}
         </a>
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
