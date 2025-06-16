@@ -55,7 +55,9 @@ def page_login_capitaine(id_competition):
         if id_equipe_existante:
             flash("Vous êtes déjà connecté et avez une équipe inscrite.", 'info')
             return redirect(url_for('afficher_equipe', id_equipe=id_equipe_existante))
-    return render_template('page_login_capitaine.html', competition_info=competition_info)
+    return render_template('page_login_capitaine.html', 
+                           nom_competition = competition_info[1] if competition_info else "Compétition inconnue", 
+                           id_competition = competition_info[0] if competition_info else "Compétition inconnue")
 
 @app.route('/page_incrip_capitaine')
 def page_incrip_capitaine():
@@ -96,8 +98,8 @@ def connexion_capitaine2():
 
 #jia bien modifie et simplifier car le cas ou les champs ne sont pas rempli vont etre gere en html pour plus de simplicite cote utilisateur!
 
-@app.route('/form_inscription_equipe', methods=['POST'])
-def gerer_inscription_equipe_joueurs():
+@app.route('/form_inscription_equipe/<int:id_competition>', methods=['POST'])
+def gerer_inscription_equipe_joueurs(id_competition):
     if request.method == 'POST':
         if 'login_id' not in session:
             flash("Vous devez être connecté pour inscrire une équipe.", 'error')
@@ -110,8 +112,9 @@ def gerer_inscription_equipe_joueurs():
         nom_capitaine = request.form.get('nom_capitaine')
         prenom_capitaine = request.form.get('prenom_capitaine')
         nom_equipe = request.form.get('nom_equipe')
+        competition_info = get_competition_details(id_competition)
         id_equipe, message_equipe = inscription_capitaine_and_equipe(
-            nom_capitaine, prenom_capitaine, nom_equipe, id_login_capitaine, CURRENT_COMPETITION_ID
+            nom_capitaine, prenom_capitaine, nom_equipe, id_login_capitaine, id_competition = competition_info[0], nom_competition = competition_info[1]
         )
         if id_equipe is not None:
             flash(message_equipe, 'success') 
@@ -130,14 +133,16 @@ def gerer_inscription_equipe_joueurs():
             return render_template('page_capitaine.html')
     return redirect(url_for('page_html'))
 
-@app.route('/afficher_equipe/<int:id_equipe>')
-def afficher_equipe(id_equipe):
+@app.route('/afficher_equipe/<int:id_equipe>/<int:id_competition>')
+def afficher_equipe(id_equipe, id_competition):
     equipe_details = get_equipe_details(id_equipe)
     joueurs = get_joueurs_by_equipe_id(id_equipe)
-    competition_info = get_competition_details(CURRENT_COMPETITION_ID)
+    competition_info = get_competition_details(id_competition)
     
     if equipe_details:
-        return render_template('afficher_equipe.html', equipe=equipe_details, joueurs=joueurs, competition=competition_info)
+        return render_template('afficher_equipe.html', equipe=equipe_details, joueurs=joueurs, 
+                               nom_competition = competition_info[1] if competition_info else "Compétition inconnue", 
+                               id_competition = competition_info[0] if competition_info else "Compétition inconnue")
     else:
         flash("Équipe non trouvée ou erreur de récupération.", 'error')
         return redirect(url_for('inscription_equipe_form'))
@@ -182,27 +187,54 @@ def page_spectateur(id_competition):
     else:
         message_spectateur = "Aucune compétition n'est active pour le moment."
 
-    return render_template('page_spectateur.html', competition=competition_info, equipes=equipes, message_spectateur=message_spectateur)
+    return render_template('page_spectateur.html', equipes=equipes, message_spectateur=message_spectateur, 
+                            nom_competition = competition_info[1] if competition_info else "Compétition inconnue", 
+                            id_competition = competition_info[0] if competition_info else "Compétition inconnue")
 
 
 ################################cote organisateur##########################
 @app.route('/page_orga/<int:id_competition>')
 def page_orga(id_competition):
     competition_info = get_competition_details(id_competition)
-    current_status = competition_info['etat_competition'] if competition_info else -1 
-    return render_template('page_orga.html', current_status=current_status, competition_info=competition_info)
+    current_status = -1
+    nom_competition_display = "Compétition inconnue" 
 
-@app.route('/update_competition_status/<int:status>', methods=['POST'])
-def update_status(status):
-    success, message = miseajour_statuts_compet(CURRENT_COMPETITION_ID, status)
-    tableau = generer_calendrier_round_robin(CURRENT_COMPETITION_ID)
-    if status ==2:
-        classement= classement_general(CURRENT_COMPETITION_ID)
+    if competition_info:
+        current_status = competition_info['etat_competition']
+        nom_competition_display = competition_info['nom_competition']
+        
+    if current_status == 0:
+        message_spectateur = "Voici la liste des équipes inscrites pour le moment :"
+
+    elif current_status == 1:
+        message_spectateur = "La compétition est en cours (Phase de poules). Plus de détails bientôt !"
+
+    elif current_status == 2:
+        message_spectateur = "La compétition est en cours (Phase de tableaux). Plus de détails bientôt !"
+
+    else:
+        message_spectateur = "Statut de compétition inconnu."
+        if not competition_info: # Si aucune compétition n'a été trouvée du tout
+            message_spectateur = "Aucune compétition n'est active pour le moment."
+
+    return render_template('page_orga.html',
+                           current_status=current_status,
+                           competition_info=competition_info, # Passez l'objet entier si vous en avez besoin dans le template
+                           nom_competition=nom_competition_display, # Le nom de la compétition pour affichage
+                           id_competition=competition_info[0], # L'ID de la compétition du paramètre URL
+                           message_spectateur=message_spectateur)
+
+
+@app.route('/update_competition_status/<int:id_competition>/<int:status>', methods=['POST'])
+def update_status(status, id_competition):
+    competition_info = get_competition_details(id_competition)
+    success, message = miseajour_statuts_compet(competition_info[0], status)
+    tableau = generer_calendrier_round_robin(competition_info[0])
     if success:
         flash(f"Statut de la compétition : {status}. {message}", 'success')
     else:
         flash(f"Erreur lors de la mise à jour du statut : {message}", 'error')
-    return redirect(url_for('page_orga', id_competition=CURRENT_COMPETITION_ID))
+    return redirect(url_for('page_orga', id_competition = competition_info[0]))
 
 @app.route('/page_login_orga')
 def login_orga ():
@@ -254,10 +286,11 @@ def inscription_orga2():
             erreur = "inscription impossible "
             return render_template('page_incrip_orga.html', para=erreur)
     
-@app.route('/page_score')
-def aller_sur_page_score():
-    calendrier = recuperer_calendrier_match(CURRENT_COMPETITION_ID)
-    equipes_disponibles = get_all_team_names(CURRENT_COMPETITION_ID)
+@app.route('/page_score/<int:id_competition>')
+def aller_sur_page_score(id_competition):
+    competition_info = get_competition_details(id_competition)
+    calendrier = recuperer_calendrier_match(competition_info[0])
+    equipes_disponibles = get_all_team_names(competition_info[0])
 
     # Vérifier si tous les matchs ont des scores complets
     tous_scores_entres = True
