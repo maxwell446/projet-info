@@ -36,7 +36,7 @@ def connexion_capitaine (identifiant, mdp):
 
 def connexion_orga (s,p):
     import sqlite3
-    conn = sqlite3.connect('tournois de sport.sqlite')
+    conn = sqlite3.connect(DATABASE_NAME)
     cur = conn.cursor()
 
 
@@ -54,7 +54,7 @@ def connexion_orga (s,p):
 
 def connexion_arbitre (s,p):
     import sqlite3
-    conn = sqlite3.connect('tournois de sport.sqlite')
+    conn = sqlite3.connect(DATABASE_NAME)
     cur = conn.cursor()
 
 
