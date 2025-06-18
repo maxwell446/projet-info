@@ -155,13 +155,12 @@ def afficher_equipe(id_equipe, id_competition):
 def inscription_equipe_form(id_competition):
     if 'login_id' not in session:
         flash("Vous devez être connecté pour inscrire une équipe.", 'error')
-        return redirect(url_for('page_login_capitaine'))
+        return redirect(url_for('page_login_capitaine', id_competition = id_competition))
     id_equipe_existante = get_capitaine_equipe_by_login_id(session['login_id'])
-    
     if id_equipe_existante:
         flash("Vous avez déjà inscrit une équipe. Redirection vers votre page d'équipe.", 'warning')
-        return redirect(url_for('afficher_equipe', id_equipe=id_equipe_existante))
-    return render_template('page_capitaine.html')
+        return redirect(url_for('afficher_equipe', id_equipe=id_equipe_existante, id_competition=id_competition))
+    return render_template('page_capitaine.html', id_competition=id_competition)
 
 @app.route('/logout')
 def logout():
