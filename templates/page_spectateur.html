@@ -18,8 +18,7 @@
                 <h2>Équipes inscrites :</h2>
                 <ul>
                 {% for equipe in equipes %}
-                    <li><a href="{{ url_for('afficher_equipe', id_equipe=equipe[0]) }}">{{ equipe[1] }}</a></li>
-                {% endfor %}
+                    <li><a href="{{ url_for('afficher_equipe', id_equipe=equipe[0], id_competition=id_competition) }}">{{ equipe[1] }}</a></li>                {% endfor %}
                 </ul>
             {% else %}
                 <p>Aucune équipe n'est encore inscrite pour cette compétition.</p>

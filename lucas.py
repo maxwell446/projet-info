@@ -54,31 +54,33 @@ def page_login_capitaine(id_competition):
         id_equipe_existante = get_capitaine_equipe_by_login_id(session['login_id'])
         if id_equipe_existante:
             flash("Vous êtes déjà connecté et avez une équipe inscrite.", 'info')
-            return redirect(url_for('afficher_equipe', id_equipe=id_equipe_existante))
+            return redirect(url_for('afficher_equipe', id_equipe=id_equipe_existante , id_competition = id_competition))
     return render_template('page_login_capitaine.html', 
                            nom_competition = competition_info[1] if competition_info else "Compétition inconnue", 
                            id_competition = competition_info[0] if competition_info else "Compétition inconnue")
 
-@app.route('/page_incrip_capitaine')
-def page_incrip_capitaine():
-    return render_template('page_incrip_capitaine.html')
+@app.route('/<int:id_competition>/page_incrip_capitaine')
+def page_incrip_capitaine(id_competition):
+    tournoi = get_competition_details(id_competition)
+    return render_template('page_incrip_capitaine.html', id_competition = id_competition,nom_competition= tournoi[1] )
 
-@app.route('/inscription.capitaine', methods=['POST'])
-def verif_inscription_capitaine():
+@app.route('/<int:id_competition>/inscription.capitaine', methods=['POST'])
+def verif_inscription_capitaine(id_competition):
     if request.method == 'POST':
         identifiant = request.form['identifiant']
         mdp = request.form['mdp']
         success, message = inscription_login_capitaine(identifiant, mdp)
         if success:
             flash(message, 'success')
-            return redirect(url_for('page_login_capitaine'))
+            return redirect(url_for('page_login_capitaine', id_competition = id_competition ))
         else:
             flash(message, 'error') 
-            return render_template('page_incrip_capitaine.html')
-    return redirect(url_for('page_incrip_capitaine'))
+            return render_template('page_incrip_capitaine.html', id_competition = id_competition)
+    return redirect(url_for('page_incrip_capitaine', id_competition=id_competition))
 
-@app.route('/connexion_capitaine', methods=['POST'])
-def connexion_capitaine2():
+
+@app.route('/<int:id_competition>/connexion_capitaine', methods=['POST'])
+def connexion_capitaine2(id_competition):
     if request.method == 'POST':
         identifiant = request.form['id_conn']
         mdp = request.form['mot_dp']
@@ -87,14 +89,15 @@ def connexion_capitaine2():
             id_equipe_existante = get_capitaine_equipe_by_login_id(identifiant)           
             if id_equipe_existante:
                 flash("Connexion réussie ! Vous avez déjà une équipe inscrite.", 'success')
-                return redirect(url_for('afficher_equipe', id_equipe=id_equipe_existante))
+                return redirect(url_for('afficher_equipe', id_equipe=id_equipe_existante, id_competition=id_competition))
+
             else:
                 flash("Connexion réussie ! Veuillez inscrire votre équipe.", 'success')
-                return redirect(url_for('inscription_equipe_form'))
+                return redirect(url_for('inscription_equipe_form', id_competition = id_competition))
         else:
             flash("Identifiant ou mot de passe incorrect.", 'error')
-            return render_template('page_login_capitaine.html', param="Identifiant ou mot de passe incorrect")
-    return redirect(url_for('page_login_capitaine')) 
+            return render_template('page_login_capitaine.html', param="Identifiant ou mot de passe incorrect,", id_competition = id_competition)
+    return redirect(url_for('page_login_capitaine', id_competition = id_competition)) 
 
 #jia bien modifie et simplifier car le cas ou les champs ne sont pas rempli vont etre gere en html pour plus de simplicite cote utilisateur!
 
@@ -103,12 +106,12 @@ def gerer_inscription_equipe_joueurs(id_competition):
     if request.method == 'POST':
         if 'login_id' not in session:
             flash("Vous devez être connecté pour inscrire une équipe.", 'error')
-            return redirect(url_for('page_login_capitaine'))
+            return redirect(url_for('page_login_capitaine', id_competition = id_competition))
         id_login_capitaine = session['login_id']
         id_equipe_existante = get_capitaine_equipe_by_login_id(id_login_capitaine)
         if id_equipe_existante is not None:
             flash("Vous avez déjà inscrit une équipe. Vous ne pouvez pas en inscrire une deuxième.", 'warning')
-            return redirect(url_for('afficher_equipe', id_equipe=id_equipe_existante))
+            return redirect(url_for('afficher_equipe', id_equipe=id_equipe_existante, id_competition=id_competition))
         nom_capitaine = request.form.get('nom_capitaine')
         prenom_capitaine = request.form.get('prenom_capitaine')
         nom_equipe = request.form.get('nom_equipe')
@@ -127,10 +130,13 @@ def gerer_inscription_equipe_joueurs(id_competition):
                         flash(message_joueur, 'warning') 
                 else:
                     flash(f"Le joueur {i} n'a pas été entièrement renseigné et n'a pas été inscrit.", 'info')
-            return redirect(url_for('afficher_equipe', id_equipe=id_equipe))
+            return redirect(url_for('afficher_equipe', id_equipe=id_equipe, id_competition=id_competition))
         else:
             flash(message_equipe, 'error') 
-            return render_template('page_capitaine.html')
+            competition_info = get_competition_details(id_competition)
+            return render_template('page_capitaine.html', 
+                       id_competition=id_competition,
+                       nom_competition=competition_info['nom_competition'] if competition_info else "Compétition")
     return redirect(url_for('page_html'))
 
 @app.route('/afficher_equipe/<int:id_equipe>/<int:id_competition>')
@@ -145,10 +151,10 @@ def afficher_equipe(id_equipe, id_competition):
                                id_competition = competition_info[0] if competition_info else "Compétition inconnue")
     else:
         flash("Équipe non trouvée ou erreur de récupération.", 'error')
-        return redirect(url_for('inscription_equipe_form'))
+        return redirect(url_for('page_html', id_competition=id_competition))
     
 @app.route('/inscription_equipe_form')
-def inscription_equipe_form():
+def inscription_equipe_form(id_competition):
     if 'login_id' not in session:
         flash("Vous devez être connecté pour inscrire une équipe.", 'error')
         return redirect(url_for('page_login_capitaine'))
@@ -271,12 +277,10 @@ def connexion_orga2 ():
         mdp = request.form.get('mot_dp')
         print(identifiant, mdp)
         if connexion_orga(identifiant, mdp) == True :
-            # On redirige vers la nouvelle fonction 'creer_tournoi'
             return redirect(url_for('creer_tournoi'))
         else :
             erreur = "login ou mot de passe incorrect"
-            return render_template('page_login_orga.html', param=erreur)
-    # Si la méthode est GET, on retourne simplement la page de login
+            return render_template('page_login_orga.html', param=erreur,)
     return render_template('page_login_orga.html')
 @app.route('/inscription.orga', methods=['GET', 'POST'])
 def inscription_orga2():
@@ -288,7 +292,7 @@ def inscription_orga2():
             return render_template('page_login_orga.html')
         else :
             erreur = "inscription impossible "
-            return render_template('page_incrip_orga.html', para=erreur)
+            return render_template('page_incrip_orga.html', para=erreur, )
     
 @app.route('/page_score/<int:id_competition>')
 def aller_sur_page_score(id_competition):
@@ -306,10 +310,10 @@ def aller_sur_page_score(id_competition):
     return render_template('page_score.html',
                            calendrier=calendrier,
                            equipes_disponibles=equipes_disponibles,
-                           tous_scores_entres=tous_scores_entres) # Passer le flag au template
+                           tous_scores_entres=tous_scores_entres, id_competition= id_competition) # Passer le flag au template
     
-@app.route('/enregistrer_score_un_match', methods=['POST'])
-def enregistrer_score_un_match():
+@app.route('/<int:id_competition>/enregistrer_score_un_match', methods=['POST'])
+def enregistrer_score_un_match(id_competition):
     if request.method == 'POST':
         id_match = request.form.get('id_match')
         score1 = request.form.get('score1')
@@ -327,7 +331,7 @@ def enregistrer_score_un_match():
                 """
                 cursor.execute(sql, (score1_int, score2_int, id_match_int))
                 conn.commit()        
-    return redirect(url_for('aller_sur_page_score'))
+    return redirect(url_for('aller_sur_page_score', id_competition = id_competition ))
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
 

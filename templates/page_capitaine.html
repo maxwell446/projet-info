@@ -8,8 +8,8 @@
 
 <body>
     <div class="container">
-        <form method="POST" action="/form_inscription_equipe">
-            <a href="/" class="title">
+        <form method="POST" action="{{ url_for('gerer_inscription_equipe_joueurs', id_competition=id_competition) }}">
+            <a href="{{ url_for('page_html', id_competition=id_competition) }}" class="title">
                 {{nom_competition}}
             </a>
         {% with messages = get_flashed_messages(with_categories=true) %}

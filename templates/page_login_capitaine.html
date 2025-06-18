@@ -13,7 +13,7 @@
         </a>
         <div class="container2">
             <h1>Connexion</h1>
-            <form method="POST" action="/connexion_capitaine">
+            <form method="POST" action="{{ url_for('connexion_capitaine2', id_competition=id_competition) }}">
                 <div class="form-group">
                     <div class="icon-input">
                         <span class="icon">&#128100;</span>
@@ -38,7 +38,7 @@
                 <hr class="separator">
 
                 <div>
-                    <a href="/page_incrip_capitaine">
+                    <a href="{{ url_for('page_incrip_capitaine', id_competition=id_competition) }}">
                         <button2 type="submit">inscription</button2>
                     </a>
                 </div>
