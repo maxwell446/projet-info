@@ -114,9 +114,9 @@ def gerer_inscription_equipe_joueurs(id_competition):
         prenom_capitaine = request.form.get('prenom_capitaine')
         nom_equipe = request.form.get('nom_equipe')
         competition_info = get_competition_details(id_competition)
-        id_equipe, message_equipe = inscription_capitaine_and_equipe(
-            nom_capitaine, prenom_capitaine, nom_equipe, id_login_capitaine, id_competition = competition_info[0], nom_competition = competition_info[1]
-        )
+        id_competition_actuelle = competition_info[0] 
+        id_equipe, message_equipe = inscription_capitaine_and_equipe(nom_capitaine, prenom_capitaine, nom_equipe, id_login_capitaine,id_competition_actuelle )
+        
         if id_equipe is not None:
             flash(message_equipe, 'success') 
             for i in range(1, 6): 
@@ -151,7 +151,7 @@ def afficher_equipe(id_equipe, id_competition):
         flash("Équipe non trouvée ou erreur de récupération.", 'error')
         return redirect(url_for('page_html', id_competition=id_competition))
     
-@app.route('/inscription_equipe_form')
+@app.route('/inscription_equipe_form/<int:id_competition>')
 def inscription_equipe_form(id_competition):
     if 'login_id' not in session:
         flash("Vous devez être connecté pour inscrire une équipe.", 'error')
